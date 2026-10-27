@@ -68,1415 +68,518 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          paper: '#F6F3EC',
-          ink: '#201E1A',
-          rule: '#D9D2C2',
-          oxblood: '#7A2B20',
-          teal: '#1B4B42',
-        },
-        fontFamily: {
-          serif: ['Fraunces', 'serif'],
-          sans: ['Inter', 'sans-serif'],
-          mono: ['IBM Plex Mono', 'monospace'],
-        }
-      }
-    }
-  }
-</script>
-
-<style>
-  body { font-family:'Inter', sans-serif; color:#201E1A; -webkit-font-smoothing:antialiased; }
-  .dropcap::first-letter {
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size: 3.8rem;
-    float:left;
-    line-height:0.8;
-    padding-right:0.5rem;
-    padding-top:0.3rem;
-    color:#7A2B20;
-  }
-  .idx-link.active { color:#201E1A; }
-  .idx-link.active .idx-num { color:#7A2B20; }
-  table.ts th, table.ts td { border-bottom:1px solid #D9D2C2; }
-  ::selection { background:#7A2B20; color:#F6F3EC; }
-
-  /* Exhibit / plate image treatment */
-  .plate { position:relative; border:1px solid #201E1A; }
-  .plate img {
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    filter: grayscale(100%) sepia(8%) contrast(1.08) brightness(0.98);
-  }
-  .plate::after {
-    content:"";
-    position:absolute; inset:0;
-    background: #7A2B20;
-    mix-blend-mode: multiply;
-    opacity: 0.08;
-    pointer-events:none;
-  }
-  .plate .tick { position:absolute; width:10px; height:10px; }
-  .plate .tick.tl { top:-1px; left:-1px; border-top:2px solid #7A2B20; border-left:2px solid #7A2B20; }
-  .plate .tick.tr { top:-1px; right:-1px; border-top:2px solid #7A2B20; border-right:2px solid #7A2B20; }
-  .plate .tick.bl { bottom:-1px; left:-1px; border-bottom:2px solid #7A2B20; border-left:2px solid #7A2B20; }
-  .plate .tick.br { bottom:-1px; right:-1px; border-bottom:2px solid #7A2B20; border-right:2px solid #7A2B20; }
-
-  /* Sliders in paper folio style */
-  input[type=range] {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #D9D2C2;
-    height: 4px;
-    border-radius: 2px;
-    outline: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: #7A2B20;
-    border: 2px solid #201E1A;
-    cursor: pointer;
-    border-radius: 0;
-  }
-  input[type=range]::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    background: #7A2B20;
-    border: 2px solid #201E1A;
-    cursor: pointer;
-    border-radius: 0;
-  }
-
-  /* BOQ filter button active */
-  .boq-btn.active {
-    background: #201E1A;
-    color: #F6F3EC;
-    border-color: #201E1A;
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script src="assets/js/tailwind.config.js"></script>
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="bg-paper text-ink">
+<body class="bg-white text-steel-900">
 
-<!-- MOBILE TOP BAR -->
-<div class="lg:hidden sticky top-0 z-50 bg-paper border-b border-ink flex items-center justify-between px-4 py-3">
-  <a href="index.html" class="block"><img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-10 w-auto"></a>
-  <button onclick="toggleMobileNav()" aria-label="Toggle index" class="font-mono text-xs uppercase tracking-widest border border-ink px-3 py-1.5">Index</button>
-</div>
-<div id="mobile-nav" class="hidden lg:hidden bg-paper border-b border-ink px-4 pb-6 pt-2 font-mono text-xs">
-  <div class="uppercase tracking-widest text-ink/40 pt-3 pb-1">Site</div>
-  <a href="index.html" class="block py-2 border-b border-rule">Home</a>
-  <a href="about.html" class="block py-2 border-b border-rule">About</a>
-  <a href="services.html" class="block py-2 border-b border-rule text-oxblood font-semibold">Services & Projects</a>
-  <a href="projects.html" class="block py-2 border-b border-rule">Projects</a>
-  <a href="contact.html" class="block py-2 border-b border-rule">Contact</a>
-  <div class="uppercase tracking-widest text-ink/40 pt-4 pb-1">On This Page</div>
-  <a href="#disciplines" class="block py-1.5">01 7 EPCIC Disciplines</a>
-  <a href="#flagship" class="block py-1.5">02 Flagship $1.5B Complex</a>
-  <a href="#boq" class="block py-1.5">03 Fast-Track $8.9M BOQ</a>
-  <a href="#lng" class="block py-1.5">04 LNG Cryogenic Module</a>
-  <a href="#simulator" class="block py-1.5">05 CCGT Proof & Simulator</a>
-  <a href="#risk-matrix" class="block py-1.5">06 8-Risk Matrix</a>
-  <a href="#access" class="block py-1.5">07 Access</a>
-  <a href="contact.html#data-room" class="block mt-4 text-center border border-ink px-4 py-3 font-semibold">Request Data Room Access</a>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<div class="bg-navy-950 text-white/70 text-[13px]">
+  <div class="max-w-site mx-auto px-5 sm:px-8 h-10 flex items-center justify-between gap-6">
+    <div class="hidden md:flex items-center gap-5 font-mono text-xs">
+      <span>RC 1235316</span><span class="text-white/25">|</span><span>TIN 31237553-0001</span>
+      <span class="text-white/25">|</span><span class="inline-flex items-center gap-1.5 text-cyan-400"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Stop! Think! Then act!</span>
+    </div>
+    <div class="flex items-center gap-5 ml-auto">
+      <a href="tel:+2347037585753" class="inline-flex items-center gap-1.5 hover:text-white"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>+234 703 758 5753</a>
+      <a href="mailto:gilgalexploration.2@gmail.com" class="hidden sm:inline-flex items-center gap-1.5 hover:text-white"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>gilgalexploration.2@gmail.com</a>
+    </div>
+  </div>
 </div>
 
-<div class="lg:flex">
-
-  <!-- DESKTOP SIDEBAR / DOCUMENT INDEX -->
-  <aside class="hidden lg:flex lg:flex-col lg:fixed lg:top-0 lg:bottom-0 lg:left-0 lg:w-72 border-r border-ink px-8 py-10 overflow-y-auto">
-    <a href="index.html" class="block -mx-1">
-      <img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="w-full h-auto">
+<header class="site-header sticky top-0 z-50 bg-white border-b border-steel-200">
+  <div class="max-w-site mx-auto px-5 sm:px-8 h-[72px] flex items-center justify-between gap-8">
+    <a href="index.html" class="shrink-0" aria-label="Gilgal Exploration &amp; Allied Services Limited, home">
+      <img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-11 w-auto">
     </a>
-
-    <div class="mt-8 pt-6 border-t border-rule font-mono text-[11px] space-y-1 text-ink/60">
-      <div>RC 1235316</div>
-      <div>TIN 31237553-0001</div>
-      <div>FIRS 2301110028518</div>
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Main">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="services.html" class="nav-link" aria-current="page">Services</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="contact.html#data-room" class="btn btn-primary hidden sm:inline-flex !min-h-[2.75rem] !py-2 text-sm">Investor Data Room</a>
+      <button id="menu-toggle" type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 border border-steel-200 text-navy-950" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
+        <span data-icon="open" class="w-6 h-6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>
+        <span data-icon="close" class="w-6 h-6 hidden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+      </button>
     </div>
-
-    <nav class="mt-8 pt-6 border-t border-rule font-mono text-xs uppercase tracking-wider space-y-2.5 text-ink/60">
-      <a href="index.html" class="block hover:text-ink transition-colors">Home</a>
-      <a href="about.html" class="block hover:text-ink transition-colors">About</a>
-      <a href="services.html" class="block text-ink font-semibold">Services & Projects</a>
-      <a href="projects.html" class="block hover:text-ink transition-colors">Projects</a>
-      <a href="contact.html" class="block hover:text-ink transition-colors">Contact</a>
+  </div>
+  <div id="mobile-menu" class="lg:hidden border-t border-steel-200 bg-white" hidden>
+    <nav class="max-w-site mx-auto px-5 sm:px-8 pb-6" aria-label="Mobile">
+      <a href="index.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Home</a>
+      <a href="about.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">About</a>
+      <a href="services.html" class="block py-3 border-b border-steel-200 font-medium text-flare-600" aria-current="page">Services</a>
+      <a href="projects.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Projects</a>
+      <a href="contact.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Contact</a>
+      <a href="contact.html#data-room" class="btn btn-primary w-full mt-5">Investor Data Room</a>
     </nav>
+  </div>
+</header>
 
-    <nav class="mt-8 pt-6 border-t border-rule font-mono text-[11px] space-y-2.5 text-ink/50 idx">
-      <div class="text-[10px] uppercase tracking-widest text-ink/30 mb-2">On This Page</div>
-      <a href="#disciplines" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">01</span>7 EPCIC Disciplines</a>
-      <a href="#flagship" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">02</span>Flagship $1.5B Complex</a>
-      <a href="#boq" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">03</span>Fast-Track $8.9M BOQ</a>
-      <a href="#lng" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">04</span>LNG Cryogenic Module</a>
-      <a href="#simulator" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">05</span>CCGT Proof & Simulator</a>
-      <a href="#risk-matrix" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">06</span>8-Risk Mitigation Matrix</a>
-      <a href="#access" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">07</span>Access</a>
-    </nav>
+<main id="main">
 
-    <div class="mt-auto pt-8">
-      <a href="contact.html#data-room" class="block text-center border border-ink px-4 py-3 font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-        Request Data Room
-      </a>
-      <div class="font-mono text-[10px] text-ink/40 mt-4 leading-relaxed">
-        Hotline<br><a href="tel:+2347037585753" class="text-ink/60">+234 703 758 5753</a>
+  <!-- PAGE HERO -->
+  <section class="relative bg-navy-950 text-white on-dark overflow-hidden">
+    <div class="absolute inset-0 lg:left-1/2">
+      <img src="assets/img/gas-power-plant.jpg" alt="" class="w-full h-full object-cover" fetchpriority="high" decoding="async">
+      <div class="absolute inset-0 bg-navy-950/60 lg:hidden"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/75 to-navy-950/10 lg:via-navy-950/30"></div>
+    </div>
+    <div class="relative max-w-site mx-auto px-5 sm:px-8 py-20 sm:py-28">
+      <nav aria-label="Breadcrumb" class="text-sm text-white/60"><a href="index.html" class="hover:text-white">Home</a> <span class="mx-2">/</span> <span class="text-white">Services</span></nav>
+      <h1 class="font-display font-extrabold text-4xl sm:text-6xl leading-[1.04] mt-8 max-w-2xl">Engineering power. Monetizing gas.</h1>
+      <p class="mt-7 text-lg sm:text-xl text-white/80 max-w-xl leading-relaxed">
+        Seven core services, an itemised $8.9M entry project, and the engineering case behind a $1.5B combined-cycle programme.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#boq" class="btn btn-primary">Explore the BOQ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="#ccgt" class="btn btn-light">Combined-cycle case</a>
       </div>
     </div>
-  </aside>
+    <div class="relative border-t border-white/10 bg-navy-900">
+      <nav class="max-w-site mx-auto px-5 sm:px-8 flex gap-8 overflow-x-auto text-sm font-medium text-white/70 whitespace-nowrap" aria-label="On this page">
+        <a href="#disciplines" class="py-4 hover:text-white">Services</a>
+        <a href="#flagship" class="py-4 hover:text-white">Flagship complex</a>
+        <a href="#boq" class="py-4 hover:text-white">$8.9M BOQ</a>
+        <a href="#lng" class="py-4 hover:text-white">LNG module</a>
+        <a href="#ccgt" class="py-4 hover:text-white">Combined cycle</a>
+        <a href="#risk-matrix" class="py-4 hover:text-white">Risk register</a>
+      </nav>
+    </div>
+  </section>
 
-  <!-- MAIN DOCUMENT -->
-  <main class="lg:ml-72 w-full">
-
-    <!-- 00 COVER -->
-    <section class="px-6 sm:px-12 lg:px-20 pt-14 pb-16 border-b border-ink">
-      <div class="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-ink/50 pb-8 mb-8 border-b border-rule">
-        <span>Technical Folio & Capital Programme</span>
-        <span>Ref. GEAS/BP/2026/001</span>
-        <span>Delta State, Nigeria</span>
-        <span class="text-oxblood">Dual-Track Execution</span>
+  <!-- DISCIPLINES -->
+  <section id="disciplines" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-7">
+          <span class="eyebrow">Core services</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">Seven disciplines, one accountable operator.</h2>
+        </div>
+        <p class="lg:col-span-5 text-lg text-steel-600 leading-relaxed">From wellhead gas capture and conditioning to civil works, power generation and transmission, built to Nigerian statutory standards and ASME, API and IEEE codes.</p>
       </div>
 
+      <div class="mt-14 grid md:grid-cols-2 gap-px bg-steel-200 border border-steel-200">
+        <article class="bg-white p-8">
+          <p class="font-mono text-sm text-flare-600 font-medium">01</p>
+          <h3 class="font-display font-bold text-2xl mt-2">Oil &amp; Gas Services</h3>
+          <p class="mt-3 text-steel-600 leading-relaxed">Wellhead tie-ins, flow station piping maintenance, slug catcher installation, flare gas metering and pigging across onshore Niger Delta concessions.</p>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm"><li class="bg-steel-100 px-2.5 py-1">Flow stations</li><li class="bg-steel-100 px-2.5 py-1">Wellheads</li><li class="bg-steel-100 px-2.5 py-1">Tie-ins</li></ul>
+        </article>
+        <article class="bg-white p-8">
+          <p class="font-mono text-sm text-flare-600 font-medium">02</p>
+          <h3 class="font-display font-bold text-2xl mt-2">Engineering (FEED &amp; Detailed)</h3>
+          <p class="mt-3 text-steel-600 leading-relaxed">Front-end engineering design, heat balance modelling, P&amp;ID layout, HAZOP validation and high-pressure steam stress analysis.</p>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm"><li class="bg-steel-100 px-2.5 py-1">Thermodynamics</li><li class="bg-steel-100 px-2.5 py-1">HAZOP</li><li class="bg-steel-100 px-2.5 py-1">P&amp;ID</li></ul>
+        </article>
+        <article class="bg-white p-8">
+          <p class="font-mono text-sm text-flare-600 font-medium">03</p>
+          <h3 class="font-display font-bold text-2xl mt-2">Construction &amp; Civil Works</h3>
+          <p class="mt-3 text-steel-600 leading-relaxed">Reinforced turbine plinths, bullet tank saddles, blast-resistant control buildings, storm canals and internal logistics roads.</p>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm"><li class="bg-steel-100 px-2.5 py-1">Piling</li><li class="bg-steel-100 px-2.5 py-1">RC plinths</li><li class="bg-steel-100 px-2.5 py-1">Roads &amp; drainage</li></ul>
+        </article>
+        <article class="bg-white p-8">
+          <p class="font-mono text-sm text-flare-600 font-medium">04</p>
+          <h3 class="font-display font-bold text-2xl mt-2">Project Management</h3>
+          <p class="mt-3 text-steel-600 leading-relaxed">Integrated project teams, critical-path scheduling, earned value management, OEM procurement oversight and lender reporting.</p>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm"><li class="bg-steel-100 px-2.5 py-1">CPM</li><li class="bg-steel-100 px-2.5 py-1">EVM</li><li class="bg-steel-100 px-2.5 py-1">Risk control</li></ul>
+        </article>
+        <article class="bg-white p-8">
+          <p class="font-mono text-sm text-flare-600 font-medium">05</p>
+          <h3 class="font-display font-bold text-2xl mt-2">Real Estate Development</h3>
+          <p class="mt-3 text-steel-600 leading-relaxed">Energy park master planning, titling on survey beacon SC/DT B104X 5948, subgrade stabilisation and pipeline rights-of-way.</p>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm"><li class="bg-steel-100 px-2.5 py-1">Energy parks</li><li class="bg-steel-100 px-2.5 py-1">Rights-of-way</li><li class="bg-steel-100 px-2.5 py-1">Titling</li></ul>
+        </article>
+        <article class="bg-white p-8">
+          <p class="font-mono text-sm text-flare-600 font-medium">06</p>
+          <h3 class="font-display font-bold text-2xl mt-2">Consultancy</h3>
+          <p class="mt-3 text-steel-600 leading-relaxed">Permitting with NUPRC, NMDPRA, NERC and the Delta State Electricity Commission, EIA approvals and bilateral PPA tariff design.</p>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm"><li class="bg-steel-100 px-2.5 py-1">Licensing</li><li class="bg-steel-100 px-2.5 py-1">PPA tariffs</li><li class="bg-steel-100 px-2.5 py-1">EIA</li></ul>
+        </article>
+        <article class="bg-white p-8">
+          <p class="font-mono text-sm text-flare-600 font-medium">07</p>
+          <h3 class="font-display font-bold text-2xl mt-2">General Supply &amp; Marketing of Petroleum Products</h3>
+          <p class="mt-3 text-steel-600 leading-relaxed">Bulk wholesale LPG, natural gas liquids, stabilised condensate and industrial fuel delivery across southern Nigeria.</p>
+          <ul class="mt-5 flex flex-wrap gap-2 text-sm"><li class="bg-steel-100 px-2.5 py-1">Bulk supply</li><li class="bg-steel-100 px-2.5 py-1">Terminaling</li><li class="bg-steel-100 px-2.5 py-1">Distribution</li></ul>
+        </article>
+        <div class="relative bg-navy-950 text-white on-dark overflow-hidden min-h-[260px]">
+          <img src="assets/img/pipeline-inspection.jpg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-35" loading="lazy" decoding="async">
+          <div class="relative p-8 h-full flex flex-col justify-end">
+            <p class="font-display font-bold text-2xl leading-snug">Civil works start on day one, with our own leased heavy fleet.</p>
+            <a href="about.html#fleet" class="link-arrow mt-5">See the fleet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLAGSHIP -->
+  <section id="flagship" class="bg-steel-50 border-y border-steel-200 py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
       <div class="grid lg:grid-cols-12 gap-12 items-start">
         <div class="lg:col-span-7">
-          <h1 class="font-serif font-semibold text-[2.4rem] sm:text-6xl lg:text-[3.6rem] leading-[1.04] tracking-tight">
-            Engineering power.
-            Monetizing gas resources.
-          </h1>
-
-          <p class="mt-8 text-base sm:text-lg text-ink/70 max-w-2xl leading-relaxed">
-            Led by Managing Director & Project Sponsor Engr. Harrison Odiri Ogoh, Gilgal Exploration & Allied
-            Services Limited operates a dual-track capital programme: an immediately deliverable $8.9 million
-            fast-track gas-to-power facility scaling into a $1.5 billion flagship combined-cycle power (250–500 MW)
-            and 50,000–100,000 MT cryogenic LPG infrastructure complex, adhering to the HSE culture: &ldquo;Safety starts with me. Stop! Think! Then act!&rdquo;
+          <span class="eyebrow">Flagship programme</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">The $1.5B CCGT and LPG complex</h2>
+          <p class="mt-7 text-lg text-steel-600 leading-relaxed">
+            A 250 MW combined-cycle gas turbine power station, scalable to 500 MW, with an integrated 50,000–100,000 MT
+            pressurized LPG tank farm and automated cylinder bottling in Delta State.
           </p>
-
-          <div class="mt-10 flex flex-wrap gap-4">
-            <a href="#boq" class="px-6 py-3.5 bg-ink text-paper font-mono text-xs uppercase tracking-wider hover:bg-oxblood transition-colors">
-              Inspect $8.9M BOQ (27 Items)
-            </a>
-            <a href="#simulator" class="px-6 py-3.5 border border-ink font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-              Launch CCGT Simulator
-            </a>
-          </div>
-
-          <div class="mt-10 pt-6 border-t border-rule grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono text-[11px] text-ink/50">
-            <div><span class="block text-ink/30 uppercase text-[10px]">Flagship Scope</span>250–500 MW CCGT</div>
-            <div><span class="block text-ink/30 uppercase text-[10px]">LPG Storage</span>50k–100k MT Bullets</div>
-            <div><span class="block text-ink/30 uppercase text-[10px]">Fast-Track CAPEX</span>$8,900,000 USD</div>
-            <div><span class="block text-ink/30 uppercase text-[10px]">Commercial COD</span>Month 31</div>
-          </div>
-        </div>
-
-        <!-- Cover exhibit image -->
-        <div class="lg:col-span-5">
-          <div class="plate h-[360px] sm:h-[420px]">
-            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-            <img src="assets/img/gas-power-plant.jpg" alt="Gas-fired power station with turbine exhaust stacks" fetchpriority="high" decoding="async">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 01 7 EPCIC DISCIPLINES -->
-    <section id="disciplines" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">01</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">7 Accredited EPCIC Disciplines</h2>
-      </div>
-
-      <p class="dropcap text-[17px] leading-[1.8] text-ink/80 max-w-3xl mb-12">
-        Gilgal maintains multi-disciplinary engineering and field operations capability across upstream wellhead
-        gas capture, midstream conditioning and fractionation, civil earthmoving, and downstream power generation
-        and transmission. Each discipline adheres strictly to Nigerian statutory standards and international ASME,
-        API, and IEEE engineering codes.
-      </p>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
-        <!-- Discipline 1 -->
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-xs text-oxblood font-semibold mb-2">01 / FIELD SERVICES</div>
-            <h3 class="font-serif font-semibold text-lg mb-2">Oil & Gas Field Services</h3>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              Wellhead tie-ins, flow station piping maintenance, slug catcher installation, flare gas metering, and pigging operations across onshore Niger Delta concessions.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule font-mono text-[10px] text-ink/50 uppercase">
-            Scope: Flowstations &bull; Wellheads &bull; Tie-Ins
-          </div>
-        </div>
-
-        <!-- Discipline 2 -->
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-xs text-oxblood font-semibold mb-2">02 / ENGINEERING</div>
-            <h3 class="font-serif font-semibold text-lg mb-2">FEED & Detailed Design</h3>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              Front-End Engineering Design (FEED), thermodynamic heat balance modeling, P&ID layout, HAZOP safety validation, and high-pressure steam stress analysis.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule font-mono text-[10px] text-ink/50 uppercase">
-            Scope: Thermodynamics &bull; HAZOP &bull; P&ID &bull; Stress
-          </div>
-        </div>
-
-        <!-- Discipline 3 -->
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-xs text-oxblood font-semibold mb-2">03 / CIVIL & RIGGING</div>
-            <h3 class="font-serif font-semibold text-lg mb-2">Construction & Civil Works</h3>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              Heavy reinforced concrete turbine foundation plinths, bullet tank cradle saddles, blast-resistant control buildings, storm canals, and internal asphalt logistics roads.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule font-mono text-[10px] text-ink/50 uppercase">
-            Scope: Deep Piling &bull; RC Plinths &bull; Civil Works
-          </div>
-        </div>
-
-        <!-- Discipline 4 -->
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-xs text-oxblood font-semibold mb-2">04 / MANAGEMENT</div>
-            <h3 class="font-serif font-semibold text-lg mb-2">Project Management & Controls</h3>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              Integrated Project Management Teams (IPMT), Critical Path Method (CPM) scheduling, Earned Value Management (EVM), OEM procurement oversight, and lender compliance reporting.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule font-mono text-[10px] text-ink/50 uppercase">
-            Scope: CPM Scheduling &bull; EVM &bull; EPC Risk Controls
-          </div>
-        </div>
-
-        <!-- Discipline 5 -->
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-xs text-oxblood font-semibold mb-2">05 / REAL ESTATE</div>
-            <h3 class="font-serif font-semibold text-lg mb-2">Industrial Real Estate & Parks</h3>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              Industrial energy park master planning, survey beacon SC/DT B104X 5948 titling, subgrade soil stabilization, and dedicated pipeline right-of-way management.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule font-mono text-[10px] text-ink/50 uppercase">
-            Scope: Energy Parks &bull; Rights-of-Way &bull; Titling
-          </div>
-        </div>
-
-        <!-- Discipline 6 -->
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-xs text-oxblood font-semibold mb-2">06 / CONSULTANCY</div>
-            <h3 class="font-serif font-semibold text-lg mb-2">Technical Energy Consultancy</h3>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              Statutory permitting across NUPRC, NMDPRA, NERC, and Delta State Electricity Commission; Environmental Impact Assessment (EIA) approvals, and bilateral PPA tariff design.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule font-mono text-[10px] text-ink/50 uppercase">
-            Scope: NUPRC / NMDPRA &bull; PPA Tariffs &bull; EIA Permits
-          </div>
-        </div>
-
-        <!-- Discipline 7 -->
-        <div class="border border-ink p-6 md:col-span-2 lg:col-span-3 flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-paper">
-          <div>
-            <div class="font-mono text-xs text-oxblood font-semibold mb-1">07 / PETROLEUM TRADING</div>
-            <h3 class="font-serif font-semibold text-xl mb-2">General Supply & Marketing of Petroleum Products</h3>
-            <p class="text-xs text-ink/70 leading-relaxed max-w-3xl">
-              Bulk wholesale marketing of Liquefied Petroleum Gas (LPG), natural gas liquids (NGLs), stabilized condensate, and specialized industrial fuel delivery across southern Nigeria’s manufacturing and commercial centers.
-            </p>
-          </div>
-          <div class="font-mono text-[11px] text-ink/60 border border-ink px-4 py-2 whitespace-nowrap self-start sm:self-center">
-            Bulk Supply &bull; Terminaling &bull; Distribution
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 02 FLAGSHIP $1.5B CCGT & LPG COMPLEX -->
-    <section id="flagship" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">02</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Flagship $1.5B Infrastructure Complex</h2>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-10 items-start mb-12">
-        <div class="lg:col-span-8 space-y-4">
-          <p class="text-base text-ink/80 leading-relaxed">
-            The Flagship programme entails the development, financing, construction, and operation of a 250 MW
-            (scalable to 500 MW) Combined Cycle Gas Turbine (CCGT) power station coupled with an integrated
-            50,000–100,000 MT pressurized cryogenic LPG storage tank farm and automated cylinder bottling facility
-            in Delta State, Nigeria.
-          </p>
-          <p class="text-sm text-ink/70 leading-relaxed">
-            The facility will intake between 50 and 250 MMSCFD of flared and stranded associated gas from nearby
-            Niger Delta production hubs, conditioning the wet gas stream into commercial fuel gas for high-efficiency
-            power turbines while extracting valuable LPG fractions for the domestic cooking market.
+          <p class="mt-5 text-steel-600 leading-relaxed">
+            The plant will take 50–250 MMSCFD of flared and stranded associated gas, condition it into turbine fuel and
+            extract LPG for the domestic cooking-gas market.
           </p>
         </div>
-
-        <div class="lg:col-span-4 border border-ink p-6 font-mono text-xs space-y-2">
-          <div class="text-[10px] uppercase tracking-widest text-oxblood">Commercial Timeline</div>
-          <div class="text-lg font-serif font-semibold text-ink">Commercial COD: Month 31</div>
-          <p class="text-ink/60 text-[11px]">
-            Structured under the Nigerian Electricity Act 2023 with bilateral PPAs and direct eligible customer off-take contracts.
-          </p>
+        <div class="lg:col-span-5 bg-white border border-steel-200 p-7">
+          <p class="text-sm text-steel-500">Target commercial operation</p>
+          <p class="font-display font-extrabold text-5xl text-navy-600 mt-1">Month 31</p>
+          <p class="mt-3 text-steel-600">Structured under the Electricity Act 2023 with bilateral PPAs and eligible-customer offtake.</p>
         </div>
       </div>
 
-      <!-- 7-Stage Development Lifecycle Ribbon -->
-      <div class="border border-ink p-6 mb-12">
-        <div class="flex flex-wrap justify-between items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-ink/40 pb-4 mb-4 border-b border-rule">
-          <span>7-Stage Development Lifecycle</span>
-          <span>CPM Critical Path to Month 31</span>
+      <!-- Lifecycle -->
+      <h3 class="font-display font-bold text-xl mt-16">Seven-stage development lifecycle</h3>
+      <ol class="mt-6 grid sm:grid-cols-2 lg:grid-cols-7 gap-px bg-steel-200 border border-steel-200">
+        <li class="bg-white p-5"><span class="font-mono text-sm text-flare-600">01</span><p class="font-semibold mt-2">Project initiation</p><p class="text-sm text-steel-500 mt-1">Sponsor equity, land surveys, baseline EIA.</p></li>
+        <li class="bg-white p-5"><span class="font-mono text-sm text-flare-600">02</span><p class="font-semibold mt-2">Feasibility &amp; planning</p><p class="text-sm text-steel-500 mt-1">Gas reserves audit, EIA submission, grid study.</p></li>
+        <li class="bg-white p-5"><span class="font-mono text-sm text-flare-600">03</span><p class="font-semibold mt-2">Engineering &amp; design (FEED)</p><p class="text-sm text-steel-500 mt-1">Heat balance, OEM specs, HAZOP approvals.</p></li>
+        <li class="bg-white p-5"><span class="font-mono text-sm text-flare-600">04</span><p class="font-semibold mt-2">Financing</p><p class="text-sm text-steel-500 mt-1">Senior debt syndication, ECA cover.</p></li>
+        <li class="bg-white p-5"><span class="font-mono text-sm text-flare-600">05</span><p class="font-semibold mt-2">Construction</p><p class="text-sm text-steel-500 mt-1">Civil, mechanical, electrical, gas tie-ins.</p></li>
+        <li class="bg-white p-5"><span class="font-mono text-sm text-flare-600">06</span><p class="font-semibold mt-2">Commissioning</p><p class="text-sm text-steel-500 mt-1">First fire, synchronisation, performance tests.</p></li>
+        <li class="bg-navy-600 text-white p-5"><span class="font-mono text-sm text-cyan-400">07</span><p class="font-semibold mt-2">Operations</p><p class="text-sm text-white/75 mt-1">Commercial dispatch from Month 31.</p></li>
+      </ol>
+
+      <div class="mt-14 grid lg:grid-cols-12 gap-8">
+        <!-- CAPEX bars -->
+        <div class="lg:col-span-7 bg-white border border-steel-200 p-7 sm:p-8">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-display font-bold text-xl">Capital cost breakdown</h3>
+            <span class="font-display font-bold text-xl text-navy-600 tabular">$1.50B</span>
+          </div>
+          <ul class="mt-7 space-y-5">
+            <li><div class="flex justify-between gap-4 text-[15px]"><span class="font-medium">Gas turbine plant (250 MW)</span><span class="tabular font-semibold">$600M <span class="text-steel-500 font-normal">· 40.0%</span></span></div><div class="mt-2 h-2.5 bg-steel-100"><div class="h-full bg-navy-600" style="width:40%"></div></div></li>
+            <li><div class="flex justify-between gap-4 text-[15px]"><span class="font-medium">LPG tank farm</span><span class="tabular font-semibold">$350M <span class="text-steel-500 font-normal">· 23.3%</span></span></div><div class="mt-2 h-2.5 bg-steel-100"><div class="h-full bg-navy-600" style="width:23.3%"></div></div></li>
+            <li><div class="flex justify-between gap-4 text-[15px]"><span class="font-medium">Gas processing &amp; conditioning</span><span class="tabular font-semibold">$180M <span class="text-steel-500 font-normal">· 12.0%</span></span></div><div class="mt-2 h-2.5 bg-steel-100"><div class="h-full bg-navy-600" style="width:12%"></div></div></li>
+            <li><div class="flex justify-between gap-4 text-[15px]"><span class="font-medium">Contingency</span><span class="tabular font-semibold">$170M <span class="text-steel-500 font-normal">· 11.3%</span></span></div><div class="mt-2 h-2.5 bg-steel-100"><div class="h-full bg-steel-400" style="width:11.3%"></div></div></li>
+            <li><div class="flex justify-between gap-4 text-[15px]"><span class="font-medium">Transmission infrastructure</span><span class="tabular font-semibold">$120M <span class="text-steel-500 font-normal">· 8.0%</span></span></div><div class="mt-2 h-2.5 bg-steel-100"><div class="h-full bg-navy-600" style="width:8%"></div></div></li>
+            <li><div class="flex justify-between gap-4 text-[15px]"><span class="font-medium">Land &amp; site development</span><span class="tabular font-semibold">$80M <span class="text-steel-500 font-normal">· 5.3%</span></span></div><div class="mt-2 h-2.5 bg-steel-100"><div class="h-full bg-navy-600" style="width:5.3%"></div></div></li>
+          </ul>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 font-mono text-xs">
-          <div class="border-t-2 border-ink pt-3">
-            <span class="text-[10px] text-oxblood font-semibold">Stage 01</span>
-            <div class="font-semibold text-ink mt-0.5">Initiation</div>
-            <div class="text-[10px] text-ink/50 mt-1">Sponsor equity, land surveys, baseline EIA.</div>
+
+        <!-- Financing -->
+        <div class="lg:col-span-5 bg-navy-950 text-white on-dark p-7 sm:p-8 cut">
+          <h3 class="font-display font-bold text-xl">Financing structure</h3>
+          <div class="mt-6 flex h-12 text-sm font-semibold" role="img" aria-label="70 percent senior debt, 30 percent equity">
+            <div class="bg-cyan-500 text-navy-950 flex items-center px-3" style="width:70%">Debt 70%</div>
+            <div class="bg-flare-600 flex items-center px-3" style="width:30%">30%</div>
           </div>
-          <div class="border-t-2 border-ink pt-3">
-            <span class="text-[10px] text-oxblood font-semibold">Stage 02</span>
-            <div class="font-semibold text-ink mt-0.5">Feasibility</div>
-            <div class="text-[10px] text-ink/50 mt-1">Gas reserves audit, EIA submission, grid study.</div>
-          </div>
-          <div class="border-t-2 border-ink pt-3">
-            <span class="text-[10px] text-oxblood font-semibold">Stage 03</span>
-            <div class="font-semibold text-ink mt-0.5">FEED & Design</div>
-            <div class="text-[10px] text-ink/50 mt-1">Thermodynamics, OEM specs, HAZOP approvals.</div>
-          </div>
-          <div class="border-t-2 border-ink pt-3">
-            <span class="text-[10px] text-oxblood font-semibold">Stage 04</span>
-            <div class="font-semibold text-ink mt-0.5">Financing</div>
-            <div class="text-[10px] text-ink/50 mt-1">70% Senior debt syndication, ECA coverage.</div>
-          </div>
-          <div class="border-t-2 border-ink pt-3">
-            <span class="text-[10px] text-oxblood font-semibold">Stage 05</span>
-            <div class="font-semibold text-ink mt-0.5">Construction</div>
-            <div class="text-[10px] text-ink/50 mt-1">Civil, mechanical, electrical & gas tie-ins.</div>
-          </div>
-          <div class="border-t-2 border-ink pt-3">
-            <span class="text-[10px] text-oxblood font-semibold">Stage 06</span>
-            <div class="font-semibold text-ink mt-0.5">Commissioning</div>
-            <div class="text-[10px] text-ink/50 mt-1">First fire, synchronization, performance trials.</div>
-          </div>
-          <div class="border-t-2 border-oxblood pt-3">
-            <span class="text-[10px] text-oxblood font-semibold">Stage 07</span>
-            <div class="font-semibold text-oxblood mt-0.5">COD Month 31</div>
-            <div class="text-[10px] text-ink/50 mt-1">Commercial dispatch & PPA cash flows.</div>
-          </div>
+          <dl class="mt-6 grid grid-cols-2 gap-5">
+            <div><dt class="text-sm text-white/60">Senior debt</dt><dd class="font-display font-bold text-2xl mt-1 tabular">$1.05B</dd><dd class="text-sm text-white/60 mt-1">KeyBank USA, UBA, DFIs, ECAs</dd></div>
+            <div><dt class="text-sm text-white/60">Equity</dt><dd class="font-display font-bold text-2xl mt-1 tabular">$450M</dd><dd class="text-sm text-white/60 mt-1">Sponsor and co-investors</dd></div>
+          </dl>
+          <dl class="mt-7 pt-6 border-t border-white/15 grid grid-cols-2 gap-x-5 gap-y-4 text-[15px]">
+            <div><dt class="text-white/60 text-sm">Tenor</dt><dd class="font-semibold mt-0.5">12–15 years</dd></div>
+            <div><dt class="text-white/60 text-sm">Grace period</dt><dd class="font-semibold mt-0.5">3 years</dd></div>
+            <div><dt class="text-white/60 text-sm">Payback</dt><dd class="font-semibold mt-0.5">7–10 years</dd></div>
+            <div><dt class="text-white/60 text-sm">Minimum DSCR</dt><dd class="font-semibold mt-0.5">1.30x</dd></div>
+            <div><dt class="text-white/60 text-sm">EBITDA margin</dt><dd class="font-semibold mt-0.5">25–35%</dd></div>
+            <div><dt class="text-white/60 text-sm">Revenue streams</dt><dd class="font-semibold mt-0.5">5</dd></div>
+          </dl>
+          <p class="mt-6 text-sm text-white/65 leading-relaxed">PPA electricity sales, LPG storage fees, LPG trading margins, capacity charges and carbon reduction credits.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- CAPEX Allocation vs Financial Performance Benchmark -->
-      <div class="grid lg:grid-cols-12 gap-10">
-        
-        <!-- CAPEX Allocation Table (7 cols) -->
+  <!-- BOQ -->
+  <section id="boq" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-8 items-end">
         <div class="lg:col-span-7">
-          <div class="flex items-center justify-between pb-3 border-b-2 border-ink mb-4 font-mono">
-            <span class="text-xs uppercase tracking-widest font-semibold">CAPEX Allocation ($1.50B USD)</span>
-            <span class="text-xs text-oxblood font-semibold">$1,500,000,000</span>
-          </div>
-
-          <table class="ts w-full text-xs font-mono">
-            <thead>
-              <tr class="text-[10px] uppercase tracking-widest text-ink/40">
-                <th class="py-2.5 text-left font-normal">Work Package</th>
-                <th class="py-2.5 text-right font-normal">CAPEX (USD)</th>
-                <th class="py-2.5 text-right font-normal">% Share</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="py-3 pr-4 font-sans text-ink">
-                  <strong>Gas Turbine Power Plant (250 MW Base)</strong>
-                  <span class="block text-[11px] text-ink/50 font-mono">Modular GE TM2500 / LM2500 packages + HRSG cycle</span>
-                </td>
-                <td class="py-3 text-right font-semibold">$600,000,000</td>
-                <td class="py-3 text-right text-ink/60">40.0%</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-sans text-ink">
-                  <strong>LPG Tank Farm & Bottling Terminal</strong>
-                  <span class="block text-[11px] text-ink/50 font-mono">50,000–100,000 MT bullet storage, carousel, truck bays</span>
-                </td>
-                <td class="py-3 text-right font-semibold text-oxblood">$350,000,000</td>
-                <td class="py-3 text-right text-ink/60">23.3%</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-sans text-ink">
-                  <strong>Gas Processing & Conditioning Units</strong>
-                  <span class="block text-[11px] text-ink/50 font-mono">Dehydration, slug catchers, NGL recovery, compressors</span>
-                </td>
-                <td class="py-3 text-right font-semibold">$180,000,000</td>
-                <td class="py-3 text-right text-ink/60">12.0%</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-sans text-ink">
-                  <strong>Physical Contingency & Buffer</strong>
-                  <span class="block text-[11px] text-ink/50 font-mono">Underwriting reserve for FX volatility and price indexing</span>
-                </td>
-                <td class="py-3 text-right font-semibold">$170,000,000</td>
-                <td class="py-3 text-right text-ink/60">11.3%</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-sans text-ink">
-                  <strong>Transmission & HV Interconnection</strong>
-                  <span class="block text-[11px] text-ink/50 font-mono">132kV / 330kV switchyard and dedicated evacuation lines</span>
-                </td>
-                <td class="py-3 text-right font-semibold">$120,000,000</td>
-                <td class="py-3 text-right text-ink/60">8.0%</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-sans text-ink">
-                  <strong>Land Acquisition & Site Preparation</strong>
-                  <span class="block text-[11px] text-ink/50 font-mono">Civil site prep, security perimeter walling, access roads</span>
-                </td>
-                <td class="py-3 text-right font-semibold">$80,000,000</td>
-                <td class="py-3 text-right text-ink/60">5.3%</td>
-              </tr>
-              <tr class="font-bold border-t-2 border-ink">
-                <td class="py-3 font-sans">Total Flagship Capital Expenditure</td>
-                <td class="py-3 text-right">$1,500,000,000</td>
-                <td class="py-3 text-right">100.0%</td>
-              </tr>
-            </tbody>
-          </table>
+          <span class="eyebrow">Fast-track entry project</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">The $8.9M bill of quantities</h2>
+          <p class="mt-6 text-lg text-steel-600 leading-relaxed">A 10 MW gas plant and 300,000-litre LPG facility, fully costed and deliverable in Months 0–12. Filter the 27 line items by category.</p>
         </div>
-
-        <!-- Financing Stack & Financial Benchmarks (5 cols) -->
-        <div class="lg:col-span-5 space-y-6">
-          <div class="border border-ink p-6 font-mono text-xs">
-            <div class="text-[10px] uppercase tracking-widest text-ink/40 mb-3 border-b border-rule pb-2">
-              Financing Structure (70/30)
-            </div>
-            <div class="space-y-4">
-              <div>
-                <div class="flex justify-between text-ink font-semibold">
-                  <span>Senior Debt (70%)</span>
-                  <span>$1,050,000,000</span>
-                </div>
-                <div class="text-[11px] text-ink/60 mt-1">
-                  Targeted syndication across KeyBank USA, UBA, international DFIs, and export credit agencies.
-                </div>
-              </div>
-              <div class="border-t border-rule pt-3">
-                <div class="flex justify-between text-ink font-semibold">
-                  <span>Equity & Mezzanine (30%)</span>
-                  <span class="text-oxblood">$450,000,000</span>
-                </div>
-                <div class="text-[11px] text-ink/60 mt-1">
-                  Sponsor equity commitment backed by strategic co-developers and infrastructure funds.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="border border-ink p-6 font-mono text-xs">
-            <div class="text-[10px] uppercase tracking-widest text-ink/40 mb-3 border-b border-rule pb-2">
-              Financial Benchmarks (Steady-State)
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <span class="text-[10px] text-ink/40 uppercase block">Annual Revenue</span>
-                <span class="text-sm font-semibold text-ink mt-0.5 block">$1.20 Billion</span>
-              </div>
-              <div>
-                <span class="text-[10px] text-ink/40 uppercase block">Annual EBITDA</span>
-                <span class="text-sm font-semibold text-teal mt-0.5 block">$450 Million (30%)</span>
-              </div>
-              <div>
-                <span class="text-[10px] text-ink/40 uppercase block">Min. DSCR</span>
-                <span class="text-sm font-semibold text-ink mt-0.5 block">3.2x Coverage</span>
-              </div>
-              <div>
-                <span class="text-[10px] text-ink/40 uppercase block">Payback Period</span>
-                <span class="text-sm font-semibold text-ink mt-0.5 block">4.2 Years</span>
-              </div>
-              <div>
-                <span class="text-[10px] text-ink/40 uppercase block">Project IRR</span>
-                <span class="text-sm font-semibold text-oxblood mt-0.5 block">28.4%</span>
-              </div>
-              <div>
-                <span class="text-[10px] text-ink/40 uppercase block">Workforce Creation</span>
-                <span class="text-sm font-semibold text-ink mt-0.5 block">5,000+ Jobs</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 03 FAST-TRACK $8.9M ENTRY PROJECT BOQ (FILTERABLE) -->
-    <section id="boq" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">03</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Fast-Track $8.9M Entry Project BOQ</h2>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-10 items-start mb-8">
-        <div class="lg:col-span-8">
-          <p class="text-base text-ink/80 leading-relaxed">
-            The $8.9M Fast-Track Project establishes early gas capture, cash flow generation, and community presence
-            within 12 months. It deploys a 10 MW skid-mounted gas turbine package alongside a 300,000-liter LPG
-            storage bullet installation. Below is the full 27-row itemized Bill of Quantities.
-          </p>
-        </div>
-
-        <div class="lg:col-span-4 border border-ink p-5 font-mono text-xs">
-          <div class="flex justify-between items-baseline mb-1">
-            <span class="text-[10px] uppercase tracking-widest text-ink/40">Visible Subtotal:</span>
-            <span id="boq-total-display" class="font-serif font-semibold text-xl text-oxblood">$8,900,000</span>
-          </div>
-          <div class="text-[11px] text-ink/60">
-            Showing <span id="boq-count-display" class="font-bold text-ink">27</span> of 27 line items
-          </div>
+        <div class="lg:col-span-5 bg-navy-600 text-white p-6 cut cut-sm">
+          <p class="text-sm text-white/70">Showing <span id="boq-count" class="font-semibold text-white">27</span> of 27 items</p>
+          <p id="boq-total" class="font-display font-extrabold text-4xl mt-1 tabular" aria-live="polite">$8,900,000</p>
         </div>
       </div>
 
-      <!-- Filter Buttons -->
-      <div class="flex flex-wrap gap-2 mb-6 font-mono text-xs">
-        <button onclick="filterBOQ('all')" id="btn-all" class="boq-btn active border border-ink px-3 py-1.5 uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-          All Categories (27)
-        </button>
-        <button onclick="filterBOQ('civil')" id="btn-civil" class="boq-btn border border-ink px-3 py-1.5 uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-          Civil ($2.14M)
-        </button>
-        <button onclick="filterBOQ('mechanical')" id="btn-mechanical" class="boq-btn border border-ink px-3 py-1.5 uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-          Mechanical ($3.62M)
-        </button>
-        <button onclick="filterBOQ('electrical')" id="btn-electrical" class="boq-btn border border-ink px-3 py-1.5 uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-          Electrical ($1.41M)
-        </button>
-        <button onclick="filterBOQ('automation')" id="btn-automation" class="boq-btn border border-ink px-3 py-1.5 uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-          Automation ($0.78M)
-        </button>
-        <button onclick="filterBOQ('pm')" id="btn-pm" class="boq-btn border border-ink px-3 py-1.5 uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-          Contingency / PM ($0.95M)
-        </button>
+      <div class="mt-10 flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+        <button type="button" class="boq-filter" data-filter="all" aria-pressed="true">All <span>27</span></button>
+        <button type="button" class="boq-filter" data-filter="power" aria-pressed="false">Power plant <span>$4.50M</span></button>
+        <button type="button" class="boq-filter" data-filter="lpg" aria-pressed="false">LPG storage &amp; bottling <span>$1.57M</span></button>
+        <button type="button" class="boq-filter" data-filter="civil" aria-pressed="false">Civil &amp; buildings <span>$1.15M</span></button>
+        <button type="button" class="boq-filter" data-filter="ops" aria-pressed="false">Operations &amp; delivery <span>$1.68M</span></button>
       </div>
 
-      <!-- BOQ Table -->
-      <div class="overflow-x-auto">
-        <table id="boq-table" class="ts w-full text-xs font-mono">
-          <thead>
-            <tr class="text-[10px] uppercase tracking-widest text-ink/40 border-b-2 border-ink">
-              <th class="py-3 text-left font-normal w-12">Item</th>
-              <th class="py-3 text-left font-normal">Description</th>
-              <th class="py-3 text-left font-normal hidden md:table-cell">Technical Scope / Spec</th>
-              <th class="py-3 text-right font-normal">Qty</th>
-              <th class="py-3 text-right font-normal">Unit</th>
-              <th class="py-3 text-right font-normal hidden sm:table-cell">Rate ($)</th>
-              <th class="py-3 text-right font-normal">Total ($)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-rule">
-            <!-- CIVIL (1-6) -->
-            <tr data-cat="civil" data-val="320000">
-              <td class="py-3 font-semibold text-oxblood">01</td>
-              <td class="py-3 font-sans font-semibold text-ink">Site Clearing & Bush Destumping</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">D6/D8 tracked levelling and vegetative stripping</td>
-              <td class="py-3 text-right">15</td>
-              <td class="py-3 text-right text-ink/50">Hectares</td>
-              <td class="py-3 text-right hidden sm:table-cell">$21,333</td>
-              <td class="py-3 text-right font-semibold">$320,000</td>
-            </tr>
-            <tr data-cat="civil" data-val="480000">
-              <td class="py-3 font-semibold text-oxblood">02</td>
-              <td class="py-3 font-sans font-semibold text-ink">Perimeter Reinforced Security Walling</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">3.2m height, razor coil, CCTV conduit, 4 security gates</td>
-              <td class="py-3 text-right">2,400</td>
-              <td class="py-3 text-right text-ink/50">Meters</td>
-              <td class="py-3 text-right hidden sm:table-cell">$200</td>
-              <td class="py-3 text-right font-semibold">$480,000</td>
-            </tr>
-            <tr data-cat="civil" data-val="650000">
-              <td class="py-3 font-semibold text-oxblood">03</td>
-              <td class="py-3 font-sans font-semibold text-ink">Heavy Concrete Piling & Turbine Plinths</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Vibration-damped deep piles for 10 MW turbine generator</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$650,000</td>
-              <td class="py-3 text-right font-semibold">$650,000</td>
-            </tr>
-            <tr data-cat="civil" data-val="290000">
-              <td class="py-3 font-semibold text-oxblood">04</td>
-              <td class="py-3 font-sans font-semibold text-ink">LPG Bullet Tank Foundation Saddles</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Cast-in-place reinforced concrete saddle supports</td>
-              <td class="py-3 text-right">4</td>
-              <td class="py-3 text-right text-ink/50">Units</td>
-              <td class="py-3 text-right hidden sm:table-cell">$72,500</td>
-              <td class="py-3 text-right font-semibold">$290,000</td>
-            </tr>
-            <tr data-cat="civil" data-val="220000">
-              <td class="py-3 font-semibold text-oxblood">05</td>
-              <td class="py-3 font-sans font-semibold text-ink">Internal Asphalt Roads & Heavy Turnaround</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">High-axle capacity for 30T LPG transport tankers</td>
-              <td class="py-3 text-right">1.8</td>
-              <td class="py-3 text-right text-ink/50">Km</td>
-              <td class="py-3 text-right hidden sm:table-cell">$122,222</td>
-              <td class="py-3 text-right font-semibold">$220,000</td>
-            </tr>
-            <tr data-cat="civil" data-val="180000">
-              <td class="py-3 font-semibold text-oxblood">06</td>
-              <td class="py-3 font-sans font-semibold text-ink">Storm Drainage & Containment Bunds</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Hydrocarbon interceptor sumps and lined drainage canals</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$180,000</td>
-              <td class="py-3 text-right font-semibold">$180,000</td>
-            </tr>
-
-            <!-- MECHANICAL (7-12) -->
-            <tr data-cat="mechanical" data-val="2100000">
-              <td class="py-3 font-semibold text-oxblood">07</td>
-              <td class="py-3 font-sans font-semibold text-ink">10 MW Modular Gas Turbine Generator Package</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Skid-mounted aero-derivative turbine with air filtration</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Package</td>
-              <td class="py-3 text-right hidden sm:table-cell">$2,100,000</td>
-              <td class="py-3 text-right font-semibold">$2,100,000</td>
-            </tr>
-            <tr data-cat="mechanical" data-val="520000">
-              <td class="py-3 font-semibold text-oxblood">08</td>
-              <td class="py-3 font-sans font-semibold text-ink">300,000-Liter Pressurized LPG Bullet Tanks</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">ASME Section VIII Div 1 certified with safety relief</td>
-              <td class="py-3 text-right">2</td>
-              <td class="py-3 text-right text-ink/50">Tanks</td>
-              <td class="py-3 text-right hidden sm:table-cell">$260,000</td>
-              <td class="py-3 text-right font-semibold">$520,000</td>
-            </tr>
-            <tr data-cat="mechanical" data-val="380000">
-              <td class="py-3 font-semibold text-oxblood">09</td>
-              <td class="py-3 font-sans font-semibold text-ink">Gas Dehydration & Pre-Treatment Train</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Triethylene glycol (TEG) unit, particulate coalescers</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Train</td>
-              <td class="py-3 text-right hidden sm:table-cell">$380,000</td>
-              <td class="py-3 text-right font-semibold">$380,000</td>
-            </tr>
-            <tr data-cat="mechanical" data-val="240000">
-              <td class="py-3 font-semibold text-oxblood">10</td>
-              <td class="py-3 font-sans font-semibold text-ink">LPG Transfer Pumps & Bottling Manifold</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Explosion-proof multi-stage booster pumps with scales</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$240,000</td>
-              <td class="py-3 text-right font-semibold">$240,000</td>
-            </tr>
-            <tr data-cat="mechanical" data-val="210000">
-              <td class="py-3 font-semibold text-oxblood">11</td>
-              <td class="py-3 font-sans font-semibold text-ink">High-Pressure Gas Piping Tie-in (API 5L)</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Schedule 80 carbon steel connecting pipeline with valves</td>
-              <td class="py-3 text-right">3.2</td>
-              <td class="py-3 text-right text-ink/50">Km</td>
-              <td class="py-3 text-right hidden sm:table-cell">$65,625</td>
-              <td class="py-3 text-right font-semibold">$210,000</td>
-            </tr>
-            <tr data-cat="mechanical" data-val="170000">
-              <td class="py-3 font-semibold text-oxblood">12</td>
-              <td class="py-3 font-sans font-semibold text-ink">Deluge Fire Protection & Hydrant System</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">NFPA compliant ring main, foam injection, jockey pumps</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">System</td>
-              <td class="py-3 text-right hidden sm:table-cell">$170,000</td>
-              <td class="py-3 text-right font-semibold">$170,000</td>
-            </tr>
-
-            <!-- ELECTRICAL (13-17) -->
-            <tr data-cat="electrical" data-val="460000">
-              <td class="py-3 font-semibold text-oxblood">13</td>
-              <td class="py-3 font-sans font-semibold text-ink">11kV / 33kV Step-up Power Transformer (15 MVA)</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Oil-immersed ONAN/ONAF with on-load tap changer</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Unit</td>
-              <td class="py-3 text-right hidden sm:table-cell">$460,000</td>
-              <td class="py-3 text-right font-semibold">$460,000</td>
-            </tr>
-            <tr data-cat="electrical" data-val="340000">
-              <td class="py-3 font-semibold text-oxblood">14</td>
-              <td class="py-3 font-sans font-semibold text-ink">33kV Outdoor Switchyard & Breakers</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">SF6 gas-insulated breakers, disconnectors, CT/PT sets</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$340,000</td>
-              <td class="py-3 text-right font-semibold">$340,000</td>
-            </tr>
-            <tr data-cat="electrical" data-val="280000">
-              <td class="py-3 font-semibold text-oxblood">15</td>
-              <td class="py-3 font-sans font-semibold text-ink">Medium Voltage Switchgear & Motor Control</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Metal-clad 11kV vacuum breaker lineup and protection</td>
-              <td class="py-3 text-right">6</td>
-              <td class="py-3 text-right text-ink/50">Panels</td>
-              <td class="py-3 text-right hidden sm:table-cell">$46,667</td>
-              <td class="py-3 text-right font-semibold">$280,000</td>
-            </tr>
-            <tr data-cat="electrical" data-val="190000">
-              <td class="py-3 font-semibold text-oxblood">16</td>
-              <td class="py-3 font-sans font-semibold text-ink">Armored Power & Control Cabling</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">XLPE insulated, copper conductors, fire-retardant</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$190,000</td>
-              <td class="py-3 text-right font-semibold">$190,000</td>
-            </tr>
-            <tr data-cat="electrical" data-val="140000">
-              <td class="py-3 font-semibold text-oxblood">17</td>
-              <td class="py-3 font-sans font-semibold text-ink">Emergency Black-start Diesel Generator (750 kVA)</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Silent sound-attenuated canopy with automatic transfer</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Unit</td>
-              <td class="py-3 text-right hidden sm:table-cell">$140,000</td>
-              <td class="py-3 text-right font-semibold">$140,000</td>
-            </tr>
-
-            <!-- AUTOMATION (18-21) -->
-            <tr data-cat="automation" data-val="320000">
-              <td class="py-3 font-semibold text-oxblood">18</td>
-              <td class="py-3 font-sans font-semibold text-ink">DCS / SCADA Process Control System</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Redundant controllers, HMI consoles, historian server</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">System</td>
-              <td class="py-3 text-right hidden sm:table-cell">$320,000</td>
-              <td class="py-3 text-right font-semibold">$320,000</td>
-            </tr>
-            <tr data-cat="automation" data-val="180000">
-              <td class="py-3 font-semibold text-oxblood">19</td>
-              <td class="py-3 font-sans font-semibold text-ink">Safety Instrumented System (SIS / ESD)</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">TUV certified SIL-3 rated emergency shutdown architecture</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">System</td>
-              <td class="py-3 text-right hidden sm:table-cell">$180,000</td>
-              <td class="py-3 text-right font-semibold">$180,000</td>
-            </tr>
-            <tr data-cat="automation" data-val="150000">
-              <td class="py-3 font-semibold text-oxblood">20</td>
-              <td class="py-3 font-sans font-semibold text-ink">Custody-Transfer Gas Metering Station</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Ultrasonic flowmeters, gas chromatograph & volume corrector</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Skid</td>
-              <td class="py-3 text-right hidden sm:table-cell">$150,000</td>
-              <td class="py-3 text-right font-semibold">$150,000</td>
-            </tr>
-            <tr data-cat="automation" data-val="130000">
-              <td class="py-3 font-semibold text-oxblood">21</td>
-              <td class="py-3 font-sans font-semibold text-ink">Gas & Flame Detection Perimeter Grid</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Optical IR flame sensors, point LEL gas detectors, alarms</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$130,000</td>
-              <td class="py-3 text-right font-semibold">$130,000</td>
-            </tr>
-
-            <!-- CONTINGENCY & PM (22-27) -->
-            <tr data-cat="pm" data-val="260000">
-              <td class="py-3 font-semibold text-oxblood">22</td>
-              <td class="py-3 font-sans font-semibold text-ink">FEED & Detailed Civil Engineering Studies</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Geotechnical boreholes, soil resistivity & structural calcs</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$260,000</td>
-              <td class="py-3 text-right font-semibold">$260,000</td>
-            </tr>
-            <tr data-cat="pm" data-val="180000">
-              <td class="py-3 font-semibold text-oxblood">23</td>
-              <td class="py-3 font-sans font-semibold text-ink">Environmental Impact Assessment (EIA) Permitting</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Federal Ministry of Environment panel review & permit fee</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Permit</td>
-              <td class="py-3 text-right hidden sm:table-cell">$180,000</td>
-              <td class="py-3 text-right font-semibold">$180,000</td>
-            </tr>
-            <tr data-cat="pm" data-val="140000">
-              <td class="py-3 font-semibold text-oxblood">24</td>
-              <td class="py-3 font-sans font-semibold text-ink">Host Community Relations & PIA Trust Fund</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Statutory 3% OPEX seed contribution and MOU execution</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$140,000</td>
-              <td class="py-3 text-right font-semibold">$140,000</td>
-            </tr>
-            <tr data-cat="pm" data-val="120000">
-              <td class="py-3 font-semibold text-oxblood">25</td>
-              <td class="py-3 font-sans font-semibold text-ink">Third-Party Quality Assurance & NDT Testing</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Radiographic weld inspection, hydrotesting, ISO audits</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$120,000</td>
-              <td class="py-3 text-right font-semibold">$120,000</td>
-            </tr>
-            <tr data-cat="pm" data-val="150000">
-              <td class="py-3 font-semibold text-oxblood">26</td>
-              <td class="py-3 font-sans font-semibold text-ink">Commissioning Spares & Consumables (Year 1)</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Turbine filter sets, valve seals, synthetic lubricants</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Lot</td>
-              <td class="py-3 text-right hidden sm:table-cell">$150,000</td>
-              <td class="py-3 text-right font-semibold">$150,000</td>
-            </tr>
-            <tr data-cat="pm" data-val="100000">
-              <td class="py-3 font-semibold text-oxblood">27</td>
-              <td class="py-3 font-sans font-semibold text-ink">Physical & Unforeseen Contingency Reserve</td>
-              <td class="py-3 text-ink/60 font-sans hidden md:table-cell">Underwriting buffer for price variances during rollout</td>
-              <td class="py-3 text-right">1</td>
-              <td class="py-3 text-right text-ink/50">Buffer</td>
-              <td class="py-3 text-right hidden sm:table-cell">$100,000</td>
-              <td class="py-3 text-right font-semibold">$100,000</td>
-            </tr>
+      <div class="mt-6 border border-steel-200 overflow-x-auto">
+        <table class="data-table min-w-[560px]" id="boq-table">
+          <thead><tr><th class="w-16">#</th><th>Line item</th><th>Category</th><th class="!text-right">Cost (USD)</th></tr></thead>
+          <tbody class="tabular">
+            <tr data-cat="power" data-val="2600000"><td class="font-mono text-sm text-steel-500">01</td><td class="font-medium">2 × refurbished 5 MW gas turbine generator packages</td><td class="text-steel-600">Power plant</td><td class="text-right font-semibold">$2,600,000</td></tr>
+            <tr data-cat="power" data-val="650000"><td class="font-mono text-sm text-steel-500">02</td><td class="font-medium">Transformer &amp; switchgear</td><td class="text-steel-600">Power plant</td><td class="text-right font-semibold">$650,000</td></tr>
+            <tr data-cat="power" data-val="450000"><td class="font-mono text-sm text-steel-500">03</td><td class="font-medium">Installation &amp; commissioning</td><td class="text-steel-600">Power plant</td><td class="text-right font-semibold">$450,000</td></tr>
+            <tr data-cat="power" data-val="400000"><td class="font-mono text-sm text-steel-500">04</td><td class="font-medium">Turbine foundations</td><td class="text-steel-600">Power plant</td><td class="text-right font-semibold">$400,000</td></tr>
+            <tr data-cat="power" data-val="250000"><td class="font-mono text-sm text-steel-500">05</td><td class="font-medium">Fuel gas station &amp; piping</td><td class="text-steel-600">Power plant</td><td class="text-right font-semibold">$250,000</td></tr>
+            <tr data-cat="power" data-val="150000"><td class="font-mono text-sm text-steel-500">06</td><td class="font-medium">SCADA &amp; instrumentation</td><td class="text-steel-600">Power plant</td><td class="text-right font-semibold">$150,000</td></tr>
+            <tr data-cat="lpg" data-val="850000"><td class="font-mono text-sm text-steel-500">07</td><td class="font-medium">300,000-litre LPG bullet tanks</td><td class="text-steel-600">LPG storage &amp; bottling</td><td class="text-right font-semibold">$850,000</td></tr>
+            <tr data-cat="lpg" data-val="180000"><td class="font-mono text-sm text-steel-500">08</td><td class="font-medium">Pumps, compressors &amp; manifold</td><td class="text-steel-600">LPG storage &amp; bottling</td><td class="text-right font-semibold">$180,000</td></tr>
+            <tr data-cat="lpg" data-val="180000"><td class="font-mono text-sm text-steel-500">09</td><td class="font-medium">LPG filling carousel</td><td class="text-steel-600">LPG storage &amp; bottling</td><td class="text-right font-semibold">$180,000</td></tr>
+            <tr data-cat="lpg" data-val="120000"><td class="font-mono text-sm text-steel-500">10</td><td class="font-medium">LPG piping &amp; safety systems</td><td class="text-steel-600">LPG storage &amp; bottling</td><td class="text-right font-semibold">$120,000</td></tr>
+            <tr data-cat="lpg" data-val="120000"><td class="font-mono text-sm text-steel-500">11</td><td class="font-medium">Fire protection</td><td class="text-steel-600">LPG storage &amp; bottling</td><td class="text-right font-semibold">$120,000</td></tr>
+            <tr data-cat="lpg" data-val="80000"><td class="font-mono text-sm text-steel-500">12</td><td class="font-medium">Loading bay</td><td class="text-steel-600">LPG storage &amp; bottling</td><td class="text-right font-semibold">$80,000</td></tr>
+            <tr data-cat="lpg" data-val="40000"><td class="font-mono text-sm text-steel-500">13</td><td class="font-medium">Weighing scales</td><td class="text-steel-600">LPG storage &amp; bottling</td><td class="text-right font-semibold">$40,000</td></tr>
+            <tr data-cat="civil" data-val="320000"><td class="font-mono text-sm text-steel-500">14</td><td class="font-medium">Perimeter fence (2 m RC below + 1 m RC above ground)</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$320,000</td></tr>
+            <tr data-cat="civil" data-val="180000"><td class="font-mono text-sm text-steel-500">15</td><td class="font-medium">4-room office / control building</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$180,000</td></tr>
+            <tr data-cat="civil" data-val="150000"><td class="font-mono text-sm text-steel-500">16</td><td class="font-medium">Internal roads &amp; drainage</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$150,000</td></tr>
+            <tr data-cat="civil" data-val="150000"><td class="font-mono text-sm text-steel-500">17</td><td class="font-medium">Fire-water system</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$150,000</td></tr>
+            <tr data-cat="civil" data-val="120000"><td class="font-mono text-sm text-steel-500">18</td><td class="font-medium">Site preparation</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$120,000</td></tr>
+            <tr data-cat="civil" data-val="100000"><td class="font-mono text-sm text-steel-500">19</td><td class="font-medium">Cable trenches</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$100,000</td></tr>
+            <tr data-cat="civil" data-val="80000"><td class="font-mono text-sm text-steel-500">20</td><td class="font-medium">Workshop &amp; store</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$80,000</td></tr>
+            <tr data-cat="civil" data-val="50000"><td class="font-mono text-sm text-steel-500">21</td><td class="font-medium">Gatehouse &amp; security</td><td class="text-steel-600">Civil &amp; buildings</td><td class="text-right font-semibold">$50,000</td></tr>
+            <tr data-cat="ops" data-val="930000"><td class="font-mono text-sm text-steel-500">22</td><td class="font-medium">Contingency</td><td class="text-steel-600">Operations &amp; delivery</td><td class="text-right font-semibold">$930,000</td></tr>
+            <tr data-cat="ops" data-val="450000"><td class="font-mono text-sm text-steel-500">23</td><td class="font-medium">Engineering, permits &amp; project management</td><td class="text-steel-600">Operations &amp; delivery</td><td class="text-right font-semibold">$450,000</td></tr>
+            <tr data-cat="ops" data-val="120000"><td class="font-mono text-sm text-steel-500">24</td><td class="font-medium">Initial spare parts &amp; tools</td><td class="text-steel-600">Operations &amp; delivery</td><td class="text-right font-semibold">$120,000</td></tr>
+            <tr data-cat="ops" data-val="70000"><td class="font-mono text-sm text-steel-500">25</td><td class="font-medium">Pickup truck</td><td class="text-steel-600">Operations &amp; delivery</td><td class="text-right font-semibold">$70,000</td></tr>
+            <tr data-cat="ops" data-val="60000"><td class="font-mono text-sm text-steel-500">26</td><td class="font-medium">Forklift</td><td class="text-steel-600">Operations &amp; delivery</td><td class="text-right font-semibold">$60,000</td></tr>
+            <tr data-cat="ops" data-val="50000"><td class="font-mono text-sm text-steel-500">27</td><td class="font-medium">Utility van</td><td class="text-steel-600">Operations &amp; delivery</td><td class="text-right font-semibold">$50,000</td></tr>
           </tbody>
           <tfoot>
-            <tr class="font-bold border-t-2 border-ink text-sm">
-              <td colspan="3" class="py-4 font-serif text-ink">Total Fast-Track Project BOQ</td>
-              <td colspan="4" class="py-4 text-right font-mono text-oxblood" id="boq-foot-total">$8,900,000</td>
-            </tr>
+            <tr class="bg-steel-50"><td></td><td colspan="2" class="font-display font-bold">Total fast-track BOQ</td><td class="text-right font-display font-bold text-navy-600 tabular">$8,900,000</td></tr>
           </tfoot>
         </table>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 04 LNG CRYOGENIC MODULE (PFD) -->
-    <section id="lng" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">04</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">LNG Cryogenic Regasification Module</h2>
-      </div>
-
-      <p class="text-base text-ink/80 leading-relaxed max-w-3xl mb-8">
-        To guarantee non-stop fuel security in the event of upstream pipeline maintenance, Gilgal’s complex incorporates
-        an LNG import regasification system. The 9-step Process Flow Diagram (PFD) below details the cryogenic chain
-        from -162°C marine unloading to the high-pressure gas distribution grid.
-      </p>
-
-      <!-- 9-Step Process Flow -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
-        
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 01 / -162 °C</span>
-            <div class="font-semibold text-ink text-sm mt-1">LNG Carrier Unloading</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Cryogenic marine unloading arms transfer LNG at -162°C and atmospheric pressure from offshore carriers.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Marine Jetty Interface</div>
+  <!-- LNG -->
+  <section id="lng" class="bg-steel-50 border-y border-steel-200 py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6">
+          <span class="eyebrow">LNG regasification module</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">Fuel security when pipelines are down.</h2>
+          <p class="mt-6 text-lg text-steel-600 leading-relaxed">An LNG import and regasification chain keeps the turbines running through upstream maintenance, from −162 °C ship unloading to grid delivery.</p>
         </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 02 / Insulated Lines</span>
-            <div class="font-semibold text-ink text-sm mt-1">Vacuum Transfer Lines</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Vacuum-jacketed cryogenic piping prevents ambient heat ingress during transit to primary onshore storage.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Cryogenic Headers</div>
-        </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 03 / Full Containment</span>
-            <div class="font-semibold text-ink text-sm mt-1">Full-Containment Tank</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              9% nickel steel inner tank with pre-stressed reinforced concrete outer wall for seismic and thermal protection.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Cryogenic Storage</div>
-        </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 04 / Submerged Pumps</span>
-            <div class="font-semibold text-ink text-sm mt-1">In-Tank Booster Pumps</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Submerged motor pumps boost cryogenic fluid pressure to 8–10 bar and deliver to high-pressure sendout pumps.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Pump Well Module</div>
-        </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 05 / 45–60 bar</span>
-            <div class="font-semibold text-ink text-sm mt-1">Vaporization Train (SCVs)</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Submerged Combustion Vaporizers (SCVs) transfer heat to vaporize cryogenic liquid back to dry natural gas.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Thermal Vaporization</div>
-        </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 06 / Reliquefaction</span>
-            <div class="font-semibold text-ink text-sm mt-1">BOG Re-Compression</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Boil-Off Gas (BOG) compressors recover flash vapors and recondense them into sendout fuel with zero flaring.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Zero-Flare Loop</div>
-        </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 07 / Fiscal Metering</span>
-            <div class="font-semibold text-ink text-sm mt-1">Pressure Letdown & Meter</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Fiscal gas chromatograph and multi-path ultrasonic metering station calibrate gas density and energy content.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Custody Transfer</div>
-        </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 08 / Safety Odorant</span>
-            <div class="font-semibold text-ink text-sm mt-1">Mercaptan Odorization</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Automatic proportional dosing of tetrahydrothiophene (THT) odorant for leak detectability under safety standards.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Chemical Dosing</div>
-        </div>
-
-        <div class="border border-ink p-5 flex flex-col justify-between">
-          <div>
-            <span class="text-[10px] text-oxblood font-semibold">Step 09 / Grid Delivery</span>
-            <div class="font-semibold text-ink text-sm mt-1">Gas Transmission Grid</div>
-            <p class="text-[11px] text-ink/70 font-sans mt-2 leading-relaxed">
-              Natural gas enters dedicated high-pressure lateral pipeline serving the on-site CCGT turbines and industrial offtakers.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-rule text-[10px] text-ink/40 uppercase">Baseload Delivery</div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 05 CCGT THERMODYNAMIC PROOF & INTERACTIVE SIMULATOR -->
-    <section id="simulator" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">05</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">CCGT Thermodynamic Proof & Simulator</h2>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-10 items-start mb-10">
-        <div class="lg:col-span-8 space-y-4">
-          <p class="text-base text-ink/80 leading-relaxed">
-            In standard open-cycle gas turbine (OCGT) generation, hot exhaust gases (~540 °C) are discharged
-            directly into the atmosphere, capping thermal efficiency at only 26.6%. Gilgal’s Combined Cycle Gas
-            Turbine (CCGT) architecture recovers this high-grade thermal waste in a dual-pressure Heat Recovery Steam
-            Generator (HRSG).
-          </p>
-          <p class="text-sm text-ink/70 leading-relaxed">
-            The superheated steam drives a dedicated Siemens SST-150 steam turbine generator, producing an additional
-            <strong>+12.90 MW</strong> of clean electrical power without combusting an extra molecule of fuel. This
-            boosts overall net efficiency to <strong>48.81%</strong> — an absolute thermal gain of +22.21%.
-          </p>
-        </div>
-
-        <div class="lg:col-span-4 border border-ink p-6 font-mono text-xs">
-          <div class="text-[10px] uppercase tracking-widest text-oxblood mb-1">Thermodynamic Proof</div>
-          <div class="text-sm font-semibold text-ink">GT (25 MW) + ST (12.9 MW) = 37.9 MW</div>
-          <p class="text-ink/60 text-[11px] mt-2">
-            Base simple-cycle efficiency of 26.6% escalates to 48.81% in combined-cycle mode, saving ~1.7 billion SCF of natural gas annually per train.
-          </p>
+        <div class="lg:col-span-6 photo cut aspect-[16/9]">
+          <img src="assets/img/lng-carrier.jpg" alt="LNG carrier at sea" loading="lazy" decoding="async">
         </div>
       </div>
 
-      <!-- Live Dual-Slider Interactive Simulation Box -->
-      <div class="border-2 border-ink p-8 sm:p-10 mb-12 bg-paper">
-        <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-rule mb-8">
-          <div>
-            <span class="font-mono text-[10px] uppercase tracking-widest text-oxblood font-semibold">Interactive Thermodynamic Engine</span>
-            <h3 class="font-serif font-semibold text-2xl">Simulate Live HRSG & CCGT Efficiency</h3>
-          </div>
-          <span class="font-mono text-xs border border-ink px-3 py-1 bg-ink text-paper">Dynamic Mode</span>
-        </div>
+      <ol class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-steel-200 border border-steel-200">
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-cyan-500 text-navy-950 font-mono font-semibold flex items-center justify-center">01</span><div><p class="font-semibold">LNG carrier (−162 °C)</p><p class="text-sm text-steel-600 mt-1">LNG arrives by sea as a cryogenic liquid.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-cyan-500 text-navy-950 font-mono font-semibold flex items-center justify-center">02</span><div><p class="font-semibold">Cryogenic unloading terminal</p><p class="text-sm text-steel-600 mt-1">Unloading arms transfer cargo ashore.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-cyan-500 text-navy-950 font-mono font-semibold flex items-center justify-center">03</span><div><p class="font-semibold">Insulated LNG storage tanks</p><p class="text-sm text-steel-600 mt-1">Holds LNG at cryogenic temperature.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-navy-600 text-white font-mono font-semibold flex items-center justify-center">04</span><div><p class="font-semibold">LNG transfer pumps</p><p class="text-sm text-steel-600 mt-1">Move LNG to the regasification train.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-navy-600 text-white font-mono font-semibold flex items-center justify-center">05</span><div><p class="font-semibold">Vaporizers / regasification unit</p><p class="text-sm text-steel-600 mt-1">Warm the liquid back into natural gas.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-navy-600 text-white font-mono font-semibold flex items-center justify-center">06</span><div><p class="font-semibold">Gas metering &amp; pressure regulation</p><p class="text-sm text-steel-600 mt-1">Measures flow and sets delivery pressure.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-flare-600 text-white font-mono font-semibold flex items-center justify-center">07</span><div><p class="font-semibold">Gas pipeline</p><p class="text-sm text-steel-600 mt-1">Carries gas to the power plant.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-flare-600 text-white font-mono font-semibold flex items-center justify-center">08</span><div><p class="font-semibold">CCGT power plant</p><p class="text-sm text-steel-600 mt-1">Turns gas into electricity.</p></div></li>
+        <li class="bg-white p-6 flex gap-4"><span class="shrink-0 w-10 h-10 bg-flare-600 text-white font-mono font-semibold flex items-center justify-center">09</span><div><p class="font-semibold">National / state transmission grid</p><p class="text-sm text-steel-600 mt-1">Delivers power to customers.</p></div></li>
+      </ol>
+      <div class="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm text-steel-600">
+        <span class="font-semibold text-steel-900">Safety systems:</span>
+        <span>Gas leak detection</span><span>Emergency shutdown (ESD)</span><span>Fire &amp; gas monitoring</span><span>ASME / API / ISO compliance</span>
+      </div>
+    </div>
+  </section>
 
-        <!-- Slider Controls -->
-        <div class="grid md:grid-cols-2 gap-8 mb-8 font-mono text-xs">
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <label for="pressure-slider" class="uppercase tracking-wider font-semibold text-ink">
-                Steam Pressure (bar)
-              </label>
-              <span id="pressure-val-display" class="font-bold text-oxblood text-sm">45 bar</span>
+  <!-- CCGT CASE -->
+  <section id="ccgt" class="bg-navy-950 text-white on-dark py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-end">
+        <div class="lg:col-span-7">
+          <span class="eyebrow">The engineering case</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">51.6% more power from the same fuel.</h2>
+        </div>
+        <p class="lg:col-span-5 text-lg text-white/75 leading-relaxed">Benchmark: a 25 MW Niger Delta single-shaft gas turbine (GE Frame 5 / LM2500 class) retrofitted with a Siemens SST-150 steam bottoming cycle.</p>
+      </div>
+
+      <div class="mt-12 grid lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-7 bg-navy-900 border border-white/10 p-7 sm:p-9">
+          <div class="inline-flex border border-white/20 p-1" role="group" aria-label="Plant configuration">
+            <button type="button" class="cycle-btn px-4 py-2.5 text-sm font-semibold" data-cycle="open" aria-pressed="false">Simple cycle</button>
+            <button type="button" class="cycle-btn px-4 py-2.5 text-sm font-semibold" data-cycle="combined" aria-pressed="true">Combined cycle</button>
+          </div>
+
+          <div class="mt-9 grid sm:grid-cols-2 gap-8" aria-live="polite">
+            <div>
+              <p class="text-sm text-white/60">Net power output</p>
+              <p class="font-display font-extrabold text-6xl mt-1 tabular"><span id="cc-power">37.9</span> <span class="text-2xl text-white/60">MW</span></p>
             </div>
-            <input type="range" id="pressure-slider" min="20" max="50" step="5" value="45" oninput="updateCCGTSimulator()" class="w-full">
-            <div class="flex justify-between text-[10px] text-ink/40 mt-1">
-              <span>20 bar (Low)</span>
-              <span>45 bar (Design Point)</span>
-              <span>50 bar (Max)</span>
+            <div>
+              <p class="text-sm text-white/60">Thermal efficiency</p>
+              <p class="font-display font-extrabold text-6xl mt-1 tabular text-cyan-400"><span id="cc-eff">48.81</span><span class="text-2xl">%</span></p>
             </div>
           </div>
 
-          <div>
-            <div class="flex justify-between items-center mb-2">
-              <label for="temp-slider" class="uppercase tracking-wider font-semibold text-ink">
-                Steam Temperature (°C)
-              </label>
-              <span id="temp-val-display" class="font-bold text-oxblood text-sm">190 °C</span>
-            </div>
-            <input type="range" id="temp-slider" min="170" max="190" step="5" value="190" oninput="updateCCGTSimulator()" class="w-full">
-            <div class="flex justify-between text-[10px] text-ink/40 mt-1">
-              <span>170 °C</span>
-              <span>180 °C</span>
-              <span>190 °C (Design Max)</span>
+          <div class="mt-9">
+            <p class="text-sm text-white/60 mb-2">Where the power comes from</p>
+            <div class="flex h-11 text-sm font-semibold bg-white/5">
+              <div class="bg-cyan-500 text-navy-950 flex items-center px-3 transition-all duration-500" style="width:65.96%" id="cc-bar-gt">Gas turbine 25.0 MW</div>
+              <div class="bg-flare-600 flex items-center px-3 transition-all duration-500 overflow-hidden whitespace-nowrap" style="width:34.04%" id="cc-bar-st">Steam turbine +12.9 MW</div>
             </div>
           </div>
+          <p id="cc-note" class="mt-6 text-white/70 leading-relaxed">The heat recovery steam generator captures 42.46 MW of exhaust heat. The steam turbine turns it into 12.9 MW of extra power, with no additional fuel burned.</p>
         </div>
 
-        <!-- Live Recalculated Metric Displays -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 pt-6 border-t border-rule font-mono text-xs">
-          <div class="border border-ink p-4">
-            <span class="text-[10px] text-ink/40 uppercase block">HRSG Output</span>
-            <span id="sim-hrsg-val" class="text-xl font-serif font-semibold text-ink mt-1 block">42.46 MW</span>
-            <span class="text-[10px] text-ink/50 block mt-0.5">Thermal energy recovered</span>
-          </div>
-
-          <div class="border border-ink p-4">
-            <span class="text-[10px] text-ink/40 uppercase block">Total Net Power</span>
-            <span id="sim-power-val" class="text-xl font-serif font-semibold text-oxblood mt-1 block">37.90 MW</span>
-            <span class="text-[10px] text-ink/50 block mt-0.5">25 MW GT + Steam Turbine</span>
-          </div>
-
-          <div class="border border-ink p-4">
-            <span class="text-[10px] text-ink/40 uppercase block">Net Steam Boost</span>
-            <span id="sim-boost-val" class="text-xl font-serif font-semibold text-teal mt-1 block">+12.90 MW</span>
-            <span class="text-[10px] text-ink/50 block mt-0.5">Zero fuel addition</span>
-          </div>
-
-          <div class="border border-ink p-4">
-            <span class="text-[10px] text-ink/40 uppercase block">Net Efficiency</span>
-            <span id="sim-eff-val" class="text-xl font-serif font-semibold text-oxblood mt-1 block">48.81%</span>
-            <span class="text-[10px] text-ink/50 block mt-0.5">vs 26.6% Simple Cycle</span>
-          </div>
-
-          <div class="border border-ink p-4 col-span-2 sm:col-span-1">
-            <span class="text-[10px] text-ink/40 uppercase block">Gas Saved / Year</span>
-            <span id="sim-gas-saved" class="text-sm font-semibold text-ink mt-2 block">~1.72 BCF / yr</span>
-            <span class="text-[10px] text-ink/50 block mt-0.5">Lower emissions footprint</span>
-          </div>
-        </div>
+        <dl class="lg:col-span-5 grid grid-cols-2 gap-px bg-white/10 border border-white/10 text-[15px]">
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Gas turbine exhaust</dt><dd class="font-semibold mt-1">124.1 kg/s at 487 °C</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">HRSG heat recovered</dt><dd class="font-semibold mt-1">42.46 MW</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Pinch / stack temp.</dt><dd class="font-semibold mt-1">10 °C / 190 °C</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Evaporator saturation</dt><dd class="font-semibold mt-1">257.1 °C</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Steam inlet</dt><dd class="font-semibold mt-1">45 bar, 467 °C</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Steam mass flow</dt><dd class="font-semibold mt-1">13.747 kg/s</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Steam turbine</dt><dd class="font-semibold mt-1">14.61 MW − 1.76 MW pump</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Isentropic efficiency</dt><dd class="font-semibold mt-1">89.06%</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Condenser</dt><dd class="font-semibold mt-1">0.1 bar, 29.61 MW</dd></div>
+          <div class="bg-navy-950 p-5"><dt class="text-sm text-white/55">Cooling water</dt><dd class="font-semibold mt-1">1,180.42 kg/s, 29.8→35.8 °C</dd></div>
+        </dl>
       </div>
+    </div>
+  </section>
 
-      <!-- Engineering Reference Table -->
-      <div class="border-t border-rule pt-6">
-        <span class="font-mono text-[10px] uppercase tracking-widest text-ink/40 block mb-3">
-          Empirical Thermodynamic Baseline Matrix (Exhaust Mass Flow: 68.4 kg/s @ 540 °C)
-        </span>
-        <table class="ts w-full text-xs font-mono">
-          <thead>
-            <tr class="text-[10px] uppercase tracking-widest text-ink/40 border-b-2 border-ink">
-              <th class="py-2.5 text-left font-normal">Pressure (bar)</th>
-              <th class="py-2.5 text-left font-normal">Temperature (°C)</th>
-              <th class="py-2.5 text-right font-normal">HRSG Output (MW)</th>
-              <th class="py-2.5 text-right font-normal">Steam Turbine (MW)</th>
-              <th class="py-2.5 text-right font-normal">Overall Efficiency (%)</th>
-            </tr>
-          </thead>
+  <!-- RISK -->
+  <section id="risk-matrix" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-7">
+          <span class="eyebrow">Risk register</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">Eight principal risks, each with a mitigation.</h2>
+        </div>
+        <p class="lg:col-span-5 text-lg text-steel-600 leading-relaxed">Project finance covenants require clear risk allocation. These are the contractual, technical and operational protections behind debt service.</p>
+      </div>
+      <div class="mt-12 border border-steel-200 overflow-x-auto">
+        <table class="data-table min-w-[820px]">
+          <thead><tr><th class="w-[22%]">Risk</th><th class="w-[24%]">Threat</th><th>Mitigation</th><th class="!text-right w-28">Residual</th></tr></thead>
           <tbody>
-            <tr>
-              <td class="py-2.5">20 bar</td>
-              <td class="py-2.5">170 °C</td>
-              <td class="py-2.5 text-right">38.20 MW</td>
-              <td class="py-2.5 text-right">+11.61 MW</td>
-              <td class="py-2.5 text-right text-ink/70">43.10%</td>
-            </tr>
-            <tr>
-              <td class="py-2.5">30 bar</td>
-              <td class="py-2.5">180 °C</td>
-              <td class="py-2.5 text-right">40.50 MW</td>
-              <td class="py-2.5 text-right">+12.31 MW</td>
-              <td class="py-2.5 text-right text-ink/70">45.20%</td>
-            </tr>
-            <tr>
-              <td class="py-2.5">40 bar</td>
-              <td class="py-2.5">190 °C</td>
-              <td class="py-2.5 text-right">42.46 MW</td>
-              <td class="py-2.5 text-right">+12.90 MW</td>
-              <td class="py-2.5 text-right text-ink/70">48.00%</td>
-            </tr>
-            <tr class="font-bold bg-ink/5">
-              <td class="py-2.5 text-oxblood">45 bar (Design Point)</td>
-              <td class="py-2.5 text-oxblood">190 °C</td>
-              <td class="py-2.5 text-right text-oxblood">42.46 MW</td>
-              <td class="py-2.5 text-right text-oxblood">+12.90 MW</td>
-              <td class="py-2.5 text-right text-oxblood">48.81%</td>
-            </tr>
-            <tr>
-              <td class="py-2.5">50 bar</td>
-              <td class="py-2.5">190 °C</td>
-              <td class="py-2.5 text-right">42.50 MW</td>
-              <td class="py-2.5 text-right">+12.91 MW</td>
-              <td class="py-2.5 text-right text-ink/70">48.50%</td>
-            </tr>
+            <tr><td class="font-semibold">Fuel supply &amp; gas</td><td class="text-steel-600">Pipeline pressure drops or upstream disruption</td><td class="text-steel-700">Dual-source supply agreements with two independent fields, plus the on-site LNG module as a 14-day emergency buffer.</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Low</span></td></tr>
+            <tr><td class="font-semibold">Offtaker default</td><td class="text-steel-600">DisCo illiquidity or NBET payment delays</td><td class="text-steel-700">Bilateral PPAs with creditworthy industrial clusters in Delta State, backed by bank letters of credit for three months' billing.</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Low</span></td></tr>
+            <tr><td class="font-semibold">Foreign exchange</td><td class="text-steel-600">Naira devaluation against USD debt service</td><td class="text-steel-700">Debt service indexed to USD, local OPEX in Naira; domestic LPG sales provide a natural hedge.</td><td class="text-right"><span class="inline-block bg-flare-100 text-flare-700 text-sm font-medium px-2.5 py-1">Moderate</span></td></tr>
+            <tr><td class="font-semibold">EPC completion</td><td class="text-steel-600">Construction delays and cost overruns</td><td class="text-steel-700">Lump-sum turnkey EPC contract with liquidated damages; leased civil fleet from Dominant Engineering removes mobilisation lag.</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Low</span></td></tr>
+            <tr><td class="font-semibold">Environmental / EIA</td><td class="text-steel-600">Permitting delays</td><td class="text-steel-700">The project monetizes flare gas and cuts emissions, supporting accelerated environmental approval.</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Low</span></td></tr>
+            <tr><td class="font-semibold">Community relations</td><td class="text-steel-600">Host community agitation or site blockades</td><td class="text-steel-700">The founder's standing in Delta State, PIA host community trust compliance and local hiring priority.</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Low</span></td></tr>
+            <tr><td class="font-semibold">Regulatory &amp; tariff</td><td class="text-steel-600">Interference or retroactive tariff caps</td><td class="text-steel-700">State licensing under the Electricity Act 2023, with protected eligible-customer rights.</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Low</span></td></tr>
+            <tr><td class="font-semibold">Interest rate &amp; inflation</td><td class="text-steel-600">Rate rises during syndication</td><td class="text-steel-700">Interest rate swaps hedging 70% of senior debt, with a 1.30x minimum DSCR covenant.</td><td class="text-right"><span class="inline-block bg-flare-100 text-flare-700 text-sm font-medium px-2.5 py-1">Moderate</span></td></tr>
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 06 8-RISK MITIGATION MATRIX -->
-    <section id="risk-matrix" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">06</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">8-Risk Mitigation Matrix</h2>
+  <!-- CTA -->
+  <section class="bg-navy-600 text-white on-dark">
+    <div class="max-w-site mx-auto px-5 sm:px-8 py-16 sm:py-20 grid lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-8">
+        <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight">Need the full technical and financial pack?</h2>
+        <p class="mt-4 text-lg text-white/80">Heat balances, BOQ backup and the financing model are available in the investor data room.</p>
       </div>
-
-      <p class="text-base text-ink/80 leading-relaxed max-w-3xl mb-8">
-        Project financing covenants require comprehensive risk allocation. Gilgal has identified 8 primary project
-        threat categories and structured verified contractual, technical, and operational hedges to ensure
-        bankability and uninterrupted debt service.
-      </p>
-
-      <table class="ts w-full text-sm">
-        <thead>
-          <tr class="font-mono text-[10px] uppercase tracking-widest text-ink/40 border-b-2 border-ink">
-            <th class="text-left py-3 font-normal w-1/4">Risk Category</th>
-            <th class="text-left py-3 font-normal w-1/4">Underwriting Threat</th>
-            <th class="text-left py-3 font-normal">Gilgal Contractual & Operational Mitigation</th>
-            <th class="text-right py-3 font-normal">Residual</th>
-          </tr>
-        </thead>
-        <tbody class="font-mono text-xs">
-          <tr>
-            <td class="py-4 font-semibold text-ink">01 / Fuel Supply & Gas</td>
-            <td class="py-4 text-ink/70 font-sans">Pipeline pressure drops or upstream producer disruption</td>
-            <td class="py-4 text-ink/70 font-sans">Dual-source supply agreements with 2 independent fields + on-site LNG regasification module for 14-day emergency buffer.</td>
-            <td class="py-4 text-right text-teal font-semibold">Low</td>
-          </tr>
-          <tr>
-            <td class="py-4 font-semibold text-ink">02 / Off-taker Default</td>
-            <td class="py-4 text-ink/70 font-sans">DisCo illiquidity or NBET payment delays</td>
-            <td class="py-4 text-ink/70 font-sans">Direct bilateral PPAs with creditworthy industrial manufacturing clusters in Delta State; bank Letters of Credit (LCs) for 3 months billing.</td>
-            <td class="py-4 text-right text-teal font-semibold">Low</td>
-          </tr>
-          <tr>
-            <td class="py-4 font-semibold text-ink">03 / Foreign Exchange (FX)</td>
-            <td class="py-4 text-ink/70 font-sans">Naira currency devaluation vs USD senior debt service</td>
-            <td class="py-4 text-ink/70 font-sans">Dual-currency tariff structure: capital debt service indexed to USD, local OPEX settled in Naira. Domestic LPG sales hedge FX.</td>
-            <td class="py-4 text-right text-teal font-semibold">Moderate</td>
-          </tr>
-          <tr>
-            <td class="py-4 font-semibold text-ink">04 / EPC Completion</td>
-            <td class="py-4 text-ink/70 font-sans">Construction delays and equipment cost overruns</td>
-            <td class="py-4 text-ink/70 font-sans">Turnkey lump-sum EPC contract with liquidated damages; in-house heavy civil fleet lease with Dominant Engineering eliminates mobilization lag.</td>
-            <td class="py-4 text-right text-teal font-semibold">Low</td>
-          </tr>
-          <tr>
-            <td class="py-4 font-semibold text-ink">05 / Environmental / EIA</td>
-            <td class="py-4 text-ink/70 font-sans">Permitting delays from Federal Ministry of Environment</td>
-            <td class="py-4 text-ink/70 font-sans">Project monetizes flare gas, reducing carbon emissions by 400,000 MT CO2e/yr; accelerated green certification under Paris Accord Art. 6.</td>
-            <td class="py-4 text-right text-teal font-semibold">Low</td>
-          </tr>
-          <tr>
-            <td class="py-4 font-semibold text-ink">06 / Community Relations</td>
-            <td class="py-4 text-ink/70 font-sans">Host community agitation or Niger Delta site blockades</td>
-            <td class="py-4 text-ink/70 font-sans">Founder Engr. Ogoh’s grassroots Delta standing, 3% statutory PIA Trust compliance, and priority local employment quotas for host youths.</td>
-            <td class="py-4 text-right text-teal font-semibold">Low</td>
-          </tr>
-          <tr>
-            <td class="py-4 font-semibold text-ink">07 / Regulatory & Tariff</td>
-            <td class="py-4 text-ink/70 font-sans">Interference or retroactive electricity tariff caps</td>
-            <td class="py-4 text-ink/70 font-sans">Operating under Nigerian Electricity Act 2023 state licensing, exempt from federal tariff freezes; legally protected eligible customer rights.</td>
-            <td class="py-4 text-right text-teal font-semibold">Low</td>
-          </tr>
-          <tr>
-            <td class="py-4 font-semibold text-ink">08 / Interest Rate & Inflation</td>
-            <td class="py-4 text-ink/70 font-sans">Global SOFR rate escalation during syndication</td>
-            <td class="py-4 text-ink/70 font-sans">Interest rate swaps (IRS) hedging 70% of senior debt; commercial DSCR structured at 3.2x to withstand severe stress tests.</td>
-            <td class="py-4 text-right text-teal font-semibold">Moderate</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 07 ACCESS -->
-    <section id="access" class="px-6 sm:px-12 lg:px-20 py-20 scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">07</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Access & Due Diligence</h2>
+      <div class="lg:col-span-4 flex flex-wrap lg:justify-end gap-4">
+        <a href="contact.html#data-room" class="btn btn-primary">Request access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="projects.html" class="btn btn-light">View projects</a>
       </div>
+    </div>
+  </section>
 
-      <div class="border border-ink p-8 sm:p-12">
-        <div class="flex flex-wrap justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-ink/50 pb-6 mb-6 border-b border-rule">
-          <span>Status: Technical Folio Ready</span>
-          <span>Ref. GEAS/BP/2026/001</span>
-        </div>
-        <h3 class="font-serif font-semibold text-2xl sm:text-3xl max-w-xl">
-          Conduct technical due diligence through our virtual data room.
-        </h3>
-        <p class="text-ink/70 leading-relaxed max-w-xl mt-5">
-          Engineering committees, commercial lenders (KeyBank USA, UBA), DFIs, and industrial offtakers may
-          inspect certified thermodynamic heat balances, FEED P&IDs, and equipment procurement logs under NDA.
-        </p>
-        <div class="flex flex-wrap gap-4 mt-8">
-          <a href="contact.html#data-room" class="px-7 py-4 bg-ink text-paper font-mono text-xs uppercase tracking-wider hover:bg-oxblood transition-colors">
-            Request Data Room Access
-          </a>
-          <a href="contact.html" class="px-7 py-4 border border-ink font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-            Contact Engineering Secretariat
-          </a>
-        </div>
+</main>
+
+<footer class="bg-navy-950 text-white/70 on-dark">
+  <div class="max-w-site mx-auto px-5 sm:px-8 pt-16 pb-10">
+    <div class="grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <img src="assets/gilgal-logo-white.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-14 w-auto" loading="lazy">
+        <p class="mt-6 font-display text-xl font-semibold text-white leading-snug max-w-xs">Powering Industry. Energizing Communities. Building Tomorrow.</p>
+        <p class="mt-4 text-sm">Indigenous developer of gas-to-power, regasification and LPG infrastructure in Delta State, Nigeria.</p>
       </div>
-    </section>
-
-    <!-- COLOPHON -->
-    <footer class="px-6 sm:px-12 lg:px-20 py-14 border-t-4 border-ink font-mono text-[11px] text-ink/50">
-      <div class="grid sm:grid-cols-3 gap-10 pb-10 border-b border-rule">
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">Registered & Operational</div>
-          <p>Operational Base: No. 111 Effurun/Sapele Road, Opp. Ecobank, Warri, Delta State.</p>
-          <p class="mt-2">Registered Address: 43 Enerhen Road, Enerhen, Warri, Delta State.</p>
-          <p class="mt-3 text-ink/70">+234 703 758 5753 &middot; +234 706 950 1633 &middot; +234 703 385 4936</p>
-        </div>
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">United States Network</div>
-          <p>Florida: 4200 Bagonia Cove, Apt 212, Sanford/Orlando, FL 32771.</p>
-          <p class="mt-1 text-ink/70">+1 (407) 533-3518</p>
-          <p class="mt-3">Colorado: 24325 East Louisiana Place, Aurora, CO 80018.</p>
-          <p class="mt-1 text-ink/70">+1 (303) 332-1994</p>
-        </div>
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">Document Control</div>
-          <p>Reference: GEAS/BP/2026/001</p>
-          <p class="mt-1">Beacon: SC/DT B104X 5948</p>
-          <p class="mt-1 text-oxblood">HSE — Stop. Think. Then Act.</p>
-        </div>
+      <nav class="lg:col-span-2" aria-label="Footer">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">Company</h2>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About</a></li><li><a href="services.html" class="hover:text-white">Services</a></li><li><a href="projects.html" class="hover:text-white">Projects</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li>
+          <li><a href="contact.html#data-room" class="hover:text-white">Investor Data Room</a></li>
+        </ul>
+      </nav>
+      <div class="lg:col-span-3 text-sm">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">Nigeria</h2>
+        <p class="text-white">Operational office</p>
+        <p>No. 111 Effurun/Sapele Road, Opp. Ecobank, Warri, Delta State</p>
+        <p class="mt-3 text-white">Registered office</p>
+        <p>43 Enerhen Road, Enerhen, Warri, Delta State</p>
+        <p class="mt-3"><a href="tel:+2347037585753" class="hover:text-white">+234 703 758 5753</a><br><a href="tel:+2347069501633" class="hover:text-white">+234 706 950 1633</a><br><a href="tel:+2347033854936" class="hover:text-white">+234 703 385 4936</a></p>
       </div>
-      <div class="pt-6 flex flex-col sm:flex-row justify-between gap-3">
-        <span>&copy; 2026 Gilgal Exploration & Allied Services Limited. RC 1235316. All rights reserved.</span>
-        <span>CAC &middot; FIRS &middot; PENCOM &middot; NSITF</span>
+      <div class="lg:col-span-3 text-sm">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">United States</h2>
+        <p class="text-white">Head office, Florida</p>
+        <p>4200 Bagonia Cove, Apt 212, Sanford / Orlando, FL 32771</p>
+        <p><a href="tel:+14075333518" class="hover:text-white">+1 (407) 533-3518</a></p>
+        <p class="mt-3 text-white">Second office, Colorado</p>
+        <p>24325 East Louisiana Place, Aurora, CO 80018</p>
+        <p><a href="tel:+13033321994" class="hover:text-white">+1 (303) 332-1994</a></p>
       </div>
-    </footer>
+    </div>
+    <div class="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+      <p>&copy; 2026 Gilgal Exploration &amp; Allied Services Limited. All rights reserved.</p>
+      <p class="font-mono">RC 1235316 &middot; TIN 31237553-0001 &middot; FIRS 2301110028518</p>
+    </div>
+  </div>
+</footer>
 
-  </main>
-</div>
-
+<script src="assets/js/site.js"></script>
 <script>
-  function toggleMobileNav() {
-    const el = document.getElementById('mobile-nav');
-    if (el) el.classList.toggle('hidden');
-  }
+// BOQ category filter and the simple/combined-cycle switch.
+(function () {
+  const fmt = (n) => '$' + n.toLocaleString('en-US');
 
-  // Filterable BOQ Engine
-  function filterBOQ(category) {
-    const buttons = document.querySelectorAll('.boq-btn');
-    buttons.forEach(b => b.classList.remove('active'));
-
-    const activeBtn = document.getElementById(`btn-${category}`);
-    if (activeBtn) activeBtn.classList.add('active');
-
-    const rows = document.querySelectorAll('#boq-table tbody tr');
-    let total = 0;
-    let count = 0;
-
-    rows.forEach(row => {
-      const rowCat = row.getAttribute('data-cat');
-      const val = parseInt(row.getAttribute('data-val'), 10) || 0;
-
-      if (category === 'all' || rowCat === category) {
-        row.style.display = '';
-        total += val;
-        count++;
-      } else {
-        row.style.display = 'none';
-      }
+  const rows = document.querySelectorAll('#boq-table tbody tr');
+  const filters = document.querySelectorAll('.boq-filter');
+  filters.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.filter;
+      filters.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      let total = 0, count = 0;
+      rows.forEach((r) => {
+        const show = cat === 'all' || r.dataset.cat === cat;
+        r.hidden = !show;
+        if (show) { total += Number(r.dataset.val); count++; }
+      });
+      document.getElementById('boq-total').textContent = fmt(total);
+      document.getElementById('boq-count').textContent = count;
     });
+  });
 
-    const formattedTotal = '$' + total.toLocaleString('en-US');
-    document.getElementById('boq-total-display').textContent = formattedTotal;
-    document.getElementById('boq-foot-total').textContent = formattedTotal;
-    document.getElementById('boq-count-display').textContent = count;
-  }
-
-  // CCGT Dual-Slider Thermodynamic Calculation Engine
-  const thermodynamicTable = [
-    { p: 20, t: 170, hrsg: 38.2, eff: 43.1 },
-    { p: 20, t: 180, hrsg: 39.4, eff: 44.0 },
-    { p: 20, t: 190, hrsg: 40.1, eff: 44.6 },
-    { p: 30, t: 170, hrsg: 39.8, eff: 44.5 },
-    { p: 30, t: 180, hrsg: 40.5, eff: 45.2 },
-    { p: 30, t: 190, hrsg: 41.5, eff: 46.2 },
-    { p: 40, t: 170, hrsg: 41.3, eff: 46.5 },
-    { p: 40, t: 180, hrsg: 42.0, eff: 47.4 },
-    { p: 40, t: 190, hrsg: 42.46, eff: 48.0 },
-    { p: 45, t: 190, hrsg: 42.46, eff: 48.81 },
-    { p: 50, t: 170, hrsg: 41.9, eff: 47.8 },
-    { p: 50, t: 180, hrsg: 42.3, eff: 48.2 },
-    { p: 50, t: 190, hrsg: 42.5, eff: 48.5 }
-  ];
-
-  function calculateCCGT(p, t) {
-    const exact = thermodynamicTable.find(item => item.p === p && item.t === t);
-    if (exact) {
-      return { hrsg: exact.hrsg, eff: exact.eff };
-    }
-
-    let baseHRSG = 38.0 + (p - 20) * 0.15 + (t - 170) * 0.16;
-    if (baseHRSG > 42.46) baseHRSG = 42.46;
-
-    let baseEff = 43.0 + (p - 20) * 0.18 + (t - 170) * 0.14;
-    if (p === 45 && t === 190) baseEff = 48.81;
-    if (baseEff > 48.81) baseEff = 48.81;
-
-    return {
-      hrsg: parseFloat(baseHRSG.toFixed(2)),
-      eff: parseFloat(baseEff.toFixed(2))
-    };
-  }
-
-  function updateCCGTSimulator() {
-    const pSlider = document.getElementById('pressure-slider');
-    const tSlider = document.getElementById('temp-slider');
-
-    const p = parseInt(pSlider.value, 10);
-    const t = parseInt(tSlider.value, 10);
-
-    document.getElementById('pressure-val-display').textContent = p + ' bar';
-    document.getElementById('temp-val-display').textContent = t + ' °C';
-
-    const result = calculateCCGT(p, t);
-    const netSTBoost = (result.hrsg * (12.90 / 42.46));
-    const totalPower = 25.0 + netSTBoost;
-    const gasSavedBcf = ((result.eff - 26.6) / 26.6) * 1.5 + 0.8;
-
-    document.getElementById('sim-hrsg-val').textContent = result.hrsg.toFixed(2) + ' MW';
-    document.getElementById('sim-eff-val').textContent = result.eff.toFixed(2) + '%';
-    document.getElementById('sim-power-val').textContent = totalPower.toFixed(2) + ' MW';
-    document.getElementById('sim-boost-val').textContent = '+' + netSTBoost.toFixed(2) + ' MW';
-    document.getElementById('sim-gas-saved').textContent = '~' + gasSavedBcf.toFixed(2) + ' BCF / yr';
-  }
-
-  // Scroll spy for sidebar links
-  const sections = document.querySelectorAll('main section[id]');
-  const links = document.querySelectorAll('.idx-link');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const match = document.querySelector(`.idx-link[href="#${entry.target.id}"]`);
-        if (match) match.classList.add('active');
-      }
+  // Benchmark figures (25 MW GT + SST-150 bottoming cycle)
+  const CYCLE = {
+    open: { power: '25.0', eff: '26.60', gt: 100, st: 0,
+      note: 'In simple cycle, exhaust leaves the turbine at 487 °C and that heat is lost. Efficiency is 26.6%.' },
+    combined: { power: '37.9', eff: '48.81', gt: 65.96, st: 34.04,
+      note: 'The heat recovery steam generator captures 42.46 MW of exhaust heat. The steam turbine turns it into 12.9 MW of extra power, with no additional fuel burned.' },
+  };
+  const cycleBtns = document.querySelectorAll('.cycle-btn');
+  function setCycle(key) {
+    const c = CYCLE[key];
+    cycleBtns.forEach((b) => {
+      const on = b.dataset.cycle === key;
+      b.setAttribute('aria-pressed', String(on));
+      b.classList.toggle('bg-white', on);
+      b.classList.toggle('text-navy-950', on);
+      b.classList.toggle('text-white/70', !on);
     });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-  sections.forEach(s => obs.observe(s));
+    document.getElementById('cc-power').textContent = c.power;
+    document.getElementById('cc-eff').textContent = c.eff;
+    document.getElementById('cc-bar-gt').style.width = c.gt + '%';
+    document.getElementById('cc-bar-st').style.width = c.st + '%';
+    document.getElementById('cc-bar-st').style.padding = c.st ? '' : '0';
+    document.getElementById('cc-note').textContent = c.note;
+  }
+  cycleBtns.forEach((b) => b.addEventListener('click', () => setCycle(b.dataset.cycle)));
+  setCycle('combined');
+})();
 </script>
-
 </body>
 </html>

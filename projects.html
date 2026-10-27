@@ -68,587 +68,288 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          paper: '#F6F3EC',
-          ink: '#201E1A',
-          rule: '#D9D2C2',
-          oxblood: '#7A2B20',
-          teal: '#1B4B42',
-        },
-        fontFamily: {
-          serif: ['Fraunces', 'serif'],
-          sans: ['Inter', 'sans-serif'],
-          mono: ['IBM Plex Mono', 'monospace'],
-        }
-      }
-    }
-  }
-</script>
-
-<style>
-  body { font-family:'Inter', sans-serif; color:#201E1A; -webkit-font-smoothing:antialiased; }
-  .dropcap::first-letter {
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size: 3.8rem;
-    float:left;
-    line-height:0.8;
-    padding-right:0.5rem;
-    padding-top:0.3rem;
-    color:#7A2B20;
-  }
-  .idx-link.active { color:#201E1A; }
-  .idx-link.active .idx-num { color:#7A2B20; }
-  table.ts th, table.ts td { border-bottom:1px solid #D9D2C2; }
-  ::selection { background:#7A2B20; color:#F6F3EC; }
-
-  /* Exhibit / plate image treatment */
-  .plate { position:relative; border:1px solid #201E1A; }
-  .plate img {
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    filter: grayscale(100%) sepia(8%) contrast(1.08) brightness(0.98);
-  }
-  .plate::after {
-    content:"";
-    position:absolute; inset:0;
-    background: #7A2B20;
-    mix-blend-mode: multiply;
-    opacity: 0.08;
-    pointer-events:none;
-  }
-  .plate .tick { position:absolute; width:10px; height:10px; }
-  .plate .tick.tl { top:-1px; left:-1px; border-top:2px solid #7A2B20; border-left:2px solid #7A2B20; }
-  .plate .tick.tr { top:-1px; right:-1px; border-top:2px solid #7A2B20; border-right:2px solid #7A2B20; }
-  .plate .tick.bl { bottom:-1px; left:-1px; border-bottom:2px solid #7A2B20; border-left:2px solid #7A2B20; }
-  .plate .tick.br { bottom:-1px; right:-1px; border-bottom:2px solid #7A2B20; border-right:2px solid #7A2B20; }
-  /* Project register */
-  .reg-row { cursor:pointer; transition:background .15s; }
-  .reg-row:hover { background:rgba(122,43,32,0.05); }
-
-  /* Dossier sheet */
-  .dossier > div { display:grid; grid-template-columns:7.5rem 1fr; gap:1rem; padding:0.7rem 0; border-bottom:1px solid #D9D2C2; }
-  .dossier dt { text-transform:uppercase; letter-spacing:0.08em; font-size:10px; color:rgba(32,30,26,0.45); padding-top:1px; }
-
-  /* Proportional bar + legend */
-  .seg-bar { display:flex; height:2.25rem; border:1px solid #201E1A; gap:1px; background:#F6F3EC; }
-  .seg-bar span, [data-chart] tr { transition:opacity .15s; }
-  [data-chart].focus [data-seg]:not(.on) { opacity:0.25; }
-  .sw { display:inline-block; width:10px; height:10px; margin-right:0.6rem; vertical-align:-1px; }
-
-  /* Process rail */
-  .pfd li { position:relative; padding:0 0 1.25rem 1.75rem; border-left:1px solid #201E1A; font-size:13px; line-height:1.35; }
-  .pfd li::before { content:""; position:absolute; left:-5px; top:2px; width:9px; height:9px; background:#F6F3EC; border:1px solid #201E1A; }
-  .pfd li.hot::before { background:#7A2B20; border-color:#7A2B20; }
-  .pfd li span { display:block; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#7A2B20; margin-bottom:2px; }
-  @media (min-width:1024px) {
-    .pfd li { border-left:0; border-top:1px solid #201E1A; padding:1.25rem 0.75rem 0 0; }
-    .pfd li::before { left:0; top:-5px; }
-    .pfd li:not(:last-child)::after { content:""; position:absolute; right:0; top:-4px; border-left:6px solid #201E1A; border-top:3.5px solid transparent; border-bottom:3.5px solid transparent; }
-  }
-
-  /* Lifecycle ribbon */
-  .ribbon li { padding:0.9rem 1rem; font-size:13px; line-height:1.3; border-bottom:1px solid #D9D2C2; }
-  .ribbon li span { display:block; font-family:'IBM Plex Mono',monospace; font-size:10px; color:#7A2B20; margin-bottom:0.35rem; }
-  @media (min-width:640px) { .ribbon li { border-bottom:0; border-right:1px solid #D9D2C2; } .ribbon li:last-child { border-right:0; } }
-
-  /* Gantt */
-  .g-scale, .g-track { display:grid; grid-template-columns:repeat(20,1fr); }
-  .gantt { display:grid; gap:0; }
-  .g-scale { font-family:'IBM Plex Mono',monospace; font-size:10px; color:rgba(32,30,26,0.4); padding-bottom:0.4rem; border-bottom:1px solid #201E1A; }
-  .g-row { display:grid; grid-template-columns:1fr; border-bottom:1px solid #D9D2C2; padding:0.6rem 0; }
-  .g-lbl { font-size:12px; margin-bottom:0.35rem; }
-  .g-track { background:repeating-linear-gradient(90deg,transparent 0 calc(5% - 1px),rgba(32,30,26,0.08) calc(5% - 1px) 5%); }
-  .g-track i { font-style:normal; background:#201E1A; color:#F6F3EC; font-family:'IBM Plex Mono',monospace; font-size:10px; padding:0.3rem 0.4rem; white-space:nowrap; overflow:hidden; }
-  @media (min-width:640px) {
-    .gantt { grid-template-columns:12rem 1fr; }
-    .g-scale { grid-column:2; }
-    .g-row { grid-column:1 / -1; grid-template-columns:12rem 1fr; align-items:center; }
-    .g-lbl { margin:0; }
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script src="assets/js/tailwind.config.js"></script>
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="bg-paper text-ink">
+<body class="bg-white text-steel-900">
 
-<div class="lg:hidden sticky top-0 z-50 bg-paper border-b border-ink flex items-center justify-between px-4 py-3">
-  <a href="index.html" class="block"><img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-10 w-auto"></a>
-  <button onclick="toggleMobileNav()" aria-label="Toggle index" class="font-mono text-xs uppercase tracking-widest border border-ink px-3 py-1.5">Index</button>
-</div>
-<div id="mobile-nav" class="hidden lg:hidden bg-paper border-b border-ink px-4 pb-6 pt-2 font-mono text-xs">
-  <div class="uppercase tracking-widest text-ink/40 pt-3 pb-1">Site</div>
-  <a href="index.html" class="block py-2 border-b border-rule">Home</a>
-  <a href="about.html" class="block py-2 border-b border-rule">About</a>
-  <a href="services.html" class="block py-2 border-b border-rule">Services & Projects</a>
-  <a href="projects.html" class="block py-2 border-b border-rule text-oxblood font-semibold">Projects</a>
-  <a href="contact.html" class="block py-2 border-b border-rule">Contact</a>
-  <div class="uppercase tracking-widest text-ink/40 pt-4 pb-1">On This Page</div>
-  <a href="#entry" class="block py-1.5">01 Fast-Track $8.9M Project</a>
-  <a href="#flagship" class="block py-1.5">02 Flagship $1.5B Complex</a>
-  <a href="#lng" class="block py-1.5">03 LNG Regasification Module</a>
-  <a href="#lifecycle" class="block py-1.5">04 Lifecycle & Delivery</a>
-  <a href="#access" class="block py-1.5">05 Access</a>
-  <a href="contact.html#data-room" class="block mt-4 text-center border border-ink px-4 py-3 font-semibold">Request Data Room Access</a>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<div class="bg-navy-950 text-white/70 text-[13px]">
+  <div class="max-w-site mx-auto px-5 sm:px-8 h-10 flex items-center justify-between gap-6">
+    <div class="hidden md:flex items-center gap-5 font-mono text-xs">
+      <span>RC 1235316</span><span class="text-white/25">|</span><span>TIN 31237553-0001</span>
+      <span class="text-white/25">|</span><span class="inline-flex items-center gap-1.5 text-cyan-400"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Stop! Think! Then act!</span>
+    </div>
+    <div class="flex items-center gap-5 ml-auto">
+      <a href="tel:+2347037585753" class="inline-flex items-center gap-1.5 hover:text-white"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>+234 703 758 5753</a>
+      <a href="mailto:gilgalexploration.2@gmail.com" class="hidden sm:inline-flex items-center gap-1.5 hover:text-white"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>gilgalexploration.2@gmail.com</a>
+    </div>
+  </div>
 </div>
 
-<div class="lg:flex">
-  <aside class="hidden lg:flex lg:flex-col lg:fixed lg:top-0 lg:bottom-0 lg:left-0 lg:w-72 border-r border-ink px-8 py-10 overflow-y-auto">
-    <a href="index.html" class="block -mx-1">
-      <img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="w-full h-auto">
+<header class="site-header sticky top-0 z-50 bg-white border-b border-steel-200">
+  <div class="max-w-site mx-auto px-5 sm:px-8 h-[72px] flex items-center justify-between gap-8">
+    <a href="index.html" class="shrink-0" aria-label="Gilgal Exploration &amp; Allied Services Limited, home">
+      <img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-11 w-auto">
     </a>
-    <div class="mt-8 pt-6 border-t border-rule font-mono text-[11px] space-y-1 text-ink/60">
-      <div>RC 1235316</div>
-      <div>TIN 31237553-0001</div>
-      <div>FIRS 2301110028518</div>
-    </div>
-    <nav class="mt-8 pt-6 border-t border-rule font-mono text-xs uppercase tracking-wider space-y-2.5 text-ink/60">
-      <a href="index.html" class="block hover:text-ink transition-colors">Home</a>
-      <a href="about.html" class="block hover:text-ink transition-colors">About</a>
-      <a href="services.html" class="block hover:text-ink transition-colors">Services & Projects</a>
-      <a href="projects.html" class="block text-ink font-semibold">Projects</a>
-      <a href="contact.html" class="block hover:text-ink transition-colors">Contact</a>
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Main">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="services.html" class="nav-link">Services</a>
+          <a href="projects.html" class="nav-link" aria-current="page">Projects</a>
+          <a href="contact.html" class="nav-link">Contact</a>
     </nav>
-    <nav class="mt-8 pt-6 border-t border-rule font-mono text-[11px] space-y-2.5 text-ink/50 idx">
-      <div class="text-[10px] uppercase tracking-widest text-ink/30 mb-2">On This Page</div>
-      <a href="#entry" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">01</span>Fast-Track $8.9M Project</a>
-      <a href="#flagship" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">02</span>Flagship $1.5B Complex</a>
-      <a href="#lng" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">03</span>LNG Regasification Module</a>
-      <a href="#lifecycle" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">04</span>Lifecycle & Delivery</a>
-      <a href="#access" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">05</span>Access</a>
-    </nav>
-    <div class="mt-auto pt-8">
-      <a href="contact.html#data-room" class="block text-center border border-ink px-4 py-3 font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">Request Data Room</a>
-      <div class="font-mono text-[10px] text-ink/40 mt-4 leading-relaxed">Hotline<br><a href="tel:+2347037585753" class="text-ink/60">+234 703 758 5753</a></div>
+    <div class="flex items-center gap-3">
+      <a href="contact.html#data-room" class="btn btn-primary hidden sm:inline-flex !min-h-[2.75rem] !py-2 text-sm">Investor Data Room</a>
+      <button id="menu-toggle" type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 border border-steel-200 text-navy-950" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
+        <span data-icon="open" class="w-6 h-6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>
+        <span data-icon="close" class="w-6 h-6 hidden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+      </button>
     </div>
-  </aside>
+  </div>
+  <div id="mobile-menu" class="lg:hidden border-t border-steel-200 bg-white" hidden>
+    <nav class="max-w-site mx-auto px-5 sm:px-8 pb-6" aria-label="Mobile">
+      <a href="index.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Home</a>
+      <a href="about.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">About</a>
+      <a href="services.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Services</a>
+      <a href="projects.html" class="block py-3 border-b border-steel-200 font-medium text-flare-600" aria-current="page">Projects</a>
+      <a href="contact.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Contact</a>
+      <a href="contact.html#data-room" class="btn btn-primary w-full mt-5">Investor Data Room</a>
+    </nav>
+  </div>
+</header>
 
-  <main class="lg:ml-72 w-full">
+<main id="main">
 
-    <!-- 00 COVER / PROJECT REGISTER -->
-    <section class="px-6 sm:px-12 lg:px-20 pt-14 pb-16 border-b border-ink">
-      <div class="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-ink/50 pb-8 mb-8 border-b border-rule">
-        <span>Projects Register</span>
-        <span>Ref. GEAS/BP/2026/001</span>
-        <span>Beacon SC/DT B104X 5948</span>
-        <span class="text-oxblood">Delta State, Nigeria</span>
+  <!-- PAGE HERO -->
+  <section class="relative bg-navy-950 text-white on-dark overflow-hidden">
+    <div class="absolute inset-0 lg:left-1/2">
+      <img src="assets/img/gas-plant-stacks.jpg" alt="" class="w-full h-full object-cover" fetchpriority="high" decoding="async">
+      <div class="absolute inset-0 bg-navy-950/60 lg:hidden"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/75 to-navy-950/10 lg:via-navy-950/30"></div>
+    </div>
+    <div class="relative max-w-site mx-auto px-5 sm:px-8 py-20 sm:py-28">
+      <nav aria-label="Breadcrumb" class="text-sm text-white/60"><a href="index.html" class="hover:text-white">Home</a> <span class="mx-2">/</span> <span class="text-white">Projects</span></nav>
+      <h1 class="font-display font-extrabold text-4xl sm:text-6xl leading-[1.04] mt-8 max-w-2xl">Three projects. One gas-to-power programme.</h1>
+      <p class="mt-7 text-lg sm:text-xl text-white/80 max-w-xl leading-relaxed">
+        An $8.9M entry project builds the cash flow. The $1.5B flagship builds the scale. Both sit on Delta State survey beacon SC/DT B104X 5948.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#entry" class="btn btn-primary">Start with P-01 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="#flagship" class="btn btn-light">The $1.5B flagship</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGISTER -->
+  <section class="py-20 sm:py-24">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <span class="eyebrow">Project register</span>
+      <div class="mt-8 grid lg:grid-cols-3 gap-6">
+        <a href="#entry" class="group border border-steel-200 border-t-4 border-t-flare-600 p-7 hover:border-navy-600 hover:border-t-flare-600 transition-colors">
+          <p class="font-mono text-sm text-flare-600 font-medium">P-01 &middot; Months 0–12</p>
+          <h2 class="font-display font-bold text-2xl mt-2">Fast-track entry project</h2>
+          <p class="mt-3 text-steel-600">10 MW gas plant + 300,000 L LPG facility</p>
+          <p class="mt-6 font-display font-extrabold text-3xl text-navy-950 tabular">$8,900,000</p>
+          <span class="link-arrow mt-4">View project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+        <a href="#flagship" class="group border border-steel-200 border-t-4 border-t-navy-600 p-7 hover:border-navy-600 transition-colors">
+          <p class="font-mono text-sm text-navy-600 font-medium">P-02 &middot; COD Month 31</p>
+          <h2 class="font-display font-bold text-2xl mt-2">Flagship CCGT &amp; LPG complex</h2>
+          <p class="mt-3 text-steel-600">250–500 MW + 50,000–100,000 MT LPG</p>
+          <p class="mt-6 font-display font-extrabold text-3xl text-navy-950 tabular">$1,500,000,000</p>
+          <span class="link-arrow mt-4">View project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
+        <a href="#lng" class="group border border-steel-200 border-t-4 border-t-cyan-500 p-7 hover:border-navy-600 hover:border-t-cyan-500 transition-colors">
+          <p class="font-mono text-sm text-cyan-500 font-medium">P-03 &middot; Module</p>
+          <h2 class="font-display font-bold text-2xl mt-2">LNG regasification-to-power</h2>
+          <p class="mt-3 text-steel-600">Nine-step chain from cryogenic receipt to grid</p>
+          <p class="mt-6 font-display font-extrabold text-3xl text-steel-300">&mdash;</p>
+          <span class="link-arrow mt-4">View project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
       </div>
 
-      <div class="grid lg:grid-cols-12 gap-12 items-end">
-        <div class="lg:col-span-8">
-          <h1 class="font-serif font-semibold text-[2.4rem] sm:text-6xl lg:text-[3.6rem] leading-[1.04] tracking-tight">
-            Three projects.<br>
-            <span class="italic font-medium text-oxblood">One</span> gas-to-power programme.
-          </h1>
+      <div class="mt-12 bg-steel-50 border border-steel-200 p-6 sm:p-8">
+        <div class="flex flex-wrap justify-between gap-2 text-sm">
+          <span class="font-semibold">Capital at true scale</span>
+          <span class="text-steel-500">P-01 is 0.59% of P-02</span>
         </div>
-        <p class="lg:col-span-4 text-ink/70 leading-relaxed">
-          Associated and non-associated flare gas from the Niger Delta, converted into combined-cycle
-          electricity and stored, bottled LPG. An entry project builds the cash flow, and the flagship builds the scale.
+        <div class="mt-4 relative h-10 bg-navy-100" role="img" aria-label="The $8.9 million entry project is 0.59 percent of the $1.5 billion flagship">
+          <div class="absolute inset-y-0 left-0 bg-flare-600" style="width:max(0.593%,4px)"></div>
+          <div class="absolute inset-y-0 right-3 flex items-center font-display font-bold text-navy-800">$1.5B</div>
+        </div>
+        <p class="mt-3 text-sm text-flare-600 font-semibold">&#9650; P-01, $8.9M</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- P-01 -->
+  <section id="entry" class="bg-steel-50 border-y border-steel-200 py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-7">
+        <span class="eyebrow">P-01 &middot; Fast-track entry project</span>
+        <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">Cash flow and a track record in twelve months.</h2>
+        <p class="mt-6 text-lg text-steel-600 leading-relaxed">
+          Fully costed and deliverable straight away. Its turbines, LPG bullets and civil works are the same kinds of asset the flagship complex will use at full scale.
         </p>
-      </div>
-
-      <!-- Register table -->
-      <div class="mt-14 overflow-x-auto">
-        <table class="ts w-full min-w-[640px] text-sm">
-          <thead class="font-mono text-[10px] uppercase tracking-widest text-ink/40">
-            <tr class="border-t-2 border-ink">
-              <th class="text-left py-3 font-normal w-12">No.</th>
-              <th class="text-left py-3 font-normal">Project</th>
-              <th class="text-left py-3 font-normal">Scope</th>
-              <th class="text-left py-3 font-normal">Horizon</th>
-              <th class="text-right py-3 font-normal">CAPEX (USD)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="reg-row" onclick="location.hash='entry'">
-              <td class="py-4 font-mono text-oxblood">P-01</td>
-              <td class="py-4 font-serif font-semibold text-lg">Fast-Track Entry Project</td>
-              <td class="py-4 text-ink/70">10 MW gas plant + 300,000 L LPG</td>
-              <td class="py-4 font-mono text-xs">Months 0–12</td>
-              <td class="py-4 font-mono text-right font-semibold">8,900,000</td>
-            </tr>
-            <tr class="reg-row" onclick="location.hash='flagship'">
-              <td class="py-4 font-mono text-oxblood">P-02</td>
-              <td class="py-4 font-serif font-semibold text-lg">Flagship CCGT &amp; LPG Complex</td>
-              <td class="py-4 text-ink/70">250–500 MW + 50,000–100,000 MT LPG</td>
-              <td class="py-4 font-mono text-xs">COD Month 31</td>
-              <td class="py-4 font-mono text-right font-semibold">1,500,000,000</td>
-            </tr>
-            <tr class="reg-row" onclick="location.hash='lng'">
-              <td class="py-4 font-mono text-oxblood">P-03</td>
-              <td class="py-4 font-serif font-semibold text-lg">LNG Regasification-to-Power</td>
-              <td class="py-4 text-ink/70">9-step cryogenic receipt to grid</td>
-              <td class="py-4 font-mono text-xs">Module</td>
-              <td class="py-4 font-mono text-right text-ink/40">—</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- True-scale capital comparison -->
-      <div class="mt-12">
-        <div class="flex justify-between font-mono text-[10px] uppercase tracking-widest text-ink/50 mb-2">
-          <span>Capital at true scale</span>
-          <span>P-01 = 0.59% of P-02</span>
-        </div>
-        <div class="relative h-8 border border-ink bg-[repeating-linear-gradient(135deg,transparent_0_6px,rgba(32,30,26,0.07)_6px_7px)]">
-          <div class="absolute inset-y-0 left-0 bg-oxblood" style="width:max(0.593%,3px)"></div>
-        </div>
-        <div class="flex justify-between font-mono text-[11px] mt-2">
-          <span class="text-oxblood">▲ P-01 $8.9M</span>
-          <span class="text-ink/60">P-02 $1.5B ▲</span>
+        <div class="mt-10 photo cut aspect-[16/9]">
+          <img src="assets/img/site-engineers.jpg" alt="Engineers working on a reinforced concrete deck" loading="lazy" decoding="async">
         </div>
       </div>
-    </section>
-
-    <!-- 01 ENTRY PROJECT -->
-    <section id="entry" class="px-6 sm:px-12 lg:px-20 py-20 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-12">
-        <span class="font-mono text-oxblood text-sm">01</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">P-01 &middot; Fast-Track Entry Project</h2>
+      <div class="lg:col-span-5 space-y-6">
+        <dl class="bg-white border border-steel-200 divide-y divide-steel-200">
+          <div class="flex justify-between gap-4 p-5"><dt class="text-steel-500">Power</dt><dd class="font-semibold text-right">10 MW (2 × 5 MW refurbished GTGs)</dd></div>
+          <div class="flex justify-between gap-4 p-5"><dt class="text-steel-500">LPG storage</dt><dd class="font-semibold">300,000 L bullet tanks</dd></div>
+          <div class="flex justify-between gap-4 p-5"><dt class="text-steel-500">Delivery</dt><dd class="font-semibold">Months 0–12</dd></div>
+          <div class="flex justify-between gap-4 p-5 bg-navy-950 text-white"><dt class="text-white/70">Total CAPEX</dt><dd class="font-display font-bold text-xl tabular">$8,900,000</dd></div>
+        </dl>
+        <div class="bg-white border border-steel-200 p-6">
+          <h3 class="font-display font-bold text-lg">CAPEX by category</h3>
+          <ul class="mt-5 space-y-4 text-[15px]">
+            <li><div class="flex justify-between"><span>Power plant</span><span class="font-semibold tabular">$4.50M · 50.6%</span></div><div class="mt-1.5 h-2 bg-steel-100"><div class="h-full bg-navy-600" style="width:50.6%"></div></div></li>
+            <li><div class="flex justify-between"><span>LPG storage &amp; bottling</span><span class="font-semibold tabular">$1.57M · 17.6%</span></div><div class="mt-1.5 h-2 bg-steel-100"><div class="h-full bg-flare-600" style="width:17.6%"></div></div></li>
+            <li><div class="flex justify-between"><span>Civil &amp; buildings</span><span class="font-semibold tabular">$1.15M · 12.9%</span></div><div class="mt-1.5 h-2 bg-steel-100"><div class="h-full bg-cyan-500" style="width:12.9%"></div></div></li>
+            <li><div class="flex justify-between"><span>Operations &amp; delivery</span><span class="font-semibold tabular">$1.68M · 18.9%</span></div><div class="mt-1.5 h-2 bg-steel-100"><div class="h-full bg-steel-400" style="width:18.9%"></div></div></li>
+          </ul>
+          <a href="services.html#boq" class="link-arrow mt-6">All 27 line items <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="grid lg:grid-cols-12 gap-12">
-        <!-- Dossier sheet -->
-        <aside class="lg:col-span-4">
-          <div class="lg:sticky lg:top-8">
-            <dl class="dossier border-t-2 border-ink font-mono text-xs">
-              <div><dt>Power</dt><dd>10 MW</dd></div>
-              <div><dt>Turbines</dt><dd>2 × 5 MW refurbished GTG packages</dd></div>
-              <div><dt>LPG storage</dt><dd>300,000 L bullet tanks</dd></div>
-              <div><dt>Delivery</dt><dd>Months 0–12</dd></div>
-              <div><dt>CAPEX</dt><dd class="text-oxblood font-semibold">US$8,900,000</dd></div>
-            </dl>
-            <a href="services.html#boq" class="inline-block mt-6 font-mono text-xs uppercase tracking-wider border-b-2 border-oxblood pb-0.5 hover:text-oxblood transition-colors">Filter all BOQ line items &rarr;</a>
-          </div>
-        </aside>
-
-        <div class="lg:col-span-8">
-          <p class="dropcap text-[17px] leading-[1.8] text-ink/80 max-w-2xl">
-            This is a project that can be delivered straight away and is fully costed. It runs from Month 0 to Month 12,
-            gives the company cash flow and an institutional track record, and its turbines, LPG bullets and civil works
-            are the same kinds of asset the flagship complex will use at full scale.
+  <!-- P-02 -->
+  <section id="flagship" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 photo cut aspect-[4/3] lg:order-2">
+          <img src="assets/img/gas-power-plant.jpg" alt="Gas-fired power station with turbine exhaust stacks" loading="lazy" decoding="async">
+        </div>
+        <div class="lg:col-span-6 lg:order-1">
+          <span class="eyebrow">P-02 &middot; Flagship complex</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">250–500 MW of combined-cycle power, plus LPG at scale.</h2>
+          <p class="mt-6 text-lg text-steel-600 leading-relaxed">
+            Gas from the Niger Delta is split into two streams. The fuel stream drives modular gas turbines, whose exhaust heat runs a steam bottoming cycle. The LPG stream fills pressurized bullet storage, bottling and loading bays.
           </p>
-
-          <div class="plate h-[260px] sm:h-[340px] mt-10">
-            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-            <img src="https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=1200&q=80" alt="Modular gas turbine skid" fetchpriority="high" decoding="async">
-          </div>
-
-          <!-- CAPEX composition -->
-          <div class="mt-12" data-chart>
-            <div class="flex justify-between items-baseline mb-3">
-              <h3 class="font-mono text-[10px] uppercase tracking-widest text-ink/50">CAPEX composition</h3>
-              <span class="font-mono text-xs font-semibold">$8,900,000</span>
-            </div>
-            <div class="seg-bar">
-              <span data-seg="a" class="bg-ink" style="flex:4500"></span>
-              <span data-seg="b" class="bg-oxblood" style="flex:1570"></span>
-              <span data-seg="c" class="bg-teal" style="flex:1150"></span>
-              <span data-seg="d" class="bg-[#A89E8A]" style="flex:1680"></span>
-            </div>
-            <table class="ts w-full font-mono text-xs mt-4">
-              <tbody>
-                <tr data-seg="a"><td class="py-3"><i class="sw bg-ink"></i>Power Plant</td><td class="py-3 text-right font-semibold">$4,500,000</td><td class="py-3 text-right text-ink/50 w-16">50.6%</td></tr>
-                <tr data-seg="b"><td class="py-3"><i class="sw bg-oxblood"></i>LPG Storage &amp; Bottling Plant</td><td class="py-3 text-right font-semibold">$1,570,000</td><td class="py-3 text-right text-ink/50">17.6%</td></tr>
-                <tr data-seg="c"><td class="py-3"><i class="sw bg-teal"></i>Civil Infrastructure &amp; Buildings</td><td class="py-3 text-right font-semibold">$1,150,000</td><td class="py-3 text-right text-ink/50">12.9%</td></tr>
-                <tr data-seg="d"><td class="py-3"><i class="sw bg-[#A89E8A]"></i>Operations, Logistics &amp; Delivery</td><td class="py-3 text-right font-semibold">$1,680,000</td><td class="py-3 text-right text-ink/50">18.9%</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Largest line items -->
-          <div class="mt-12 grid sm:grid-cols-2 border-t border-ink">
-            <div class="py-5 sm:pr-6 border-b border-rule sm:border-r">
-              <div class="font-mono text-[10px] uppercase tracking-widest text-ink/50">Largest line item</div>
-              <div class="font-serif text-3xl font-semibold mt-1">$2,600,000</div>
-              <div class="text-xs text-ink/60 mt-1">2 × refurbished 5 MW gas turbine generator packages</div>
-            </div>
-            <div class="py-5 sm:pl-6 border-b border-rule">
-              <div class="font-mono text-[10px] uppercase tracking-widest text-ink/50">Contingency held</div>
-              <div class="font-serif text-3xl font-semibold mt-1">$930,000</div>
-              <div class="text-xs text-ink/60 mt-1">Within operations, logistics &amp; delivery</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 02 FLAGSHIP -->
-    <section id="flagship" class="px-6 sm:px-12 lg:px-20 py-20 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-12">
-        <span class="font-mono text-oxblood text-sm">02</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">P-02 &middot; Flagship CCGT &amp; LPG Complex</h2>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-12">
-        <aside class="lg:col-span-4">
-          <div class="lg:sticky lg:top-8">
-            <dl class="dossier border-t-2 border-ink font-mono text-xs">
-              <div><dt>Programme</dt><dd>Phase I &amp; II</dd></div>
-              <div><dt>Generation</dt><dd>250–500 MW combined cycle</dd></div>
-              <div><dt>Machinery</dt><dd>GE TM2500 / LM2500 + HRSG</dd></div>
-              <div><dt>LPG tank farm</dt><dd>50,000–100,000 MT</dd></div>
-              <div><dt>Gas intake</dt><dd>50–250 MMSCFD</dd></div>
-              <div><dt>Target COD</dt><dd>Month 31</dd></div>
-              <div><dt>EBITDA margin</dt><dd>25%–35%</dd></div>
-              <div><dt>Min DSCR</dt><dd>1.30x</dd></div>
-              <div><dt>CAPEX</dt><dd class="text-oxblood font-semibold">US$1.50 Billion</dd></div>
-            </dl>
-            <a href="services.html#flagship" class="inline-block mt-6 font-mono text-xs uppercase tracking-wider border-b-2 border-oxblood pb-0.5 hover:text-oxblood transition-colors">Full timeline &amp; financials &rarr;</a>
-          </div>
-        </aside>
-
-        <div class="lg:col-span-8">
-          <p class="dropcap text-[17px] leading-[1.8] text-ink/80 max-w-2xl">
-            The flagship complex takes gas from the Niger Delta in two streams. The fuel gas stream drives modular gas turbines,
-            and their exhaust heat runs a steam bottoming cycle. The LPG stream fills pressurized bullet storage, bottling and loading bays.
-            Both are sized for bilateral PPAs under the Electricity Act 2023 and the Delta State Electricity Power Sector Law 2024.
-          </p>
-
-          <div class="plate h-[260px] sm:h-[340px] mt-10">
-            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-            <img src="assets/img/gas-power-plant.jpg" alt="Gas-fired power station with turbine exhaust stacks" loading="lazy" decoding="async">
-          </div>
-
-          <!-- Capital cost -->
-          <div class="mt-12" data-chart>
-            <div class="flex justify-between items-baseline mb-3">
-              <h3 class="font-mono text-[10px] uppercase tracking-widest text-ink/50">Capital cost breakdown</h3>
-              <span class="font-mono text-xs font-semibold">$1,500 Million</span>
-            </div>
-            <div class="seg-bar">
-              <span data-seg="a" class="bg-ink" style="flex:600"></span>
-              <span data-seg="b" class="bg-oxblood" style="flex:350"></span>
-              <span data-seg="c" class="bg-teal" style="flex:180"></span>
-              <span data-seg="d" class="bg-[#A89E8A]" style="flex:170"></span>
-              <span data-seg="e" class="bg-[#5E574B]" style="flex:120"></span>
-              <span data-seg="f" class="bg-rule" style="flex:80"></span>
-            </div>
-            <table class="ts w-full font-mono text-xs mt-4">
-              <tbody>
-                <tr data-seg="a"><td class="py-3"><i class="sw bg-ink"></i>Gas Turbine Plant (250 MW)</td><td class="py-3 text-right font-semibold">$600M</td><td class="py-3 text-right text-ink/50 w-16">40.0%</td></tr>
-                <tr data-seg="b"><td class="py-3"><i class="sw bg-oxblood"></i>LPG Tank Farm</td><td class="py-3 text-right font-semibold">$350M</td><td class="py-3 text-right text-ink/50">23.3%</td></tr>
-                <tr data-seg="c"><td class="py-3"><i class="sw bg-teal"></i>Gas Processing &amp; Conditioning</td><td class="py-3 text-right font-semibold">$180M</td><td class="py-3 text-right text-ink/50">12.0%</td></tr>
-                <tr data-seg="d"><td class="py-3"><i class="sw bg-[#A89E8A]"></i>Contingency</td><td class="py-3 text-right font-semibold">$170M</td><td class="py-3 text-right text-ink/50">11.3%</td></tr>
-                <tr data-seg="e"><td class="py-3"><i class="sw bg-[#5E574B]"></i>Transmission Infrastructure</td><td class="py-3 text-right font-semibold">$120M</td><td class="py-3 text-right text-ink/50">8.0%</td></tr>
-                <tr data-seg="f"><td class="py-3"><i class="sw bg-rule border border-ink/20"></i>Land &amp; Site Development</td><td class="py-3 text-right font-semibold">$80M</td><td class="py-3 text-right text-ink/50">5.3%</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Financing structure -->
-          <div class="mt-12 border border-ink">
-            <div class="px-6 py-4 border-b border-ink flex justify-between font-mono text-[10px] uppercase tracking-widest text-ink/50">
-              <span>Financing structure</span><span>70 / 30</span>
-            </div>
-            <div class="grid grid-cols-[7fr_3fr] text-paper">
-              <div class="bg-ink px-6 py-6">
-                <div class="font-mono text-[10px] uppercase tracking-widest opacity-60">Senior debt</div>
-                <div class="font-serif text-2xl sm:text-3xl font-semibold mt-1">$1.05B</div>
-                <div class="text-xs opacity-70 mt-2 hidden sm:block">KeyBank USA, UBA, DFIs, ECAs</div>
-              </div>
-              <div class="bg-oxblood px-4 sm:px-6 py-6">
-                <div class="font-mono text-[10px] uppercase tracking-widest opacity-60">Equity</div>
-                <div class="font-serif text-2xl sm:text-3xl font-semibold mt-1">$450M</div>
-              </div>
-            </div>
-            <div class="grid grid-cols-3 divide-x divide-rule font-mono text-xs border-b border-rule">
-              <div class="px-4 sm:px-6 py-4"><span class="block text-[10px] uppercase tracking-widest text-ink/40">Tenor</span>12–15 yrs</div>
-              <div class="px-4 sm:px-6 py-4"><span class="block text-[10px] uppercase tracking-widest text-ink/40">Grace</span>3 yrs</div>
-              <div class="px-4 sm:px-6 py-4"><span class="block text-[10px] uppercase tracking-widest text-ink/40">Payback</span>7–10 yrs</div>
-            </div>
-            <div class="px-6 py-5">
-              <div class="font-mono text-[10px] uppercase tracking-widest text-ink/40 mb-3">5 revenue streams</div>
-              <ol class="text-sm text-ink/80 grid sm:grid-cols-2 gap-x-8 gap-y-1.5 list-[upper-roman] list-inside marker:text-oxblood marker:font-mono marker:text-xs">
-                <li>PPA electricity sales</li>
-                <li>LPG storage fees</li>
-                <li>LPG trading margins</li>
-                <li>Capacity charges</li>
-                <li>Carbon reduction credits</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 03 LNG MODULE -->
-    <section id="lng" class="px-6 sm:px-12 lg:px-20 py-20 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-12">
-        <span class="font-mono text-oxblood text-sm">03</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">P-03 &middot; LNG Regasification-to-Power</h2>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-12 items-start mb-14">
-        <p class="lg:col-span-7 dropcap text-[17px] leading-[1.8] text-ink/80">
-          LNG arrives at −162°C. The module unloads it, stores it and warms it back to gas. It then meters and regulates
-          the gas and sends it by pipeline to the CCGT plant, which feeds the national or state grid.
-        </p>
-        <div class="lg:col-span-5">
-          <div class="plate h-[220px]">
-            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-            <img src="assets/img/lng-carrier.jpg" alt="LNG carrier at sea" loading="lazy" decoding="async">
-          </div>
         </div>
       </div>
 
-      <!-- Process rail -->
-      <div class="hidden lg:grid lg:grid-cols-9 font-mono text-[10px] uppercase tracking-widest text-ink/40 mb-6">
-        <span class="col-span-3 pr-6"><span class="block border-b border-rule pb-1">Marine receipt &amp; storage</span></span>
-        <span class="col-span-3 pr-6"><span class="block border-b border-rule pb-1">Regasification</span></span>
-        <span class="col-span-3"><span class="block border-b border-rule pb-1">Delivery to grid</span></span>
+      <dl class="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-px bg-steel-200 border border-steel-200">
+        <div class="bg-white p-6"><dt class="text-sm text-steel-500">Machinery</dt><dd class="font-semibold mt-1">GE TM2500 / LM2500 + HRSG</dd></div>
+        <div class="bg-white p-6"><dt class="text-sm text-steel-500">Gas intake</dt><dd class="font-semibold mt-1 tabular">50–250 MMSCFD</dd></div>
+        <div class="bg-white p-6"><dt class="text-sm text-steel-500">LPG tank farm</dt><dd class="font-semibold mt-1 tabular">50,000–100,000 MT</dd></div>
+        <div class="bg-white p-6"><dt class="text-sm text-steel-500">Target COD</dt><dd class="font-semibold mt-1">Month 31</dd></div>
+        <div class="bg-white p-6"><dt class="text-sm text-steel-500">EBITDA margin</dt><dd class="font-semibold mt-1">25%–35%</dd></div>
+        <div class="bg-white p-6"><dt class="text-sm text-steel-500">Minimum DSCR</dt><dd class="font-semibold mt-1">1.30x</dd></div>
+        <div class="bg-white p-6"><dt class="text-sm text-steel-500">Debt / equity</dt><dd class="font-semibold mt-1">$1.05B / $450M</dd></div>
+        <div class="bg-navy-950 text-white p-6"><dt class="text-sm text-white/60">CAPEX</dt><dd class="font-display font-bold text-xl mt-1 tabular">$1.50B</dd></div>
+      </dl>
+      <a href="services.html#flagship" class="link-arrow mt-8">Cost breakdown and financing terms <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+    </div>
+  </section>
+
+  <!-- P-03 -->
+  <section id="lng" class="bg-navy-950 text-white on-dark py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5">
+        <span class="eyebrow">P-03 &middot; LNG module</span>
+        <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">From −162 °C to the grid.</h2>
+        <p class="mt-6 text-lg text-white/75 leading-relaxed">The module unloads LNG, stores it, warms it back to gas, meters it and sends it by pipeline to the CCGT plant, which feeds the national or state grid.</p>
+        <a href="services.html#lng" class="link-arrow mt-8">All nine steps <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
       </div>
-      <ol class="pfd grid lg:grid-cols-9">
-        <li class="hot"><span>01</span>LNG Carrier (−162°C)</li>
-        <li><span>02</span>Cryogenic Unloading Terminal</li>
-        <li><span>03</span>Insulated LNG Storage Tanks</li>
-        <li><span>04</span>LNG Transfer Pumps</li>
-        <li><span>05</span>Vaporizers / Regasification Unit</li>
-        <li><span>06</span>Gas Metering &amp; Pressure Regulation</li>
-        <li><span>07</span>Gas Pipeline</li>
-        <li><span>08</span>CCGT Power Plant</li>
-        <li class="hot"><span>09</span>National / State Transmission Grid</li>
+      <ol class="lg:col-span-7 grid sm:grid-cols-3 gap-px bg-white/10 border border-white/10 text-[15px]">
+        <li class="bg-navy-950 p-5"><p class="font-mono text-sm text-cyan-400">Receipt &amp; storage</p><p class="mt-2">LNG carrier &rarr; unloading terminal &rarr; insulated tanks</p></li>
+        <li class="bg-navy-950 p-5"><p class="font-mono text-sm text-cyan-400">Regasification</p><p class="mt-2">Transfer pumps &rarr; vaporizers &rarr; metering &amp; pressure regulation</p></li>
+        <li class="bg-navy-950 p-5"><p class="font-mono text-sm text-cyan-400">Delivery</p><p class="mt-2">Gas pipeline &rarr; CCGT plant &rarr; transmission grid</p></li>
       </ol>
+    </div>
+  </section>
 
-      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 border-t-2 border-ink">
-        <div class="py-4 pr-4 border-b border-rule text-sm"><span class="block font-mono text-[10px] text-oxblood mb-1">SAFETY / A</span>Gas leak detection</div>
-        <div class="py-4 pr-4 border-b border-rule text-sm"><span class="block font-mono text-[10px] text-oxblood mb-1">SAFETY / B</span>Emergency Shutdown Systems (ESD)</div>
-        <div class="py-4 pr-4 border-b border-rule text-sm"><span class="block font-mono text-[10px] text-oxblood mb-1">SAFETY / C</span>Fire &amp; gas monitoring</div>
-        <div class="py-4 pr-4 border-b border-rule text-sm"><span class="block font-mono text-[10px] text-oxblood mb-1">CODES</span>ASME / API / ISO compliance</div>
-      </div>
-    </section>
+  <!-- DELIVERY -->
+  <section id="lifecycle" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <span class="eyebrow">Delivery</span>
+      <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">Five construction stages, twenty months.</h2>
+      <p class="mt-5 text-steel-600 max-w-2xl">Stages are shown in sequence as listed, with no overlap.</p>
 
-    <!-- 04 LIFECYCLE & DELIVERY -->
-    <section id="lifecycle" class="px-6 sm:px-12 lg:px-20 py-20 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-12">
-        <span class="font-mono text-oxblood text-sm">04</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Lifecycle &amp; Site Delivery</h2>
-      </div>
-
-      <!-- 7-stage ribbon -->
-      <h3 class="font-mono text-[10px] uppercase tracking-widest text-ink/50 mb-3">7-stage development lifecycle</h3>
-      <ol class="ribbon grid sm:grid-cols-7 border border-ink">
-        <li><span>1</span>Project Initiation</li>
-        <li><span>2</span>Feasibility &amp; Planning</li>
-        <li><span>3</span>Engineering &amp; Design (FEED)</li>
-        <li><span>4</span>Financing</li>
-        <li><span>5</span>Construction</li>
-        <li><span>6</span>Commissioning</li>
-        <li class="bg-ink text-paper"><span class="!text-paper/60">7</span>Operations<em class="block not-italic font-mono text-[10px] text-paper/60 mt-1">COD Month 31</em></li>
-      </ol>
-
-      <!-- Gantt: 5 construction stages, 20 months -->
-      <div class="mt-16">
-        <div class="flex justify-between items-baseline mb-4">
-          <h3 class="font-mono text-[10px] uppercase tracking-widest text-ink/50">5-stage site construction</h3>
-          <span class="font-mono text-xs font-semibold">20 months</span>
-        </div>
-        <div class="gantt">
-          <div class="g-scale">
-            <span style="grid-column:1">M0</span><span style="grid-column:6">M5</span><span style="grid-column:11">M10</span><span style="grid-column:16">M15</span><span style="grid-column:20;text-align:right">M20</span>
+      <div class="mt-12 border border-steel-200 p-5 sm:p-8 overflow-x-auto">
+        <div class="min-w-[640px]">
+          <div class="grid grid-cols-[11rem_1fr] text-xs font-mono text-steel-500">
+            <span></span>
+            <div class="grid grid-cols-20" style="grid-template-columns:repeat(20,1fr)">
+              <span style="grid-column:1">M0</span><span style="grid-column:6">M5</span><span style="grid-column:11">M10</span><span style="grid-column:16">M15</span><span style="grid-column:20" class="text-right">M20</span>
+            </div>
           </div>
-          <div class="g-row"><div class="g-lbl">Ground Preparation</div><div class="g-track"><i style="grid-column:1/span 3">3 mo</i></div></div>
-          <div class="g-row"><div class="g-lbl">Civil Foundation</div><div class="g-track"><i style="grid-column:4/span 5">5 mo</i></div></div>
-          <div class="g-row"><div class="g-lbl">Mechanical Installation</div><div class="g-track"><i style="grid-column:9/span 6">6 mo</i></div></div>
-          <div class="g-row"><div class="g-lbl">Electrical &amp; Automation</div><div class="g-track"><i style="grid-column:15/span 4">4 mo</i></div></div>
-          <div class="g-row"><div class="g-lbl">Commissioning</div><div class="g-track"><i class="!bg-oxblood" style="grid-column:19/span 2">2 mo</i></div></div>
-        </div>
-        <p class="font-mono text-[10px] text-ink/40 mt-3">Stages shown in sequence as listed, with no overlap.</p>
-      </div>
-    </section>
-
-    <!-- 05 ACCESS -->
-    <section id="access" class="px-6 sm:px-12 lg:px-20 py-20 scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">05</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Access &amp; Secretariat</h2>
-      </div>
-      <div class="border border-ink p-8 sm:p-12">
-        <div class="flex flex-wrap justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-ink/50 pb-6 mb-6 border-b border-rule">
-          <span>Projects Register: P-01 to P-03</span>
-          <span>Ref. GEAS/BP/2026/001</span>
-        </div>
-        <h3 class="font-serif font-semibold text-2xl sm:text-3xl max-w-xl">
-          Review project financials and statutory documents in the investor data room.
-        </h3>
-        <div class="flex flex-wrap gap-4 mt-8">
-          <a href="contact.html#data-room" class="px-7 py-4 bg-ink text-paper font-mono text-xs uppercase tracking-wider hover:bg-oxblood transition-colors">Request Data Room Access</a>
-          <a href="contact.html" class="px-7 py-4 border border-ink font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">Contact Secretariat Desks</a>
+          <div class="mt-3 space-y-2.5">
+            <div class="grid grid-cols-[11rem_1fr] items-center"><span class="text-sm font-medium">Ground preparation</span><div class="grid bg-steel-50" style="grid-template-columns:repeat(20,1fr)"><span class="bg-navy-600 text-white text-xs font-semibold px-2 py-2" style="grid-column:1/span 3">3 mo</span></div></div>
+            <div class="grid grid-cols-[11rem_1fr] items-center"><span class="text-sm font-medium">Civil foundation</span><div class="grid bg-steel-50" style="grid-template-columns:repeat(20,1fr)"><span class="bg-navy-600 text-white text-xs font-semibold px-2 py-2" style="grid-column:4/span 5">5 mo</span></div></div>
+            <div class="grid grid-cols-[11rem_1fr] items-center"><span class="text-sm font-medium">Mechanical installation</span><div class="grid bg-steel-50" style="grid-template-columns:repeat(20,1fr)"><span class="bg-navy-600 text-white text-xs font-semibold px-2 py-2" style="grid-column:9/span 6">6 mo</span></div></div>
+            <div class="grid grid-cols-[11rem_1fr] items-center"><span class="text-sm font-medium">Electrical &amp; automation</span><div class="grid bg-steel-50" style="grid-template-columns:repeat(20,1fr)"><span class="bg-cyan-500 text-navy-950 text-xs font-semibold px-2 py-2" style="grid-column:15/span 4">4 mo</span></div></div>
+            <div class="grid grid-cols-[11rem_1fr] items-center"><span class="text-sm font-medium">Commissioning</span><div class="grid bg-steel-50" style="grid-template-columns:repeat(20,1fr)"><span class="bg-flare-600 text-white text-xs font-semibold px-2 py-2" style="grid-column:19/span 2">2 mo</span></div></div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- COLOPHON -->
-    <footer class="px-6 sm:px-12 lg:px-20 py-14 border-t-4 border-ink font-mono text-[11px] text-ink/50">
-      <div class="grid sm:grid-cols-3 gap-10 pb-10 border-b border-rule">
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">Registered & Operational</div>
-          <p>Operational Base: No. 111 Effurun/Sapele Road, Opp. Ecobank, Warri, Delta State.</p>
-          <p class="mt-2">Registered Address: 43 Enerhen Road, Enerhen, Warri, Delta State.</p>
-          <p class="mt-3 text-ink/70">+234 703 758 5753 &middot; +234 706 950 1633 &middot; +234 703 385 4936</p>
-        </div>
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">United States Network</div>
-          <p>Florida: 4200 Bagonia Cove, Apt 212, Sanford/Orlando, FL 32771.</p>
-          <p class="mt-1 text-ink/70">+1 (407) 533-3518</p>
-          <p class="mt-3">Colorado: 24325 East Louisiana Place, Aurora, CO 80018.</p>
-          <p class="mt-1 text-ink/70">+1 (303) 332-1994</p>
-        </div>
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">Document Control</div>
-          <p>Reference: GEAS/BP/2026/001</p>
-          <p class="mt-1">Beacon: SC/DT B104X 5948</p>
-          <p class="mt-1 text-oxblood">HSE — Stop. Think. Then Act.</p>
-        </div>
+  <!-- CTA -->
+  <section class="bg-navy-600 text-white on-dark">
+    <div class="max-w-site mx-auto px-5 sm:px-8 py-16 sm:py-20 grid lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-8">
+        <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight">Review the project financials.</h2>
+        <p class="mt-4 text-lg text-white/80">Statutory documents and the financing model are available in the investor data room.</p>
       </div>
-      <div class="pt-6 flex flex-col sm:flex-row justify-between gap-3">
-        <span>&copy; 2026 Gilgal Exploration & Allied Services Limited. RC 1235316. All rights reserved.</span>
-        <span>CAC &middot; FIRS &middot; PENCOM &middot; NSITF</span>
+      <div class="lg:col-span-4 flex flex-wrap lg:justify-end gap-4">
+        <a href="contact.html#data-room" class="btn btn-primary">Request access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="contact.html" class="btn btn-light">Contact us</a>
       </div>
-    </footer>
+    </div>
+  </section>
 
-  </main>
-</div>
+</main>
 
-<script>
-  function toggleMobileNav() {
-    const el = document.getElementById('mobile-nav');
-    if (el) el.classList.toggle('hidden');
-  }
+<footer class="bg-navy-950 text-white/70 on-dark">
+  <div class="max-w-site mx-auto px-5 sm:px-8 pt-16 pb-10">
+    <div class="grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <img src="assets/gilgal-logo-white.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-14 w-auto" loading="lazy">
+        <p class="mt-6 font-display text-xl font-semibold text-white leading-snug max-w-xs">Powering Industry. Energizing Communities. Building Tomorrow.</p>
+        <p class="mt-4 text-sm">Indigenous developer of gas-to-power, regasification and LPG infrastructure in Delta State, Nigeria.</p>
+      </div>
+      <nav class="lg:col-span-2" aria-label="Footer">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">Company</h2>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About</a></li><li><a href="services.html" class="hover:text-white">Services</a></li><li><a href="projects.html" class="hover:text-white">Projects</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li>
+          <li><a href="contact.html#data-room" class="hover:text-white">Investor Data Room</a></li>
+        </ul>
+      </nav>
+      <div class="lg:col-span-3 text-sm">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">Nigeria</h2>
+        <p class="text-white">Operational office</p>
+        <p>No. 111 Effurun/Sapele Road, Opp. Ecobank, Warri, Delta State</p>
+        <p class="mt-3 text-white">Registered office</p>
+        <p>43 Enerhen Road, Enerhen, Warri, Delta State</p>
+        <p class="mt-3"><a href="tel:+2347037585753" class="hover:text-white">+234 703 758 5753</a><br><a href="tel:+2347069501633" class="hover:text-white">+234 706 950 1633</a><br><a href="tel:+2347033854936" class="hover:text-white">+234 703 385 4936</a></p>
+      </div>
+      <div class="lg:col-span-3 text-sm">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">United States</h2>
+        <p class="text-white">Head office, Florida</p>
+        <p>4200 Bagonia Cove, Apt 212, Sanford / Orlando, FL 32771</p>
+        <p><a href="tel:+14075333518" class="hover:text-white">+1 (407) 533-3518</a></p>
+        <p class="mt-3 text-white">Second office, Colorado</p>
+        <p>24325 East Louisiana Place, Aurora, CO 80018</p>
+        <p><a href="tel:+13033321994" class="hover:text-white">+1 (303) 332-1994</a></p>
+      </div>
+    </div>
+    <div class="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+      <p>&copy; 2026 Gilgal Exploration &amp; Allied Services Limited. All rights reserved.</p>
+      <p class="font-mono">RC 1235316 &middot; TIN 31237553-0001 &middot; FIRS 2301110028518</p>
+    </div>
+  </div>
+</footer>
 
-  const sections = document.querySelectorAll('main section[id]');
-  const links = document.querySelectorAll('.idx-link');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const match = document.querySelector(`.idx-link[href="#${entry.target.id}"]`);
-        if (match) match.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-  sections.forEach(s => obs.observe(s));
-  document.querySelectorAll('[data-chart]').forEach(chart => {
-    chart.querySelectorAll('[data-seg]').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        chart.classList.add('focus');
-        chart.querySelectorAll(`[data-seg="${el.dataset.seg}"]`).forEach(m => m.classList.add('on'));
-      });
-      el.addEventListener('mouseleave', () => {
-        chart.classList.remove('focus');
-        chart.querySelectorAll('.on').forEach(m => m.classList.remove('on'));
-      });
-    });
-  });
-</script>
-
+<script src="assets/js/site.js"></script>
 </body>
 </html>

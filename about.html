@@ -178,682 +178,345 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          paper: '#F6F3EC',
-          ink: '#201E1A',
-          rule: '#D9D2C2',
-          oxblood: '#7A2B20',
-          teal: '#1B4B42',
-        },
-        fontFamily: {
-          serif: ['Fraunces', 'serif'],
-          sans: ['Inter', 'sans-serif'],
-          mono: ['IBM Plex Mono', 'monospace'],
-        }
-      }
-    }
-  }
-</script>
-
-<style>
-  body { font-family:'Inter', sans-serif; color:#201E1A; -webkit-font-smoothing:antialiased; }
-  .dropcap::first-letter {
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    font-size: 3.8rem;
-    float:left;
-    line-height:0.8;
-    padding-right:0.5rem;
-    padding-top:0.3rem;
-    color:#7A2B20;
-  }
-  .idx-link.active { color:#201E1A; }
-  .idx-link.active .idx-num { color:#7A2B20; }
-  table.ts th, table.ts td { border-bottom:1px solid #D9D2C2; }
-  ::selection { background:#7A2B20; color:#F6F3EC; }
-
-  /* Exhibit / plate image treatment */
-  .plate { position:relative; border:1px solid #201E1A; }
-  .plate img {
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    filter: grayscale(100%) sepia(8%) contrast(1.08) brightness(0.98);
-  }
-  .plate::after {
-    content:"";
-    position:absolute; inset:0;
-    background: #7A2B20;
-    mix-blend-mode: multiply;
-    opacity: 0.08;
-    pointer-events:none;
-  }
-  .plate .tick { position:absolute; width:10px; height:10px; }
-  .plate .tick.tl { top:-1px; left:-1px; border-top:2px solid #7A2B20; border-left:2px solid #7A2B20; }
-  .plate .tick.tr { top:-1px; right:-1px; border-top:2px solid #7A2B20; border-right:2px solid #7A2B20; }
-  .plate .tick.bl { bottom:-1px; left:-1px; border-bottom:2px solid #7A2B20; border-left:2px solid #7A2B20; }
-  .plate .tick.br { bottom:-1px; right:-1px; border-bottom:2px solid #7A2B20; border-right:2px solid #7A2B20; }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script src="assets/js/tailwind.config.js"></script>
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
-<body class="bg-paper text-ink">
+<body class="bg-white text-steel-900">
 
-<!-- MOBILE TOP BAR -->
-<div class="lg:hidden sticky top-0 z-50 bg-paper border-b border-ink flex items-center justify-between px-4 py-3">
-  <a href="index.html" class="block"><img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-10 w-auto"></a>
-  <button onclick="toggleMobileNav()" aria-label="Toggle index" class="font-mono text-xs uppercase tracking-widest border border-ink px-3 py-1.5">Index</button>
-</div>
-<div id="mobile-nav" class="hidden lg:hidden bg-paper border-b border-ink px-4 pb-6 pt-2 font-mono text-xs">
-  <div class="uppercase tracking-widest text-ink/40 pt-3 pb-1">Site</div>
-  <a href="index.html" class="block py-2 border-b border-rule">Home</a>
-  <a href="about.html" class="block py-2 border-b border-rule text-oxblood font-semibold">About</a>
-  <a href="services.html" class="block py-2 border-b border-rule">Services & Projects</a>
-  <a href="projects.html" class="block py-2 border-b border-rule">Projects</a>
-  <a href="contact.html" class="block py-2 border-b border-rule">Contact</a>
-  <div class="uppercase tracking-widest text-ink/40 pt-4 pb-1">On This Page</div>
-  <a href="#identity" class="block py-1.5">01 Identity & Charter</a>
-  <a href="#mission" class="block py-1.5">02 Vision, Mission & HSE</a>
-  <a href="#leadership" class="block py-1.5">03 Leadership & Sponsor</a>
-  <a href="#fleet" class="block py-1.5">04 Civil Fleet & Equipment</a>
-  <a href="#network" class="block py-1.5">05 Global Office Hubs</a>
-  <a href="#compliance" class="block py-1.5">06 Statutory Accreditations</a>
-  <a href="#access" class="block py-1.5">07 Access</a>
-  <a href="contact.html#data-room" class="block mt-4 text-center border border-ink px-4 py-3 font-semibold">Request Data Room Access</a>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<div class="bg-navy-950 text-white/70 text-[13px]">
+  <div class="max-w-site mx-auto px-5 sm:px-8 h-10 flex items-center justify-between gap-6">
+    <div class="hidden md:flex items-center gap-5 font-mono text-xs">
+      <span>RC 1235316</span><span class="text-white/25">|</span><span>TIN 31237553-0001</span>
+      <span class="text-white/25">|</span><span class="inline-flex items-center gap-1.5 text-cyan-400"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Stop! Think! Then act!</span>
+    </div>
+    <div class="flex items-center gap-5 ml-auto">
+      <a href="tel:+2347037585753" class="inline-flex items-center gap-1.5 hover:text-white"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg></span>+234 703 758 5753</a>
+      <a href="mailto:gilgalexploration.2@gmail.com" class="hidden sm:inline-flex items-center gap-1.5 hover:text-white"><span class="w-3.5 h-3.5 inline-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>gilgalexploration.2@gmail.com</a>
+    </div>
+  </div>
 </div>
 
-<div class="lg:flex">
-
-  <!-- DESKTOP SIDEBAR / DOCUMENT INDEX -->
-  <aside class="hidden lg:flex lg:flex-col lg:fixed lg:top-0 lg:bottom-0 lg:left-0 lg:w-72 border-r border-ink px-8 py-10 overflow-y-auto">
-    <a href="index.html" class="block -mx-1">
-      <img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="w-full h-auto">
+<header class="site-header sticky top-0 z-50 bg-white border-b border-steel-200">
+  <div class="max-w-site mx-auto px-5 sm:px-8 h-[72px] flex items-center justify-between gap-8">
+    <a href="index.html" class="shrink-0" aria-label="Gilgal Exploration &amp; Allied Services Limited, home">
+      <img src="assets/gilgal-logo.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-11 w-auto">
     </a>
-
-    <div class="mt-8 pt-6 border-t border-rule font-mono text-[11px] space-y-1 text-ink/60">
-      <div>RC 1235316</div>
-      <div>TIN 31237553-0001</div>
-      <div>FIRS 2301110028518</div>
-    </div>
-
-    <nav class="mt-8 pt-6 border-t border-rule font-mono text-xs uppercase tracking-wider space-y-2.5 text-ink/60">
-      <a href="index.html" class="block hover:text-ink transition-colors">Home</a>
-      <a href="about.html" class="block text-ink font-semibold">About</a>
-      <a href="services.html" class="block hover:text-ink transition-colors">Services & Projects</a>
-      <a href="projects.html" class="block hover:text-ink transition-colors">Projects</a>
-      <a href="contact.html" class="block hover:text-ink transition-colors">Contact</a>
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Main">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link" aria-current="page">About</a>
+          <a href="services.html" class="nav-link">Services</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="contact.html" class="nav-link">Contact</a>
     </nav>
-
-    <nav class="mt-8 pt-6 border-t border-rule font-mono text-[11px] space-y-2.5 text-ink/50 idx">
-      <div class="text-[10px] uppercase tracking-widest text-ink/30 mb-2">On This Page</div>
-      <a href="#identity" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">01</span>Identity & Charter</a>
-      <a href="#mission" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">02</span>Vision, Mission & HSE</a>
-      <a href="#leadership" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">03</span>Leadership & Sponsor</a>
-      <a href="#fleet" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">04</span>Civil Fleet & Equipment</a>
-      <a href="#network" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">05</span>Global Office Hubs</a>
-      <a href="#compliance" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">06</span>Statutory Compliance</a>
-      <a href="#access" class="idx-link flex gap-2 hover:text-ink transition-colors"><span class="idx-num text-ink/30">07</span>Access</a>
-    </nav>
-
-    <div class="mt-auto pt-8">
-      <a href="contact.html#data-room" class="block text-center border border-ink px-4 py-3 font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-        Request Data Room
-      </a>
-      <div class="font-mono text-[10px] text-ink/40 mt-4 leading-relaxed">
-        Hotline<br><a href="tel:+2347037585753" class="text-ink/60">+234 703 758 5753</a>
-      </div>
+    <div class="flex items-center gap-3">
+      <a href="contact.html#data-room" class="btn btn-primary hidden sm:inline-flex !min-h-[2.75rem] !py-2 text-sm">Investor Data Room</a>
+      <button id="menu-toggle" type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 border border-steel-200 text-navy-950" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
+        <span data-icon="open" class="w-6 h-6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>
+        <span data-icon="close" class="w-6 h-6 hidden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+      </button>
     </div>
-  </aside>
+  </div>
+  <div id="mobile-menu" class="lg:hidden border-t border-steel-200 bg-white" hidden>
+    <nav class="max-w-site mx-auto px-5 sm:px-8 pb-6" aria-label="Mobile">
+      <a href="index.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Home</a>
+      <a href="about.html" class="block py-3 border-b border-steel-200 font-medium text-flare-600" aria-current="page">About</a>
+      <a href="services.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Services</a>
+      <a href="projects.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Projects</a>
+      <a href="contact.html" class="block py-3 border-b border-steel-200 font-medium text-steel-900">Contact</a>
+      <a href="contact.html#data-room" class="btn btn-primary w-full mt-5">Investor Data Room</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- MAIN DOCUMENT -->
-  <main class="lg:ml-72 w-full">
+<main id="main">
 
-    <!-- 00 COVER -->
-    <section class="px-6 sm:px-12 lg:px-20 pt-14 pb-16 border-b border-ink">
-      <div class="flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-widest text-ink/50 pb-8 mb-8 border-b border-rule">
-        <span>Corporate Folio</span>
-        <span>Ref. GEAS/BP/2026/001</span>
-        <span>Warri & Transatlantic Desks</span>
-        <span class="text-oxblood">RC 1235316</span>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-12 items-start">
-        <div class="lg:col-span-7">
-          <h1 class="font-serif font-semibold text-[2.4rem] sm:text-6xl lg:text-[3.6rem] leading-[1.04] tracking-tight">
-            Indigenous rigor.
-            Transatlantic execution.
-          </h1>
-
-          <p class="mt-8 text-base sm:text-lg text-ink/70 max-w-2xl leading-relaxed">
-            Gilgal Exploration & Allied Services Limited (RC 1235316) combines deep Niger Delta operational
-            roots in Warri with United States executive representation in Florida and Colorado — bridging
-            institutional capital, host community equity, and EPC execution.
-          </p>
-
-          <div class="mt-10 flex flex-wrap gap-4">
-            <a href="contact.html#data-room" class="px-6 py-3.5 bg-ink text-paper font-mono text-xs uppercase tracking-wider hover:bg-oxblood transition-colors">
-              Request Data Room Access
-            </a>
-            <a href="#leadership" class="px-6 py-3.5 border border-ink font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-              Inspect Sponsor Pedigree
-            </a>
-          </div>
-
-          <div class="mt-10 pt-6 border-t border-rule grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono text-[11px] text-ink/50">
-            <div><span class="block text-ink/30 uppercase text-[10px]">Survey Beacon</span>SC/DT B104X 5948</div>
-            <div><span class="block text-ink/30 uppercase text-[10px]">Tax Clearance</span>TIN 31237553-0001</div>
-            <div><span class="block text-ink/30 uppercase text-[10px]">FIRS ID</span>2301110028518</div>
-            <div><span class="block text-ink/30 uppercase text-[10px]">HSE Policy</span>Stop. Think. Then Act.</div>
-          </div>
-        </div>
-
-        <!-- Cover exhibit image -->
-        <div class="lg:col-span-5">
-          <div class="plate h-[360px] sm:h-[420px]">
-            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-            <img src="assets/img/gas-processing-plant.jpg" alt="Onshore natural gas processing plant with field crew" fetchpriority="high" decoding="async">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 01 IDENTITY & CHARTER -->
-    <section id="identity" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">01</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Identity & Charter</h2>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-10">
-        <p class="lg:col-span-8 dropcap text-[17px] leading-[1.8] text-ink/80">
-          Gilgal Exploration & Allied Services Limited was incorporated under the Companies and Allied Matters
-          Act of the Federal Republic of Nigeria (RC 1235316) as a dedicated energy infrastructure and EPCIC developer.
-          Recognizing the dual paradox of Nigeria's chronic electricity supply deficit and the severe environmental
-          cost of burning 178 billion cubic feet of associated petroleum gas annually, the company was chartered
-          to capture stranded flare volumes, generate reliable baseload electricity, and extract clean liquefied
-          petroleum gas (LPG) for domestic commercialization. Gilgal couples rigorous technical engineering with
-          uncompromised transparency and governance designed to meet the due diligence requirements of international
-          commercial lenders, export credit agencies, and developmental finance institutions.
-        </p>
-
-        <div class="lg:col-span-4 border-l border-rule pl-8 space-y-6">
-          <div>
-            <div class="font-mono text-[11px] uppercase tracking-widest text-ink/40 mb-2">Corporate Form</div>
-            <div class="font-mono text-sm font-semibold">Private Limited Liability Company</div>
-            <div class="text-xs text-ink/60 mt-1">Incorporated under CAC, Federal Republic of Nigeria</div>
-          </div>
-          <div class="border-t border-rule pt-4">
-            <div class="font-mono text-[11px] uppercase tracking-widest text-ink/40 mb-2">Operating Mandate</div>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              EPCIC contracting, gas-to-power independent power generation (IPP), cryogenic LPG storage, and industrial energy parks.
-            </p>
-          </div>
-          <div class="border-t border-rule pt-4">
-            <div class="font-mono text-[11px] uppercase tracking-widest text-ink/40 mb-2">Host State Alignment</div>
-            <p class="text-xs text-ink/70 leading-relaxed">
-              Delta State Electricity Commission & Petroleum Industry Act (PIA) 2021 Host Community Development Trusts.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 02 VISION, MISSION & HSE CULTURE -->
-    <section id="mission" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">02</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Vision, Mission & HSE Culture</h2>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="border border-ink p-8 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-[11px] uppercase tracking-widest text-oxblood mb-4">Charter 01</div>
-            <h3 class="font-serif font-semibold text-xl mb-4">Corporate Vision</h3>
-            <p class="text-sm text-ink/75 leading-relaxed italic font-serif">
-              &ldquo;To be a foremost indigenous developer of energy and infrastructure in Nigeria, setting new standards
-              of excellence, innovation and reliability, and empowering communities through sustainable development.&rdquo;
-            </p>
-          </div>
-          <div class="mt-8 pt-4 border-t border-rule font-mono text-[11px] text-ink/50">
-            Standard: Excellence &bull; Reliability &bull; Sustainability
-          </div>
-        </div>
-
-        <div class="border border-ink p-8 flex flex-col justify-between">
-          <div>
-            <div class="font-mono text-[11px] uppercase tracking-widest text-oxblood mb-4">Charter 02</div>
-            <h3 class="font-serif font-semibold text-xl mb-4">Corporate Mission</h3>
-            <p class="text-sm text-ink/75 leading-relaxed">
-              &ldquo;To deliver high-quality, well-engineered projects that monetize Nigeria’s gas resources, expand
-              reliable power supply, and create lasting value for shareholders, host communities and the wider economy.&rdquo;
-            </p>
-          </div>
-          <div class="mt-8 pt-4 border-t border-rule font-mono text-[11px] text-ink/50">
-            Delivery: Gas Monetization &bull; Baseload Power &bull; Shared Value
-          </div>
-        </div>
-
-        <div class="border border-ink p-8 flex flex-col justify-between bg-paper">
-          <div>
-            <div class="font-mono text-[11px] uppercase tracking-widest text-oxblood mb-4">Charter 03</div>
-            <h3 class="font-serif font-semibold text-xl mb-4">HSE Safety Motto</h3>
-            <div class="border-l-2 border-oxblood pl-4 py-2 my-2 font-mono text-sm font-semibold text-oxblood">
-              &ldquo;Safety starts with me. Stop! Think! Then act!&rdquo;
-            </div>
-            <p class="text-xs text-ink/70 leading-relaxed mt-4">
-              Every staff member, contractor, and engineer on Gilgal operational sites carries absolute stop-work
-              authority to preserve life, protect community assets, and prevent environmental degradation.
-            </p>
-          </div>
-          <div class="mt-8 pt-4 border-t border-rule font-mono text-[11px] text-ink/50">
-            Mandate: Absolute Stop-Work Authority &bull; Zero Incident Target
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 03 LEADERSHIP & SPONSOR -->
-    <section id="leadership" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">03</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Leadership & Project Sponsor</h2>
-      </div>
-
-      <div class="border border-ink p-8 sm:p-12">
-        <div class="grid lg:grid-cols-12 gap-10 items-center">
-          
-          <div class="lg:col-span-5">
-            <div class="plate aspect-[4/5] w-full max-w-sm mx-auto lg:max-w-none">
-              <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-              <img src="assets/harrison-ogoh.jpg" width="938" height="1084" style="object-position:50% 25%" alt="Engr. Harrison Odiri Ogoh, Managing Director / CEO of Gilgal Exploration &amp; Allied Services Limited" loading="lazy" decoding="async">
-            </div>
-          </div>
-
-          <div class="lg:col-span-7 space-y-6">
-            <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-rule">
-              <div>
-                <span class="font-mono text-[11px] uppercase tracking-widest text-oxblood block">Founder & Project Sponsor</span>
-                <h3 class="font-serif font-semibold text-3xl tracking-tight mt-1">Engr. Harrison Odiri Ogoh</h3>
-              </div>
-              <span class="font-mono text-xs border border-ink px-3 py-1">Managing Director</span>
-            </div>
-
-            <p class="text-ink/80 leading-relaxed">
-              Engr. Harrison Odiri Ogoh is the founder, Managing Director, and lead project sponsor of Gilgal
-              Exploration & Allied Services Limited. With decades of hands-on civil engineering, pipeline execution,
-              and energy project development pedigree across the Niger Delta corridor, he bridges institutional project
-              finance with deep grassroots community credibility and regulatory relationships.
-            </p>
-
-            <p class="text-sm text-ink/70 leading-relaxed">
-              Under his direction, Gilgal structured the dual-track execution framework: advancing the $8,900,000 Fast-Track
-              10 MW initial entry facility to establish early cash flow while syndicating the $1.5B Flagship CCGT &
-              LPG infrastructure complex (48.81% net thermal efficiency, Siemens SST-150 steam cycle) under the Nigerian Electricity Act 2023.
-            </p>
-
-            <div class="grid sm:grid-cols-2 gap-4 font-mono text-xs pt-2">
-              <div class="border border-rule p-4">
-                <span class="text-ink/40 uppercase text-[10px] block">Operational Hub</span>
-                <span class="font-semibold text-ink text-sm mt-0.5 block">Warri, Delta State</span>
-                <span class="text-ink/60 text-[11px] mt-1 block">Direct host community engagement & civil oversight.</span>
-              </div>
-              <div class="border border-rule p-4">
-                <span class="text-ink/40 uppercase text-[10px] block">Transatlantic Desks</span>
-                <span class="font-semibold text-ink text-sm mt-0.5 block">Florida & Colorado, USA</span>
-                <span class="text-ink/60 text-[11px] mt-1 block">International OEM and capital provider coordination.</span>
-              </div>
-            </div>
-
-            <div class="pt-4 border-t border-rule flex flex-wrap gap-6 font-mono text-xs text-ink/60">
-              <div><strong class="text-ink">Direct Desk:</strong> <a href="mailto:harrisonogoh3@gmail.com" class="hover:text-oxblood underline">harrisonogoh3@gmail.com</a></div>
-              <div><strong class="text-ink">Hotline:</strong> <a href="tel:+2347037585753" class="hover:text-oxblood underline">+234 703 758 5753</a></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- 04 CIVIL FLEET & EQUIPMENT ADVANTAGE -->
-    <section id="fleet" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">04</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Civil Fleet & Equipment</h2>
-      </div>
-
-      <div class="grid lg:grid-cols-12 gap-10 items-start mb-12">
-        <div class="lg:col-span-8 space-y-4">
-          <p class="text-base text-ink/80 leading-relaxed">
-            A primary execution bottleneck for greenfield energy projects in the Niger Delta is the 4-to-6-month
-            mobilization delay associated with sourcing, transporting, and hiring third-party plant machinery.
-            Gilgal eliminates this counterparty risk through a long-term operational lease and technical partnership
-            with <strong class="text-ink font-semibold">Dominant Engineering Limited</strong>.
-          </p>
-          <p class="text-sm text-ink/70 leading-relaxed">
-            This in-house heavy civil fleet allows immediate site preparation, heavy earthmoving, perimeter reinforced
-            security walling, and deep turbine piling to commence from Day 1 of financial close without external
-            plant availability delays or mobilization premium costs.
-          </p>
-        </div>
-
-        <div class="lg:col-span-4 border-l-2 border-oxblood pl-6 py-2">
-          <div class="font-mono text-[11px] uppercase tracking-widest text-oxblood mb-1">Bankability Advantage</div>
-          <p class="font-mono text-xs text-ink/70 leading-relaxed">
-            Zero mobilization lag. Critical-path civil readiness is secured through pre-leased heavy excavators,
-            soil compactors, and batching plants stationed within Delta State.
-          </p>
-        </div>
-      </div>
-
-      <!-- Fleet Photographic Plates -->
-      <div class="grid sm:grid-cols-2 gap-8 mb-12">
-        <div>
-          <div class="plate h-[280px]">
-            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-            <img src="assets/img/excavator-site.jpg" alt="Excavator and crane working on a construction site" loading="lazy" decoding="async">
-          </div>
-        </div>
-
-        <div>
-          <div class="plate h-[280px]">
-            <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-            <img src="assets/img/crawler-crane.jpg" alt="Crawler crane on a civil construction site" loading="lazy" decoding="async">
-          </div>
-        </div>
-      </div>
-
-      <!-- Equipment Matrix Table -->
-      <table class="ts w-full text-sm">
-        <thead>
-          <tr class="font-mono text-[10px] uppercase tracking-widest text-ink/40 border-b-2 border-ink">
-            <th class="text-left py-3 font-normal">Equipment Class</th>
-            <th class="text-left py-3 font-normal">Technical Specification</th>
-            <th class="text-left py-3 font-normal">Project Application</th>
-            <th class="text-right py-3 font-normal">Readiness</th>
-          </tr>
-        </thead>
-        <tbody class="font-mono text-xs">
-          <tr>
-            <td class="py-3 font-semibold">D6 & D8 Track Bulldozers</td>
-            <td class="py-3 text-ink/70">Heavy crawler rippers, blade tilt controls</td>
-            <td class="py-3 text-ink/60">Site de-stumping, rough grading & earthwork</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Hydraulic Excavators (20T–35T)</td>
-            <td class="py-3 text-ink/70">Long-reach booms, rock breakers, trench buckets</td>
-            <td class="py-3 text-ink/60">Pipeline trenching, drainage & turbine plinth pits</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Mobile Cranes (25T–50T)</td>
-            <td class="py-3 text-ink/70">Telescopic hydraulic booms, heavy load rigging</td>
-            <td class="py-3 text-ink/60">LPG bullet tank placement & turbine module assembly</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Heavy Tipper Trucks (20–30T)</td>
-            <td class="py-3 text-ink/70">Multi-axle steel body tippers</td>
-            <td class="py-3 text-ink/60">Laterite sandfill, gravel haulage & spoil removal</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Vibratory Soil Compactors</td>
-            <td class="py-3 text-ink/70">10T–15T smooth & padfoot drums</td>
-            <td class="py-3 text-ink/60">Subgrade soil stabilization to 98% Modified Proctor</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Concrete Batching Plant & Mixers</td>
-            <td class="py-3 text-ink/70">Automated aggregate weighing, transit mixers</td>
-            <td class="py-3 text-ink/60">Reinforced foundation pours (C30/C35 spec)</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Pneumatic Air Compressors</td>
-            <td class="py-3 text-ink/70">High-pressure diesel rotary screw units</td>
-            <td class="py-3 text-ink/60">Pneumatic tooling, line pigging & hydrostatic tests</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Heavy Transport Lowbeds</td>
-            <td class="py-3 text-ink/70">60T multi-axle heavy haul trailers</td>
-            <td class="py-3 text-ink/60">Heavy equipment logistics from ports to Delta site</td>
-            <td class="py-3 text-right text-teal font-semibold">Immediate Lease</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 05 GLOBAL OFFICE NETWORK -->
-    <section id="network" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">05</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Global Office Hubs</h2>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
-        
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="text-[10px] uppercase tracking-widest text-oxblood mb-2">Operational Hub</div>
-            <h3 class="font-serif font-semibold text-base text-ink mb-3">Warri Operational Base</h3>
-            <p class="text-ink/70 font-sans text-xs leading-relaxed">
-              No. 111 Effurun/Sapele Road, Opposite Ecobank, Warri, Delta State, Nigeria.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule space-y-1 text-ink/60">
-            <div>+234 703 758 5753</div>
-            <div>+234 706 950 1633</div>
-            <a href="mailto:gilgalexploration.2@gmail.com" class="block text-oxblood underline truncate">gilgalexploration.2@gmail.com</a>
-          </div>
-        </div>
-
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="text-[10px] uppercase tracking-widest text-ink/40 mb-2">Statutory Registered</div>
-            <h3 class="font-serif font-semibold text-base text-ink mb-3">Warri Registered Office</h3>
-            <p class="text-ink/70 font-sans text-xs leading-relaxed">
-              43 Enerhen Road, Enerhen, Warri, Delta State (also at No. 60 Effurun/Sapele Road).
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule space-y-1 text-ink/60">
-            <div>Beacon: SC/DT B104X 5948</div>
-            <div>+234 703 385 4936</div>
-            <a href="mailto:dro.whiteigbe@gmail.com" class="block text-oxblood underline truncate">dro.whiteigbe@gmail.com</a>
-          </div>
-        </div>
-
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="text-[10px] uppercase tracking-widest text-oxblood mb-2">United States East</div>
-            <h3 class="font-serif font-semibold text-base text-ink mb-3">Florida USA Desk</h3>
-            <p class="text-ink/70 font-sans text-xs leading-relaxed">
-              No. 4200 Bagonia Cove, Apt 212, Sanford / Orlando, FL 32771-6521, USA.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule space-y-1 text-ink/60">
-            <div>MD Sponsor Desk</div>
-            <div>+1 (407) 533-3518</div>
-            <a href="mailto:harrisonogoh3@gmail.com" class="block text-oxblood underline truncate">harrisonogoh3@gmail.com</a>
-          </div>
-        </div>
-
-        <div class="border border-ink p-6 flex flex-col justify-between">
-          <div>
-            <div class="text-[10px] uppercase tracking-widest text-ink/40 mb-2">United States West</div>
-            <h3 class="font-serif font-semibold text-base text-ink mb-3">Colorado USA Desk</h3>
-            <p class="text-ink/70 font-sans text-xs leading-relaxed">
-              24325 East Louisiana Place, Aurora, CO 80018-6097, USA.
-            </p>
-          </div>
-          <div class="mt-6 pt-4 border-t border-rule space-y-1 text-ink/60">
-            <div>Institutional Liaison</div>
-            <div>+1 (303) 332-1994</div>
-            <a href="mailto:dro.whiteigbe@gmail.com" class="block text-oxblood underline truncate">dro.whiteigbe@gmail.com</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 06 STATUTORY ACCREDITATIONS -->
-    <section id="compliance" class="px-6 sm:px-12 lg:px-20 py-16 border-b border-ink scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">06</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Statutory Accreditations & KYC</h2>
-      </div>
-
-      <p class="text-ink/70 leading-relaxed max-w-2xl mb-8">
-        Gilgal Exploration & Allied Services Limited maintains complete, current compliance with Nigerian
-        statutory bodies. All registrations and tax clearance certificates are subject to institutional review
-        under Non-Disclosure Agreement.
+  <!-- PAGE HERO -->
+  <section class="relative bg-navy-950 text-white on-dark overflow-hidden">
+    <div class="absolute inset-0 lg:left-1/2">
+      <img src="assets/img/gas-processing-plant.jpg" alt="" class="w-full h-full object-cover" fetchpriority="high" decoding="async">
+      <div class="absolute inset-0 bg-navy-950/60 lg:hidden"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/70 to-navy-950/10 lg:via-navy-950/30"></div>
+    </div>
+    <div class="relative max-w-site mx-auto px-5 sm:px-8 py-20 sm:py-28">
+      <nav aria-label="Breadcrumb" class="text-sm text-white/60"><a href="index.html" class="hover:text-white">Home</a> <span class="mx-2">/</span> <span class="text-white">About</span></nav>
+      <h1 class="font-display font-extrabold text-4xl sm:text-6xl leading-[1.04] mt-8 max-w-2xl">Indigenous rigour. Transatlantic execution.</h1>
+      <p class="mt-7 text-lg sm:text-xl text-white/80 max-w-xl leading-relaxed">
+        Deep Niger Delta roots in Warri, with executive representation in Florida and Colorado, linking
+        institutional capital, host communities and EPC delivery.
       </p>
-
-      <table class="ts w-full text-sm">
-        <thead>
-          <tr class="font-mono text-[10px] uppercase tracking-widest text-ink/40 border-b-2 border-ink">
-            <th class="text-left py-3 font-normal">Authority / Body</th>
-            <th class="text-left py-3 font-normal">Reference Number</th>
-            <th class="text-left py-3 font-normal">Certification Scope</th>
-            <th class="text-right py-3 font-normal">Status</th>
-          </tr>
-        </thead>
-        <tbody class="font-mono text-xs">
-          <tr>
-            <td class="py-3 font-semibold">Corporate Affairs Commission (CAC)</td>
-            <td class="py-3 text-oxblood font-semibold">RC 1235316</td>
-            <td class="py-3 text-ink/60 font-sans">Full incorporation & annual returns current</td>
-            <td class="py-3 text-right text-teal font-semibold">Active & Good Standing</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Federal Inland Revenue Service (FIRS)</td>
-            <td class="py-3">TIN 31237553-0001</td>
-            <td class="py-3 text-ink/60 font-sans">Corporate Income Tax & VAT clearance</td>
-            <td class="py-3 text-right text-teal font-semibold">Verified Current</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">FIRS Tax ID (State Office)</td>
-            <td class="py-3">ID 2301110028518</td>
-            <td class="py-3 text-ink/60 font-sans">Effurun Tax Office Delta State Jurisdiction</td>
-            <td class="py-3 text-right text-teal font-semibold">Verified Current</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Industrial Training Fund (ITF)</td>
-            <td class="py-3">ITF-DEL-2024-V</td>
-            <td class="py-3 text-ink/60 font-sans">Human capacity & Nigerian workforce training</td>
-            <td class="py-3 text-right text-teal font-semibold">Certified</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">National Pension Commission (PENCOM)</td>
-            <td class="py-3">PEN-ACT-2025-C</td>
-            <td class="py-3 text-ink/60 font-sans">Employee pension contribution compliance</td>
-            <td class="py-3 text-right text-teal font-semibold">Certified</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Nigeria Social Insurance Trust Fund (NSITF)</td>
-            <td class="py-3">NSITF-ECS-1192</td>
-            <td class="py-3 text-ink/60 font-sans">Employee Compensation Scheme workplace safety</td>
-            <td class="py-3 text-right text-teal font-semibold">Certified</td>
-          </tr>
-          <tr>
-            <td class="py-3 font-semibold">Independent Audited Financials</td>
-            <td class="py-3">FY 2022, 2023, 2024</td>
-            <td class="py-3 text-ink/60 font-sans">Three-year audited statements by chartered accountants</td>
-            <td class="py-3 text-right text-teal font-semibold">In Data Room</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- 07 ACCESS -->
-    <section id="access" class="px-6 sm:px-12 lg:px-20 py-20 scroll-mt-6">
-      <div class="flex items-baseline gap-4 mb-8">
-        <span class="font-mono text-oxblood text-sm">07</span>
-        <h2 class="font-serif font-semibold text-2xl sm:text-3xl tracking-tight">Access & Secretariat</h2>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#leadership" class="btn btn-primary">Meet the sponsor <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="#compliance" class="btn btn-light">Registrations &amp; KYC</a>
       </div>
+    </div>
+  </section>
 
-      <div class="border border-ink p-8 sm:p-12">
-        <div class="flex flex-wrap justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-ink/50 pb-6 mb-6 border-b border-rule">
-          <span>Status: Corporate Folio Ready</span>
-          <span>Ref. GEAS/BP/2026/001</span>
-        </div>
-        <h3 class="font-serif font-semibold text-2xl sm:text-3xl max-w-xl">
-          Conduct corporate due diligence or request bilateral executive meetings.
-        </h3>
-        <p class="text-ink/70 leading-relaxed max-w-xl mt-5">
-          Project finance committees, institutional co-sponsors, and engineering partners may inspect verified
-          statutory certificates, equipment leases, and financial disclosures through our encrypted investor data room.
+  <!-- IDENTITY -->
+  <section id="identity" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16">
+      <div class="lg:col-span-7">
+        <span class="eyebrow">Who we are</span>
+        <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">An energy developer built to be financed.</h2>
+        <p class="mt-8 text-lg text-steel-600 leading-relaxed">
+          Gilgal Exploration &amp; Allied Services Limited was incorporated under the Companies and Allied Matters Act of the
+          Federal Republic of Nigeria (RC 1235316) as a dedicated energy infrastructure and EPCIC developer.
         </p>
-        <div class="flex flex-wrap gap-4 mt-8">
-          <a href="contact.html#data-room" class="px-7 py-4 bg-ink text-paper font-mono text-xs uppercase tracking-wider hover:bg-oxblood transition-colors">
-            Request Data Room Access
-          </a>
-          <a href="contact.html" class="px-7 py-4 border border-ink font-mono text-xs uppercase tracking-wider hover:bg-ink hover:text-paper transition-colors">
-            Contact Secretariat Desks
-          </a>
+        <p class="mt-5 text-lg text-steel-600 leading-relaxed">
+          Nigeria faces a chronic electricity deficit while flaring an estimated 178 billion cubic feet of associated gas
+          every year. Gilgal was chartered to capture those stranded flare volumes, generate reliable baseload electricity
+          and extract clean LPG for the domestic market, pairing rigorous engineering with governance that meets the due
+          diligence standards of international lenders, export credit agencies and development finance institutions.
+        </p>
+      </div>
+      <dl class="lg:col-span-5 border border-steel-200 divide-y divide-steel-200 self-start">
+        <div class="p-6"><dt class="text-sm text-steel-500">Corporate form</dt><dd class="font-semibold text-lg mt-1">Private limited liability company</dd><dd class="text-sm text-steel-500 mt-1">Incorporated with the CAC, Federal Republic of Nigeria</dd></div>
+        <div class="p-6"><dt class="text-sm text-steel-500">Operating mandate</dt><dd class="mt-1">EPCIC contracting, gas-to-power independent power generation, LPG storage and industrial energy parks.</dd></div>
+        <div class="p-6"><dt class="text-sm text-steel-500">Host state alignment</dt><dd class="mt-1">Delta State Electricity Commission and PIA 2021 Host Community Development Trusts.</dd></div>
+        <div class="p-6 grid grid-cols-2 gap-4 bg-steel-50">
+          <div><dt class="text-sm text-steel-500">TIN</dt><dd class="font-mono text-sm font-medium mt-1">31237553-0001</dd></div>
+          <div><dt class="text-sm text-steel-500">FIRS ID</dt><dd class="font-mono text-sm font-medium mt-1">2301110028518</dd></div>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- VISION, MISSION, HSE -->
+  <section id="mission" class="bg-steel-50 border-y border-steel-200 py-20 sm:py-24">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <span class="eyebrow">What drives us</span>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl mt-4">Vision, mission and safety culture</h2>
+      <div class="mt-12 grid lg:grid-cols-3 gap-6">
+        <div class="bg-white border-t-4 border-navy-600 p-8">
+          <h3 class="font-display font-bold text-xl">Vision</h3>
+          <p class="mt-4 text-steel-600 leading-relaxed">To be a foremost indigenous developer of energy and infrastructure in Nigeria, setting new standards of excellence, innovation and reliability, and empowering communities through sustainable development.</p>
+        </div>
+        <div class="bg-white border-t-4 border-cyan-500 p-8">
+          <h3 class="font-display font-bold text-xl">Mission</h3>
+          <p class="mt-4 text-steel-600 leading-relaxed">To deliver high-quality, well-engineered projects that monetize Nigeria's gas resources, expand reliable power supply, and create lasting value for shareholders, host communities and the wider economy.</p>
+        </div>
+        <div class="bg-flare-600 text-white p-8 cut">
+          <h3 class="font-mono text-xs uppercase tracking-[.12em] text-white/80">HSE policy</h3>
+          <p class="font-display font-extrabold text-3xl leading-tight mt-4">Safety starts with me. Stop! Think! Then act!</p>
+          <p class="mt-5 text-white/85 leading-relaxed">Every employee, contractor and engineer on a Gilgal site has full stop-work authority to protect life, community assets and the environment.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- COLOPHON -->
-    <footer class="px-6 sm:px-12 lg:px-20 py-14 border-t-4 border-ink font-mono text-[11px] text-ink/50">
-      <div class="grid sm:grid-cols-3 gap-10 pb-10 border-b border-rule">
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">Registered & Operational</div>
-          <p>Operational Base: No. 111 Effurun/Sapele Road, Opp. Ecobank, Warri, Delta State.</p>
-          <p class="mt-2">Registered Address: 43 Enerhen Road, Enerhen, Warri, Delta State.</p>
-          <p class="mt-3 text-ink/70">+234 703 758 5753 &middot; +234 706 950 1633 &middot; +234 703 385 4936</p>
-        </div>
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">United States Network</div>
-          <p>Florida: 4200 Bagonia Cove, Apt 212, Sanford/Orlando, FL 32771.</p>
-          <p class="mt-1 text-ink/70">+1 (407) 533-3518</p>
-          <p class="mt-3">Colorado: 24325 East Louisiana Place, Aurora, CO 80018.</p>
-          <p class="mt-1 text-ink/70">+1 (303) 332-1994</p>
-        </div>
-        <div>
-          <div class="text-ink font-semibold uppercase tracking-widest text-[10px] mb-3">Document Control</div>
-          <p>Reference: GEAS/BP/2026/001</p>
-          <p class="mt-1">Beacon: SC/DT B104X 5948</p>
-          <p class="mt-1 text-oxblood">HSE — Stop. Think. Then Act.</p>
+  <!-- LEADERSHIP -->
+  <section id="leadership" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8 grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div class="lg:col-span-5">
+        <div class="photo cut aspect-[4/5] max-w-md mx-auto lg:max-w-none">
+          <img src="assets/harrison-ogoh.jpg" width="938" height="1084" style="object-position:50% 20%" alt="Engr. Harrison Odiri Ogoh, Managing Director / CEO of Gilgal Exploration &amp; Allied Services Limited" loading="lazy" decoding="async">
         </div>
       </div>
-      <div class="pt-6 flex flex-col sm:flex-row justify-between gap-3">
-        <span>&copy; 2026 Gilgal Exploration & Allied Services Limited. RC 1235316. All rights reserved.</span>
-        <span>CAC &middot; FIRS &middot; PENCOM &middot; NSITF</span>
+      <div class="lg:col-span-7">
+        <span class="eyebrow">Leadership &amp; project sponsor</span>
+        <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">Engr. Harrison Odiri Ogoh</h2>
+        <p class="mt-3 text-lg font-semibold text-navy-600">Founder, Managing Director / CEO</p>
+        <p class="mt-7 text-lg text-steel-600 leading-relaxed">
+          Engr. Ogoh founded Gilgal and leads it as Managing Director and project sponsor. With decades of hands-on civil
+          engineering, pipeline execution and energy project development across the Niger Delta, he brings together
+          institutional project finance, community trust and regulatory relationships.
+        </p>
+        <p class="mt-5 text-steel-600 leading-relaxed">
+          Under his direction Gilgal set up its dual-track plan: deliver the $8.9 million fast-track 10 MW facility first
+          for early cash flow, while syndicating the $1.5 billion flagship CCGT and LPG complex under the Electricity Act 2023.
+        </p>
+        <div class="mt-9 grid sm:grid-cols-2 gap-4">
+          <div class="bg-steel-50 p-5"><p class="text-sm text-steel-500">Operational hub</p><p class="font-semibold mt-1">Warri, Delta State</p><p class="text-sm text-steel-600 mt-1">Host community engagement and site oversight.</p></div>
+          <div class="bg-steel-50 p-5"><p class="text-sm text-steel-500">US desks</p><p class="font-semibold mt-1">Florida &amp; Colorado</p><p class="text-sm text-steel-600 mt-1">OEM and capital provider coordination.</p></div>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+          <a href="mailto:harrisonogoh3@gmail.com" class="link-arrow">harrisonogoh3@gmail.com</a>
+          <a href="tel:+2347037585753" class="link-arrow">+234 703 758 5753</a>
+        </div>
       </div>
-    </footer>
+    </div>
+  </section>
 
-  </main>
-</div>
+  <!-- FLEET -->
+  <section id="fleet" class="bg-navy-950 text-white on-dark py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-end">
+        <div class="lg:col-span-7">
+          <span class="eyebrow">Civil fleet &amp; equipment</span>
+          <h2 class="font-display font-bold text-3xl sm:text-5xl mt-4 leading-[1.08]">Breaking ground on day one.</h2>
+          <p class="mt-7 text-lg text-white/75 leading-relaxed">
+            Greenfield projects in the Niger Delta often lose four to six months sourcing and mobilising plant machinery.
+            Gilgal removes that risk through a long-term lease and technical partnership with
+            <strong class="text-white font-semibold">Dominant Engineering Limited</strong>, so site preparation, earthmoving,
+            perimeter walling and turbine piling can start at financial close.
+          </p>
+        </div>
+        <div class="lg:col-span-5 border-l-4 border-cyan-500 bg-navy-900 p-7">
+          <p class="font-mono text-xs uppercase tracking-[.12em] text-cyan-400">Bankability advantage</p>
+          <p class="mt-3 font-display font-semibold text-xl leading-snug">No mobilisation lag: excavators, compactors and batching plants are already leased in Delta State.</p>
+        </div>
+      </div>
 
-<script>
-  function toggleMobileNav() {
-    const el = document.getElementById('mobile-nav');
-    if (el) el.classList.toggle('hidden');
-  }
+      <div class="mt-14 grid sm:grid-cols-2 gap-6">
+        <div class="photo cut aspect-[3/2]"><img src="assets/img/excavator-site.jpg" alt="Excavator and crane working on a construction site" loading="lazy" decoding="async"></div>
+        <div class="photo cut aspect-[3/2]"><img src="assets/img/crawler-crane.jpg" alt="Crawler crane on a civil construction site" loading="lazy" decoding="async"></div>
+      </div>
 
-  const sections = document.querySelectorAll('main section[id]');
-  const links = document.querySelectorAll('.idx-link');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const match = document.querySelector(`.idx-link[href="#${entry.target.id}"]`);
-        if (match) match.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-  sections.forEach(s => obs.observe(s));
-</script>
+      <div class="mt-14 overflow-x-auto">
+        <table class="w-full min-w-[720px] text-[15px]">
+          <thead>
+            <tr class="text-left font-mono text-xs uppercase tracking-[.1em] text-white/50 border-b border-white/20">
+              <th class="py-3 pr-4 font-medium">Equipment</th><th class="py-3 pr-4 font-medium">Specification</th><th class="py-3 pr-4 font-medium">Project use</th><th class="py-3 font-medium text-right">Availability</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/10">
+            <tr><td class="py-4 pr-4 font-semibold">D6 &amp; D8 track bulldozers</td><td class="py-4 pr-4 text-white/70">Heavy crawler rippers, blade tilt controls</td><td class="py-4 pr-4 text-white/70">Site clearing, rough grading and earthwork</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+            <tr><td class="py-4 pr-4 font-semibold">Hydraulic excavators (20–35 T)</td><td class="py-4 pr-4 text-white/70">Long-reach booms, rock breakers, trench buckets</td><td class="py-4 pr-4 text-white/70">Pipeline trenching, drainage, turbine plinth pits</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+            <tr><td class="py-4 pr-4 font-semibold">Mobile cranes (25–50 T)</td><td class="py-4 pr-4 text-white/70">Telescopic hydraulic booms, heavy rigging</td><td class="py-4 pr-4 text-white/70">LPG bullet placement, turbine module assembly</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+            <tr><td class="py-4 pr-4 font-semibold">Heavy tipper trucks (20–30 T)</td><td class="py-4 pr-4 text-white/70">Multi-axle steel-body tippers</td><td class="py-4 pr-4 text-white/70">Laterite fill, gravel haulage, spoil removal</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+            <tr><td class="py-4 pr-4 font-semibold">Vibratory soil compactors</td><td class="py-4 pr-4 text-white/70">10–15 T smooth and padfoot drums</td><td class="py-4 pr-4 text-white/70">Subgrade stabilisation to 98% Modified Proctor</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+            <tr><td class="py-4 pr-4 font-semibold">Concrete batching plant &amp; mixers</td><td class="py-4 pr-4 text-white/70">Automated aggregate weighing, transit mixers</td><td class="py-4 pr-4 text-white/70">Reinforced foundation pours (C30/C35)</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+            <tr><td class="py-4 pr-4 font-semibold">Air compressors</td><td class="py-4 pr-4 text-white/70">High-pressure diesel rotary screw units</td><td class="py-4 pr-4 text-white/70">Pneumatic tools, line pigging, hydrostatic tests</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+            <tr><td class="py-4 pr-4 font-semibold">Heavy transport lowbeds</td><td class="py-4 pr-4 text-white/70">60 T multi-axle heavy-haul trailers</td><td class="py-4 pr-4 text-white/70">Equipment logistics from port to site</td><td class="py-4 text-right text-cyan-400 font-medium">Immediate lease</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
+  <!-- OFFICES -->
+  <section id="network" class="py-20 sm:py-28">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <span class="eyebrow">Offices</span>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl mt-4">Four offices, two continents</h2>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <article class="border border-steel-200 border-t-4 border-t-flare-600 p-6 flex flex-col">
+          <p class="text-sm text-steel-500">Nigeria &middot; Operational</p>
+          <h3 class="font-display font-bold text-lg mt-1">Warri operational base</h3>
+          <p class="text-steel-600 mt-3 leading-relaxed">No. 111 Effurun/Sapele Road, Opposite Ecobank, Warri, Delta State</p>
+          <div class="mt-auto pt-5 text-sm space-y-1">
+            <a href="tel:+2347037585753" class="block hover:text-navy-600">+234 703 758 5753</a>
+            <a href="tel:+2347069501633" class="block hover:text-navy-600">+234 706 950 1633</a>
+            <a href="mailto:gilgalexploration.2@gmail.com" class="block text-navy-600 font-medium break-all">gilgalexploration.2@gmail.com</a>
+          </div>
+        </article>
+        <article class="border border-steel-200 border-t-4 border-t-flare-600 p-6 flex flex-col">
+          <p class="text-sm text-steel-500">Nigeria &middot; Registered</p>
+          <h3 class="font-display font-bold text-lg mt-1">Warri registered office</h3>
+          <p class="text-steel-600 mt-3 leading-relaxed">43 Enerhen Road, Enerhen, Warri, Delta State (also No. 60 Effurun/Sapele Road)</p>
+          <div class="mt-auto pt-5 text-sm space-y-1">
+            <a href="tel:+2347033854936" class="block hover:text-navy-600">+234 703 385 4936</a>
+            <a href="mailto:dro.whiteigbe@gmail.com" class="block text-navy-600 font-medium break-all">dro.whiteigbe@gmail.com</a>
+          </div>
+        </article>
+        <article class="border border-steel-200 border-t-4 border-t-navy-600 p-6 flex flex-col">
+          <p class="text-sm text-steel-500">USA &middot; Head office</p>
+          <h3 class="font-display font-bold text-lg mt-1">Sanford / Orlando, Florida</h3>
+          <p class="text-steel-600 mt-3 leading-relaxed">No. 4200 Bagonia Cove, Apt 212, Sanford / Orlando, FL 32771-6521</p>
+          <div class="mt-auto pt-5 text-sm space-y-1">
+            <a href="tel:+14075333518" class="block hover:text-navy-600">+1 (407) 533-3518</a>
+            <a href="mailto:harrisonogoh3@gmail.com" class="block text-navy-600 font-medium break-all">harrisonogoh3@gmail.com</a>
+          </div>
+        </article>
+        <article class="border border-steel-200 border-t-4 border-t-navy-600 p-6 flex flex-col">
+          <p class="text-sm text-steel-500">USA &middot; Second office</p>
+          <h3 class="font-display font-bold text-lg mt-1">Aurora, Colorado</h3>
+          <p class="text-steel-600 mt-3 leading-relaxed">24325 East Louisiana Place, Aurora, CO 80018-6097</p>
+          <div class="mt-auto pt-5 text-sm space-y-1">
+            <a href="tel:+13033321994" class="block hover:text-navy-600">+1 (303) 332-1994</a>
+            <a href="mailto:dro.whiteigbe@gmail.com" class="block text-navy-600 font-medium break-all">dro.whiteigbe@gmail.com</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPLIANCE -->
+  <section id="compliance" class="bg-steel-50 border-y border-steel-200 py-20 sm:py-24">
+    <div class="max-w-site mx-auto px-5 sm:px-8">
+      <div class="grid lg:grid-cols-12 gap-8 items-end">
+        <div class="lg:col-span-7">
+          <span class="eyebrow">Registrations &amp; KYC</span>
+          <h2 class="font-display font-bold text-3xl sm:text-4xl mt-4">Statutory compliance, up to date</h2>
+        </div>
+        <p class="lg:col-span-5 text-steel-600 leading-relaxed">All registrations and tax clearance certificates are available for institutional review under a non-disclosure agreement.</p>
+      </div>
+      <div class="mt-10 bg-white border border-steel-200 overflow-x-auto">
+        <table class="data-table min-w-[720px]">
+          <thead><tr><th>Authority</th><th>Reference</th><th>Scope</th><th class="!text-right">Status</th></tr></thead>
+          <tbody>
+            <tr><td class="font-semibold">Corporate Affairs Commission (CAC)</td><td class="font-mono text-sm">RC 1235316</td><td class="text-steel-600">Incorporation and annual returns</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Active, good standing</span></td></tr>
+            <tr><td class="font-semibold">Federal Inland Revenue Service (FIRS)</td><td class="font-mono text-sm">TIN 31237553-0001</td><td class="text-steel-600">Corporate income tax and VAT clearance</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Current</span></td></tr>
+            <tr><td class="font-semibold">FIRS tax ID (state office)</td><td class="font-mono text-sm">2301110028518</td><td class="text-steel-600">Effurun Tax Office, Delta State</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Current</span></td></tr>
+            <tr><td class="font-semibold">Industrial Training Fund (ITF)</td><td class="font-mono text-sm">ITF-DEL-2024-V</td><td class="text-steel-600">Workforce training</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Certified</span></td></tr>
+            <tr><td class="font-semibold">National Pension Commission (PENCOM)</td><td class="font-mono text-sm">PEN-ACT-2025-C</td><td class="text-steel-600">Employee pension contributions</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Certified</span></td></tr>
+            <tr><td class="font-semibold">Nigeria Social Insurance Trust Fund (NSITF)</td><td class="font-mono text-sm">NSITF-ECS-1192</td><td class="text-steel-600">Employee Compensation Scheme</td><td class="text-right"><span class="inline-block bg-cyan-100 text-navy-800 text-sm font-medium px-2.5 py-1">Certified</span></td></tr>
+            <tr><td class="font-semibold">Audited financial statements</td><td class="font-mono text-sm">FY 2022, 2023, 2024</td><td class="text-steel-600">Three years, chartered accountants</td><td class="text-right"><span class="inline-block bg-flare-100 text-flare-700 text-sm font-medium px-2.5 py-1">In data room</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-navy-600 text-white on-dark">
+    <div class="max-w-site mx-auto px-5 sm:px-8 py-16 sm:py-20 grid lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-8">
+        <h2 class="font-display font-bold text-3xl sm:text-4xl leading-tight">Review certificates, leases and audited accounts.</h2>
+        <p class="mt-4 text-lg text-white/80">Project finance committees, co-sponsors and engineering partners can request access or a meeting with the executive team.</p>
+      </div>
+      <div class="lg:col-span-4 flex flex-wrap lg:justify-end gap-4">
+        <a href="contact.html#data-room" class="btn btn-primary">Request access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a href="contact.html" class="btn btn-light">Contact us</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-navy-950 text-white/70 on-dark">
+  <div class="max-w-site mx-auto px-5 sm:px-8 pt-16 pb-10">
+    <div class="grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <img src="assets/gilgal-logo-white.png" width="1448" height="434" alt="Gilgal Exploration &amp; Allied Services Limited" class="h-14 w-auto" loading="lazy">
+        <p class="mt-6 font-display text-xl font-semibold text-white leading-snug max-w-xs">Powering Industry. Energizing Communities. Building Tomorrow.</p>
+        <p class="mt-4 text-sm">Indigenous developer of gas-to-power, regasification and LPG infrastructure in Delta State, Nigeria.</p>
+      </div>
+      <nav class="lg:col-span-2" aria-label="Footer">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">Company</h2>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="index.html" class="hover:text-white">Home</a></li><li><a href="about.html" class="hover:text-white">About</a></li><li><a href="services.html" class="hover:text-white">Services</a></li><li><a href="projects.html" class="hover:text-white">Projects</a></li><li><a href="contact.html" class="hover:text-white">Contact</a></li>
+          <li><a href="contact.html#data-room" class="hover:text-white">Investor Data Room</a></li>
+        </ul>
+      </nav>
+      <div class="lg:col-span-3 text-sm">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">Nigeria</h2>
+        <p class="text-white">Operational office</p>
+        <p>No. 111 Effurun/Sapele Road, Opp. Ecobank, Warri, Delta State</p>
+        <p class="mt-3 text-white">Registered office</p>
+        <p>43 Enerhen Road, Enerhen, Warri, Delta State</p>
+        <p class="mt-3"><a href="tel:+2347037585753" class="hover:text-white">+234 703 758 5753</a><br><a href="tel:+2347069501633" class="hover:text-white">+234 706 950 1633</a><br><a href="tel:+2347033854936" class="hover:text-white">+234 703 385 4936</a></p>
+      </div>
+      <div class="lg:col-span-3 text-sm">
+        <h2 class="font-mono text-xs uppercase tracking-[.12em] text-white/45 mb-4">United States</h2>
+        <p class="text-white">Head office, Florida</p>
+        <p>4200 Bagonia Cove, Apt 212, Sanford / Orlando, FL 32771</p>
+        <p><a href="tel:+14075333518" class="hover:text-white">+1 (407) 533-3518</a></p>
+        <p class="mt-3 text-white">Second office, Colorado</p>
+        <p>24325 East Louisiana Place, Aurora, CO 80018</p>
+        <p><a href="tel:+13033321994" class="hover:text-white">+1 (303) 332-1994</a></p>
+      </div>
+    </div>
+    <div class="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+      <p>&copy; 2026 Gilgal Exploration &amp; Allied Services Limited. All rights reserved.</p>
+      <p class="font-mono">RC 1235316 &middot; TIN 31237553-0001 &middot; FIRS 2301110028518</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
 </body>
 </html>

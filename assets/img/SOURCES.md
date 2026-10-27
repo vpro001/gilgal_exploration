@@ -11,3 +11,6 @@ All photos are public domain or CC0 (no attribution required), from Wikimedia Co
 | excavator-site.jpg | [Volvo excavator on construction site, Tomaszów Mazowiecki, Długa Street.jpg](https://commons.wikimedia.org/wiki/File:Volvo_excavator_on_construction_site,_Tomasz%C3%B3w_Mazowiecki,_D%C5%82uga_Street.jpg) | Public domain |
 | crawler-crane.jpg | [Crawler Crane At Newmarket Viaduct.jpg](https://commons.wikimedia.org/wiki/File:Crawler_Crane_At_Newmarket_Viaduct.jpg) | Public domain |
 | pipeline-inspection.jpg | [Ultrasonic pipeline test.jpg](https://commons.wikimedia.org/wiki/File:Ultrasonic_pipeline_test.jpg) | Public domain |
+| offshore-platform.jpg | [Unsplash photo-1600221574280](https://unsplash.com/photos/9bcd5d108100) | Unsplash Licence |
+| gas-plant-stacks.jpg | [Unsplash photo-1516937941344](https://unsplash.com/photos/00b4e0337589) | Unsplash Licence |
+| site-engineers.jpg | [Unsplash photo-1504307651254](https://unsplash.com/photos/35680f356dfd) | Unsplash Licence |
